@@ -1,11 +1,14 @@
 import requests
 import base64
+import os
+from dotenv import load_dotenv
 
+load_dotenv() # ładowanie zmiennych środowiskowych z pliku .env
 
 # Dane uwierzytelniające Zendesk API
-ZENDESK_SUBDOMAIN = 'hft71'
-API_TOKEN = 'E3fj6q5mN7CKVLkt1aKQEYbsVuksOobe46XMJBsm'
-EMAIL = 'k.kowerczyk@hft71.pl/token'
+ZENDESK_SUBDOMAIN = os.getenv("ZENDESK_SUBDOMAIN")
+API_TOKEN = os.getenv("API_TOKEN")
+EMAIL = os.getenv("EMAIL")
 
 # Zakodowanie danych uwierzytelniających
 credentials = f"{EMAIL}:{API_TOKEN}".encode('utf-8')
