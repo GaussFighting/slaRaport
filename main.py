@@ -2,9 +2,18 @@ import requests
 import base64
 import os
 from dotenv import load_dotenv
-import json
 from datetime import datetime, timedelta, timezone
+import pytz
 
+
+# 1. notes EN only - no exceptions :D EN is one lang you may use :D
+# 2. Check if you really need encoded/decoded credentials - looks you use only simple string there (?)
+# 3. BASE_URL may be stand alone env variable - no need to mix it with a http string :D <- common way
+# 4. is it a valid statement?? if updated_since <= updated_at <= updated_before (?)
+# 5. Trello: EN only :) 
+# 6. Trello: use at least infinitives in card titles, i.e. NO "kind of returned values", but "normalise a kind returned values" -> a noun doesn't give you an info ;)
+# 7. Epic: Overview plan for the application - which languages used, how the data are passed (pros and cons of various ways), do we focus on one-feature app or will we prepare a base for multi-featured app?, how the code will be updated?
+# 8 install aplication OnePass for keeping secrets 
 
 load_dotenv() # ładowanie zmiennych środowiskowych z pliku .env
 
@@ -65,10 +74,8 @@ updated_ticket_ids = get_tickets_with_updates(updated_since, updated_before)
 print(updated_ticket_ids)
 # print(f"Found {len(updated_ticket_ids)} tickets that were updated between July and September 2024:")
 
-
 # Funkcja pobierania listy auditów dla każdego ticketu
 def fetch_ticket_audits(ticket_id):
-    print(ticket_id)
     response = requests.get(f"{BASE_URL}/tickets/{ticket_id}/audits.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
@@ -101,26 +108,6 @@ def sla_duration(policy_name, priority, metric):
             for metrics in policy["policy_metrics"]:
                 if (metrics["priority"] == priority) and metrics["metric"] == metric: 
                     return metrics["target_in_seconds"]
-
-# print(sla_duration("SLA ogólne", "low", "first_reply_time"))
-# print(sla_duration("SLA ogólne", "normal", "first_reply_time"))
-# print(sla_duration("SLA ogólne", "high", "first_reply_time"))
-# print(sla_duration("SLA ogólne", "urgent", "first_reply_time"))
-
-# print(sla_duration("SLA ogólne", "low", "next_reply_time"))
-# print(sla_duration("SLA ogólne", "normal", "next_reply_time"))
-# print(sla_duration("SLA ogólne", "high", "next_reply_time"))
-# print(sla_duration("SLA ogólne", "urgent", "next_reply_time"))
-
-# print(sla_duration("SLA nowe", "low", "first_reply_time"))
-# print(sla_duration("SLA nowe", "normal", "first_reply_time"))
-# print(sla_duration("SLA nowe", "high", "first_reply_time"))
-# print(sla_duration("SLA nowe", "urgent", "first_reply_time"))
-
-# print(sla_duration("SLA nowe", "low", "next_reply_time"))
-# print(sla_duration("SLA nowe", "normal", "next_reply_time"))
-# print(sla_duration("SLA nowe", "high", "next_reply_time"))
-# print(sla_duration("SLA nowe", "urgent", "next_reply_time"))
 
 # Funkcja pobierania nazwy i id grupy
 def fetch_groups(): 
@@ -160,6 +147,119 @@ def fetch_user_data(id):
     return user_info
 
 # print(fetch_user_data(16180946529180))
+########################################################################################################################
+def fetch_schedules(): 
+    response = requests.get(f"{BASE_URL}/business_hours/schedules",
+                                headers={'Authorization': f'Basic {encoded_credentials}'})
+    if response.status_code != 200:
+        print("Error fetching tickets")
+        print(f"Response: {response.json()}")        
+    schedules = response.json()
+    return schedules['schedules'][0]['intervals']
+
+intervals = fetch_schedules()
+print("intervals:", intervals)
+
+
+# Array z wartościami z intervals
+bussines_hours_array = []
+for bussines_hours in intervals:
+    bussines_hours_array.append(bussines_hours['start_time'])
+    bussines_hours_array.append(bussines_hours['end_time'])
+
+print("bussines_hours_array:", bussines_hours_array)
+# Funkcja konwertująca ISO 8601 na datetime
+def iso_to_datetime(iso_string):
+    # Przekształcamy string ISO 8601 na obiekt datetime
+    return datetime.fromisoformat(iso_string.replace("Z", "+00:00"))
+
+# Funkcja czasu Zendesk liczy interval od północy w sobotę między <0 a 10080> ale daty są w ISO
+def delta_time_in_bussines_hours():
+    #obliczanie pełnych dni 
+    start_date = "2024-09-04T14:57:25Z"
+    end_date = "2024-09-17T17:04:25Z"
+    iso_start_date = iso_to_datetime(start_date)
+    iso_end_date = iso_to_datetime(end_date)
+
+    tz = pytz.timezone('Europe/Warsaw')
+    lolcal_iso_start_date = iso_start_date.astimezone(tz)
+    lolcal_iso_end_date = iso_end_date.astimezone(tz)
+
+    print("lolcal_iso_start_date:", lolcal_iso_start_date)
+    print("lolcal_iso_end_date:", lolcal_iso_end_date)
+
+    delta_minutes_in_bussines_hours = 0
+    full_weekdays_count = -1
+
+    while iso_start_date <= iso_end_date:
+        if iso_start_date.weekday() < 5:  # Monday is 0 and Friday is 4
+            full_weekdays_count += 1
+        iso_start_date += timedelta(days=1)
+    
+    print("full_weekdays_count:", full_weekdays_count)
+    # obliczanie minut po uwzględnieniu pełnych dni
+    def minutes_from_saturday_midnight(date):
+        # Ustalamy punkt odniesienia (sobota 23:59)
+        saturday_midnight = date - timedelta(days=date.weekday() + 1, 
+                                                hours=date.hour, 
+                                                minutes=date.minute, 
+                                                seconds=date.second, 
+                                                microseconds=date.microsecond)
+        saturday_midnight = saturday_midnight.replace(hour=23, minute=59, second=0, microsecond=0)
+
+        # Obliczamy różnicę minutową między datą a sobotą 23:59
+        delta = date - saturday_midnight
+        total_minutes = delta.total_seconds() // 60  # Konwersja na minuty
+        return int(total_minutes)
+
+    zendesk_start_time = minutes_from_saturday_midnight(lolcal_iso_start_date)
+    zendesk_end_time = minutes_from_saturday_midnight(lolcal_iso_end_date)
+
+    def start_time_in_bussines_hours(time):
+    
+        if time > bussines_hours_array[-1]:
+            return bussines_hours_array[0]  # 1860
+
+        if time < 1860:
+            return bussines_hours_array[0]  # 1860
+    
+        for i in range(len(bussines_hours_array) - 1):
+            if bussines_hours_array[i] <= time <= bussines_hours_array[i + 1]:
+                if i % 2 == 0: #parzyste i to "start" okna z bussines hours
+                    return time
+                #nieparzyste i oznacza, że jesteśmy po godzinach pracy
+                else:
+                    return bussines_hours_array[i + 1]
+        
+        return time  # Zwracamy zendesk_start_time w pozostałych przypadkach
+    
+    zendesk_start_time_in_bussines_hours = start_time_in_bussines_hours(zendesk_start_time)
+    
+    def updated_zendesk_end_time(time, start_time):
+        end_time = 0
+        for i in range(0,len(bussines_hours_array) - 1):
+            print("bussines_hours_array[i+2]:", bussines_hours_array[i+2])
+            if bussines_hours_array[i] <=  time <= bussines_hours_array[i + 2]:
+                end_time = time - bussines_hours_array[i]
+                print("end_time:", end_time)
+                return start_time + end_time
+
+    zendesk_end_time_in_bussines_hours = updated_zendesk_end_time(zendesk_end_time, zendesk_start_time_in_bussines_hours)
+
+    print("zendesk_start_time:", zendesk_start_time, "zendesk_start_time_in_bussines_hours:", zendesk_start_time_in_bussines_hours, "zendesk_end_time:", zendesk_end_time, "zendesk_end_time_in_bussines_hours:", zendesk_end_time_in_bussines_hours)
+    # zwracany czas w minutach
+    delta_minutes_in_bussines_hours = full_weekdays_count*60*10
+
+    return delta_minutes_in_bussines_hours + zendesk_end_time_in_bussines_hours - zendesk_start_time_in_bussines_hours
+
+print("Results:", delta_time_in_bussines_hours())
+
+
+
+
+
+
+
 
 
 # poniżej szkic funkcji -- test
@@ -173,6 +273,10 @@ def calculate_sla_overruns(audits):
     # na teraz odpuscic sla dla nieoffice hours (wszędzie jest true)
 
 
+
+
+
+
     # Konfiguracja - czas SLA w minutach
     SLA_TIME_MINUTES = 240  # Pobrać w sekundach z funkcji sla_duration
     user_sla = {}
@@ -181,7 +285,7 @@ def calculate_sla_overruns(audits):
         # print("Audit:!!", audit)
         ticket_id = audit['ticket_id']
         created_at = datetime.fromisoformat(audit['created_at'].replace("Z", "+00:00"))  # Używamy UTC
-        print("created_at:", created_at)
+        # print("created_at:", created_at)
         events = audit.get('events', [])
 
         # Zmienna do przechowywania ostatniego przypisania
@@ -189,7 +293,7 @@ def calculate_sla_overruns(audits):
         last_assigned_time = created_at
 
         for event in events:
-                print("Event:", event)
+                # print("Event:", event)
                 if event['type'] == 'Change':
                     field_name = event['field_name']
                     value = event['value']
@@ -210,7 +314,7 @@ def calculate_sla_overruns(audits):
         results = {}
         for user_id, overruns in user_sla.items():
             results[user_id] = overruns.total_seconds() / 60  # Zwracamy w minutach
-        print(results)
+        # print(results)
         return results
 
 
