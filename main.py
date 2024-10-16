@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 import pytz
+import math
 
 
 # 1. notes EN only - no exceptions :D EN is one lang you may use :D
@@ -174,93 +175,112 @@ def iso_to_datetime(iso_string):
     return datetime.fromisoformat(iso_string.replace("Z", "+00:00"))
 
 # Funkcja czasu Zendesk liczy interval od północy w sobotę między <0 a 10080> ale daty są w ISO
-def delta_time_in_bussines_hours():
-    #obliczanie pełnych dni 
-    start_date = "2024-09-04T14:57:25Z"
-    end_date = "2024-09-17T17:04:25Z"
-    iso_start_date = iso_to_datetime(start_date)
-    iso_end_date = iso_to_datetime(end_date)
+
+
+
+
+
+def delta_time_in_bussines_hours_1(start_str, end_str,intervals):
+    # Parse the dates with timezone Europe/Warsaw
+    
 
     tz = pytz.timezone('Europe/Warsaw')
-    lolcal_iso_start_date = iso_start_date.astimezone(tz)
-    lolcal_iso_end_date = iso_end_date.astimezone(tz)
+    start_date = datetime.strptime(start_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
+    end_date = datetime.strptime(end_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
+    print("start_date:", start_date, "end_date:", end_date)
 
-    print("lolcal_iso_start_date:", lolcal_iso_start_date)
-    print("lolcal_iso_end_date:", lolcal_iso_end_date)
-
-    delta_minutes_in_bussines_hours = 0
-    full_weekdays_count = -1
-
-    while iso_start_date <= iso_end_date:
-        if iso_start_date.weekday() < 5:  # Monday is 0 and Friday is 4
-            full_weekdays_count += 1
-        iso_start_date += timedelta(days=1)
-    
-    print("full_weekdays_count:", full_weekdays_count)
-    # obliczanie minut po uwzględnieniu pełnych dni
-    def minutes_from_saturday_midnight(date):
-        # Ustalamy punkt odniesienia (sobota 23:59)
-        saturday_midnight = date - timedelta(days=date.weekday() + 1, 
-                                                hours=date.hour, 
-                                                minutes=date.minute, 
-                                                seconds=date.second, 
-                                                microseconds=date.microsecond)
-        saturday_midnight = saturday_midnight.replace(hour=23, minute=59, second=0, microsecond=0)
-
-        # Obliczamy różnicę minutową między datą a sobotą 23:59
-        delta = date - saturday_midnight
-        total_minutes = delta.total_seconds() // 60  # Konwersja na minuty
-        return int(total_minutes)
-
-    zendesk_start_time = minutes_from_saturday_midnight(lolcal_iso_start_date)
-    zendesk_end_time = minutes_from_saturday_midnight(lolcal_iso_end_date)
-
-    def start_time_in_bussines_hours(time):
-    
-        if time > bussines_hours_array[-1]:
-            return bussines_hours_array[0]  # 1860
-
-        if time < 1860:
-            return bussines_hours_array[0]  # 1860
-    
-        for i in range(len(bussines_hours_array) - 1):
-            if bussines_hours_array[i] <= time <= bussines_hours_array[i + 1]:
-                if i % 2 == 0: #parzyste i to "start" okna z bussines hours
-                    return time
-                #nieparzyste i oznacza, że jesteśmy po godzinach pracy
-                else:
-                    return bussines_hours_array[i + 1]
+    def find_first_saturday_before(date):
+        # Znalezienie 23:59 pierwszej soboty przed podaną datą
+        # Tworzymy datetime w strefie czasowej Europe/Warsaw
+        date = date.astimezone(pytz.timezone("Europe/Warsaw"))
+        print("date:", date)
         
-        return time  # Zwracamy zendesk_start_time w pozostałych przypadkach
+        # Znajdujemy dzień tygodnia (sobota to 5 w Pythonie)
+        while date.weekday() != 5:  # Sobota to 5, zaczynając od poniedziałku (0)
+            date -= timedelta(days=1)
+
+        saturday = datetime(date.year, date.month, date.day, 23, 59, 0)
+        saturday = pytz.timezone("Europe/Warsaw").localize(saturday)
+        # Zwracamy 23:59 tego dnia
+        return saturday
+
+    print("find_first_saturday_before:", find_first_saturday_before(start_date))
+    # Znajdź pierwszą sobotę przed start_date
+    first_saturday = find_first_saturday_before(start_date)
+    print("first_saturday:", first_saturday)
+
+    # Przelicz wszystkie daty na unix time
+    start_unix = int(start_date.timestamp())
+    end_unix = int(end_date.timestamp())
+    first_saturday_unix = int(first_saturday.timestamp())
+    print("start_unix:", start_unix, "end_unix:", end_unix, "first_saturday_unix:", first_saturday_unix)
     
-    zendesk_start_time_in_bussines_hours = start_time_in_bussines_hours(zendesk_start_time)
+    # Oblicz różnicę między start a sobotą oraz end a sobotą w minutach
+    start_diff = math.floor((start_unix - first_saturday_unix)/60)
+    end_diff = math.floor((end_unix - first_saturday_unix)/60)
+
+    print("start_diff:",start_diff,"end_diff:", end_diff)
     
-    def updated_zendesk_end_time(time, start_time):
-        end_time = 0
-        for i in range(0,len(bussines_hours_array) - 1):
-            print("bussines_hours_array[i+2]:", bussines_hours_array[i+2])
-            if bussines_hours_array[i] <=  time <= bussines_hours_array[i + 2]:
-                end_time = time - bussines_hours_array[i]
-                print("end_time:", end_time)
-                return start_time + end_time
+    sla_time = 0  
+    current_start_diff = start_diff  # zmienna pomocnicza
+    current_end_diff = end_diff  # zmienna pomocnicza
 
-    zendesk_end_time_in_bussines_hours = updated_zendesk_end_time(zendesk_end_time, zendesk_start_time_in_bussines_hours)
+    
+    while current_end_diff > 0:
+        print(f"sla_time: {sla_time}, current_end_diff: {current_end_diff}, end_diff: {end_diff}, current_start_diff: {current_start_diff}, start_diff {start_diff}")
+        # Flaga do sprawdzania, czy skończono iteracje po przedziałach
+        found_interval = False  
+        
+        for idx, interval in enumerate(intervals): #enumerate to get acces to idx
+            start_time = interval['start_time']
+            end_time = interval['end_time']
 
-    print("zendesk_start_time:", zendesk_start_time, "zendesk_start_time_in_bussines_hours:", zendesk_start_time_in_bussines_hours, "zendesk_end_time:", zendesk_end_time, "zendesk_end_time_in_bussines_hours:", zendesk_end_time_in_bussines_hours)
-    # zwracany czas w minutach
-    delta_minutes_in_bussines_hours = full_weekdays_count*60*10
+            # Checking if current_start_diff is in interval
+            if start_time <= current_start_diff < end_time and current_start_diff < current_end_diff - 600:
+                sla_time += end_time - current_start_diff  # add SLA
+                found_interval = True  
 
-    return delta_minutes_in_bussines_hours + zendesk_end_time_in_bussines_hours - zendesk_start_time_in_bussines_hours
+                # Check if there is next interval
+                if idx + 1 < len(intervals):
+                    current_start_diff = intervals[idx + 1]['start_time']  # Set current_start_diff at start_time in next invterval
+                else:
+                    # Reset week
+                    current_start_diff = intervals[0]['start_time'] #first bussines hour in week
+                    current_end_diff -= 10080  # number of minutes in week
+                break  
 
-print("Results:", delta_time_in_bussines_hours())
+            # case when end_time is after working hours
+            if idx + 1 < len(intervals):
+                next_start_time = intervals[idx + 1]['start_time']
+                if current_end_diff > end_time and current_end_diff < next_start_time:
+                    sla_time += current_end_diff - end_time  # add difference
+                    print(f"current_end_diff is after working hours: {current_end_diff - end_time} to SLA.")
+                    break  
 
+            # Jeśli jesteśmy na ostatnim przedziale i current_end_diff jest większy od end_time
+            if idx == len(intervals) - 1 and current_end_diff > end_time:
+                sla_time += current_end_diff - end_time  # Dodaj różnicę do SLA
+                print(f"Last interval, adding: {current_end_diff - end_time} to SLA.")
+                break  
 
+        #no interval, brake
+        if not found_interval:
+            break
 
+    # # Ustaw start_diff na 1860, jeśli ostatni przedział osiągnięty
+    # if current_end_diff <= 0:
+    #     current_start_diff = 1860
 
+    # Wyświetlenie całkowitego SLA
+    print("Total SLA Time:", sla_time)
+        
 
+start_str = "2024-09-04T15:57:25Z"
+end_str = "2024-09-17T14:56:25Z"
 
+sla_result = delta_time_in_bussines_hours_1(start_str, end_str, intervals)
 
-
+print(f"sla_result: {sla_result} minutes")
 
 # poniżej szkic funkcji -- test
 def calculate_sla_overruns(audits):
