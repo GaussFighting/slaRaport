@@ -162,126 +162,213 @@ intervals = fetch_schedules()
 print("intervals:", intervals)
 
 
-# Array z wartościami z intervals
-bussines_hours_array = []
-for bussines_hours in intervals:
-    bussines_hours_array.append(bussines_hours['start_time'])
-    bussines_hours_array.append(bussines_hours['end_time'])
+# Array z wartościami z intervals skasować jeśli nie jest potrzebne
+# bussines_hours_array = []
+# for bussines_hours in intervals:
+#     bussines_hours_array.append(bussines_hours['start_time'])
+#     bussines_hours_array.append(bussines_hours['end_time'])
 
-print("bussines_hours_array:", bussines_hours_array)
-# Funkcja konwertująca ISO 8601 na datetime
-def iso_to_datetime(iso_string):
-    # Przekształcamy string ISO 8601 na obiekt datetime
-    return datetime.fromisoformat(iso_string.replace("Z", "+00:00"))
+# print("bussines_hours_array:", bussines_hours_array)
+# # Funkcja konwertująca ISO 8601 na datetime
+# def iso_to_datetime(iso_string):
+#     # Przekształcamy string ISO 8601 na obiekt datetime
+#     return datetime.fromisoformat(iso_string.replace("Z", "+00:00"))
 
 # Funkcja czasu Zendesk liczy interval od północy w sobotę między <0 a 10080> ale daty są w ISO
 
-
-
-
-
-def delta_time_in_bussines_hours_1(start_str, end_str,intervals):
-    # Parse the dates with timezone Europe/Warsaw
+def find_first_saturday_before(date):
+    # saturday 23:59 is a time 0 oraz time 10080 in Zendesk
+    date = date.astimezone(pytz.timezone("Europe/Warsaw"))
+    print("date:", date)
     
+    if date.weekday() == 5: #case when date is saturday, and we want earlier saturday
+        date -= timedelta(days=1)
 
+    while date.weekday() != 5: 
+        date -= timedelta(days=1)
+
+    saturday = datetime(date.year, date.month, date.day, 23, 59, 0)
+    saturday = pytz.timezone("Europe/Warsaw").localize(saturday)
+    # return first saturday 23:59 before date
+    return saturday
+
+def dt_in_bh(start_str, end_str, intervals):
+    #start_str and end_str in Zendesk API are in CET +0
     tz = pytz.timezone('Europe/Warsaw')
     start_date = datetime.strptime(start_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
     end_date = datetime.strptime(end_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
-    print("start_date:", start_date, "end_date:", end_date)
+    # dodać warunek konieczny!
+    if end_date > start_date: 
+        print("start_date:", start_date, "end_date:", end_date, end_date > start_date)
+        first_saturday_before_start = find_first_saturday_before(start_date)
+        print("first_saturday_before_start:", first_saturday_before_start)
+        # switch all dates to unix
+        start_unix = int(start_date.timestamp())
+        end_unix = int(end_date.timestamp())
+        first_saturday_unix = int(first_saturday_before_start.timestamp())
+        print("start_unix:", start_unix, "end_unix:", end_unix, "first_saturday_unix:", first_saturday_unix)
+        # calc start and end date in minutes
+        start_diff = math.floor((start_unix - first_saturday_unix)/60)
+        end_diff = math.floor((end_unix - first_saturday_unix)/60)
+        print("start_diff:",start_diff,"end_diff:", end_diff)    
+        number_of_weeks = math.ceil((end_diff-start_diff)/10080)
+        print("number of weeks:", number_of_weeks)
+        midnight_days = [2880,4320,5760,7200,8640] #pn-pt
+        start_temp = start_diff
+        end_temp = end_diff
+        sla = 0
 
-    def find_first_saturday_before(date):
-        # Znalezienie 23:59 pierwszej soboty przed podaną datą
-        # Tworzymy datetime w strefie czasowej Europe/Warsaw
-        date = date.astimezone(pytz.timezone("Europe/Warsaw"))
-        print("date:", date)
-        
-        # Znajdujemy dzień tygodnia (sobota to 5 w Pythonie)
-        while date.weekday() != 5:  # Sobota to 5, zaczynając od poniedziałku (0)
-            date -= timedelta(days=1)
+        for x in range(number_of_weeks):
+            print("ASFDF", x, number_of_weeks)
+            for idx, interval in enumerate(intervals):
+                if start_temp > interval['end_time']: #check if start is in this day
+                    pass
+                if idx == (len(intervals) - 1) and start_temp > interval['end_time']: #check if start is in weekend
+                    start_temp -= 10080
+                    
+                else: 
+                    print("I:", start_temp, midnight_days[idx], "II", interval['start_time'], interval['end_time'])
+                    start = max(start_temp,interval['start_time'])
+                    end = min(midnight_days[idx],interval['end_time'])
+                    if end > start:
+                        sla += end - start
+                    print("start:", start, "end:", end, "sla:", sla)
+            if x == number_of_weeks-1:
+                end_temp -= 10080*number_of_weeks
+                print("END_TEMP:", end_temp)
+                for idx, interval in enumerate(intervals):
+                    if start_temp > interval['end_time']: #check if start is in this day
+                        pass
+                    if idx == (len(intervals) - 1) and start_temp > interval['end_time']: #check if start is in weekend
+                        start_temp -= 10080
+                    else:
+                        print("I:", start_temp, midnight_days[idx], "II", interval['start_time'], interval['end_time'])
+                        start = max(midnight_days[idx] -1440,interval['start_time'])
+                        end = min(end_temp,interval['end_time'])
+                        if end > start:
+                            sla += end - start
+                        print("start:", start, "end:", end, "sla:", sla)
+            print("final:", sla)
+    return sla
 
-        saturday = datetime(date.year, date.month, date.day, 23, 59, 0)
-        saturday = pytz.timezone("Europe/Warsaw").localize(saturday)
-        # Zwracamy 23:59 tego dnia
-        return saturday
+# start_str = "2024-08-31T21:59:59Z" 
+# end_str = "2024-09-17T14:56:25Z"
+# 7198
 
-    print("find_first_saturday_before:", find_first_saturday_before(start_date))
-    # Znajdź pierwszą sobotę przed start_date
-    first_saturday = find_first_saturday_before(start_date)
-    print("first_saturday:", first_saturday)
+# start_str = "2024-08-16T21:59:59Z" 
+# end_str = "2024-09-17T14:56:25Z"
+# 13197
 
-    # Przelicz wszystkie daty na unix time
-    start_unix = int(start_date.timestamp())
-    end_unix = int(end_date.timestamp())
-    first_saturday_unix = int(first_saturday.timestamp())
-    print("start_unix:", start_unix, "end_unix:", end_unix, "first_saturday_unix:", first_saturday_unix)
-    
-    # Oblicz różnicę między start a sobotą oraz end a sobotą w minutach
-    start_diff = math.floor((start_unix - first_saturday_unix)/60)
-    end_diff = math.floor((end_unix - first_saturday_unix)/60)
-
-    print("start_diff:",start_diff,"end_diff:", end_diff)
-    
-    sla_time = 0  
-    current_start_diff = start_diff  # zmienna pomocnicza
-    current_end_diff = end_diff  # zmienna pomocnicza
-
-    
-    while current_end_diff > 0:
-        print(f"sla_time: {sla_time}, current_end_diff: {current_end_diff}, end_diff: {end_diff}, current_start_diff: {current_start_diff}, start_diff {start_diff}")
-        # Flaga do sprawdzania, czy skończono iteracje po przedziałach
-        found_interval = False  
-        
-        for idx, interval in enumerate(intervals): #enumerate to get acces to idx
-            start_time = interval['start_time']
-            end_time = interval['end_time']
-
-            # Checking if current_start_diff is in interval
-            if start_time <= current_start_diff < end_time and current_start_diff < current_end_diff - 600:
-                sla_time += end_time - current_start_diff  # add SLA
-                found_interval = True  
-
-                # Check if there is next interval
-                if idx + 1 < len(intervals):
-                    current_start_diff = intervals[idx + 1]['start_time']  # Set current_start_diff at start_time in next invterval
-                else:
-                    # Reset week
-                    current_start_diff = intervals[0]['start_time'] #first bussines hour in week
-                    current_end_diff -= 10080  # number of minutes in week
-                break  
-
-            # case when end_time is after working hours
-            if idx + 1 < len(intervals):
-                next_start_time = intervals[idx + 1]['start_time']
-                if current_end_diff > end_time and current_end_diff < next_start_time:
-                    sla_time += current_end_diff - end_time  # add difference
-                    print(f"current_end_diff is after working hours: {current_end_diff - end_time} to SLA.")
-                    break  
-
-            # Jeśli jesteśmy na ostatnim przedziale i current_end_diff jest większy od end_time
-            if idx == len(intervals) - 1 and current_end_diff > end_time:
-                sla_time += current_end_diff - end_time  # Dodaj różnicę do SLA
-                print(f"Last interval, adding: {current_end_diff - end_time} to SLA.")
-                break  
-
-        #no interval, brake
-        if not found_interval:
-            break
-
-    # # Ustaw start_diff na 1860, jeśli ostatni przedział osiągnięty
-    # if current_end_diff <= 0:
-    #     current_start_diff = 1860
-
-    # Wyświetlenie całkowitego SLA
-    print("Total SLA Time:", sla_time)
-        
-
-start_str = "2024-09-04T15:57:25Z"
+start_str = "2024-09-16T21:59:59Z" 
 end_str = "2024-09-17T14:56:25Z"
 
-sla_result = delta_time_in_bussines_hours_1(start_str, end_str, intervals)
 
-print(f"sla_result: {sla_result} minutes")
+print(dt_in_bh(start_str,end_str,intervals))
 
+############################ funkcja z srody
+# def delta_time_in_bussines_hours_1(start_str, end_str,intervals):
+#     # Parse the dates with timezone Europe/Warsaw
+    
+
+#     tz = pytz.timezone('Europe/Warsaw')
+#     start_date = datetime.strptime(start_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
+#     end_date = datetime.strptime(end_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
+#     print("start_date:", start_date, "end_date:", end_date)
+
+#     def find_first_saturday_before(date):
+#         # Znalezienie 23:59 pierwszej soboty przed podaną datą
+#         # Tworzymy datetime w strefie czasowej Europe/Warsaw
+#         date = date.astimezone(pytz.timezone("Europe/Warsaw"))
+#         print("date:", date)
+        
+#         # Znajdujemy dzień tygodnia (sobota to 5 w Pythonie)
+#         while date.weekday() != 5:  # Sobota to 5, zaczynając od poniedziałku (0)
+#             date -= timedelta(days=1)
+
+#         saturday = datetime(date.year, date.month, date.day, 23, 59, 0)
+#         saturday = pytz.timezone("Europe/Warsaw").localize(saturday)
+#         # Zwracamy 23:59 tego dnia
+#         return saturday
+
+#     print("find_first_saturday_before:", find_first_saturday_before(start_date))
+#     # Znajdź pierwszą sobotę przed start_date
+#     first_saturday = find_first_saturday_before(start_date)
+#     print("first_saturday:", first_saturday)
+
+#     # Przelicz wszystkie daty na unix time
+#     start_unix = int(start_date.timestamp())
+#     end_unix = int(end_date.timestamp())
+#     first_saturday_unix = int(first_saturday.timestamp())
+#     print("start_unix:", start_unix, "end_unix:", end_unix, "first_saturday_unix:", first_saturday_unix)
+    
+#     # Oblicz różnicę między start a sobotą oraz end a sobotą w minutach
+#     start_diff = math.floor((start_unix - first_saturday_unix)/60)
+#     end_diff = math.floor((end_unix - first_saturday_unix)/60)
+
+#     print("start_diff:",start_diff,"end_diff:", end_diff)
+    
+#     sla_time = 0  
+#     current_start_diff = start_diff  # zmienna pomocnicza
+#     current_end_diff = end_diff  # zmienna pomocnicza
+
+    
+#     while current_end_diff > 0:
+#         print(f"sla_time: {sla_time}, current_end_diff: {current_end_diff}, end_diff: {end_diff}, current_start_diff: {current_start_diff}, start_diff {start_diff}")
+#         # Flaga do sprawdzania, czy skończono iteracje po przedziałach
+#         found_interval = False  
+        
+#         for idx, interval in enumerate(intervals): #enumerate to get acces to idx
+#             start_time = interval['start_time']
+#             end_time = interval['end_time']
+
+#             # Checking if current_start_diff is in interval
+#             if start_time <= current_start_diff < end_time and current_start_diff < current_end_diff - 600:
+#                 sla_time += end_time - current_start_diff  # add SLA
+#                 found_interval = True  
+
+#                 # Check if there is next interval
+#                 if idx + 1 < len(intervals):
+#                     current_start_diff = intervals[idx + 1]['start_time']  # Set current_start_diff at start_time in next invterval
+#                 else:
+#                     # Reset week
+#                     current_start_diff = intervals[0]['start_time'] #first bussines hour in week
+#                     current_end_diff -= 10080  # number of minutes in week
+#                 break  
+
+#             # case when end_time is after working hours
+#             if idx + 1 < len(intervals):
+#                 next_start_time = intervals[idx + 1]['start_time']
+#                 if current_end_diff > end_time and current_end_diff < next_start_time:
+#                     sla_time += current_end_diff - end_time  # add difference
+#                     print(f"current_end_diff is after working hours: {current_end_diff - end_time} to SLA.")
+#                     break  
+
+#             # Jeśli jesteśmy na ostatnim przedziale i current_end_diff jest większy od end_time
+#             if idx == len(intervals) - 1 and current_end_diff > end_time:
+#                 sla_time += current_end_diff - end_time  # Dodaj różnicę do SLA
+#                 print(f"Last interval, adding: {current_end_diff - end_time} to SLA.")
+#                 break  
+
+#         #no interval, brake
+#         if not found_interval:
+#             break
+
+#     # # Ustaw start_diff na 1860, jeśli ostatni przedział osiągnięty
+#     # if current_end_diff <= 0:
+#     #     current_start_diff = 1860
+
+#     # Wyświetlenie całkowitego SLA
+#     print("Total SLA Time:", sla_time)
+        
+
+# start_str = "2024-09-04T14:57:25Z"
+# end_str = "2024-09-17T14:56:25Z"
+
+# sla_result = delta_time_in_bussines_hours_1(start_str, end_str, intervals)
+
+# print(f"sla_result: {sla_result} minutes")
+
+################################################################################
 # poniżej szkic funkcji -- test
 def calculate_sla_overruns(audits):
     # Co muszę mieć:
