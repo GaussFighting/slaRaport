@@ -2,28 +2,28 @@ import requests
 import base64
 import os
 from dotenv import load_dotenv
-import json
 from datetime import datetime, timedelta, timezone
+import pytz
+import math
 
+load_dotenv() # loading env. from file
 
-load_dotenv() # ładowanie zmiennych środowiskowych z pliku .env
-
-# Dane uwierzytelniające Zendesk API
+# Zendesk API Credentials
 ZENDESK_SUBDOMAIN = os.getenv("ZENDESK_SUBDOMAIN")
 API_TOKEN = os.getenv("API_TOKEN")
 EMAIL = os.getenv("EMAIL")
 
-# Zakodowanie danych uwierzytelniających
+# Coding credentials to string base64
 credentials = f"{EMAIL}:{API_TOKEN}".encode('utf-8')
 encoded_credentials = base64.b64encode(credentials).decode('utf-8')
 
-# URL bazowy do API
+# URL base for api
 BASE_URL = f'https://{ZENDESK_SUBDOMAIN}.zendesk.com/api/v2'
 
-# Funkcja do pobrania ticketów z aktualizacjami w danym przedziale czasowym
+# funkction fetchting updated tickets between dates
 def get_tickets_with_updates(updated_since, updated_before):
     tickets = []
-    page = 1  # Rozpocznij od pierwszej strony
+    page = 1  # start from page 1
     while True:
         response = requests.get(f"{BASE_URL}/tickets.json?updated_since={updated_since}&updated_before={updated_before}&page={page}",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
@@ -35,40 +35,35 @@ def get_tickets_with_updates(updated_since, updated_before):
         
         data = response.json()
         for ticket in data['tickets']:
-            # Sprawdź, czy 'updated_at' mieści się w przedziale
-            # bo api zwraca też stare tickety podpięte pod nowe tickety jako cytat np. 6591 jest podpięty pod 37734 (który dostał tylko autoclose w czerwcu)
+            # Check if 'updated_at' is in interval, api return also older tickets witch are added as "history" in case of new order similar to exsiting one in the past for example 6591 is pined to 37734 
             updated_at = ticket['updated_at']
             if updated_since <= updated_at <= updated_before:
                 tickets.append(ticket['id'])  # Dodaj ID ticketa
 
 # TEST ZWRACAMY TYLKO PIERWSZA STRONĘ 
-        # Sprawdź, czy jest więcej stron
-        # if 'next_page' not in data or data['next_page'] is None:  # Brak więcej danych
+        # Check if there is more pages
+        # if 'next_page' not in data or data['next_page'] is None:  
         #     break
-        # page += 1  # Przejdź do następnej strony        
+        # page += 1       
 # TEST KONIEC ODKOMENTOWAĆ PO NAPISANIU FUNKCJI LICZACEJ SLA
 
 # SKASOWAĆ PO TEST
-        if 'next_page' not in data or data['next_page']:  # Brak więcej danych
+        if 'next_page' not in data or data['next_page']:  
                 break
-        # page += 1  # Przejdź do następnej strony
+        # page += 1  
 # SKASOWAC PO TEST poniżej też tylko 2 elementy z dict
 
-    return tickets[:2]  # Zwróć tylko listę numerów ticketów
+    return tickets[:2]  # return array of tickets id
 
-# Główna logika
+# Main logic
 updated_since = '2024-07-01T00:00:00Z'
 updated_before = '2024-09-30T23:59:59Z'
 updated_ticket_ids = get_tickets_with_updates(updated_since, updated_before)
 
-# Zwróć listę numerów ticketów
-print(updated_ticket_ids)
-# print(f"Found {len(updated_ticket_ids)} tickets that were updated between July and September 2024:")
+print("returned tickets id:", updated_ticket_ids)
 
-
-# Funkcja pobierania listy auditów dla każdego ticketu
+# Function fetching audits of any ticket by id
 def fetch_ticket_audits(ticket_id):
-    print(ticket_id)
     response = requests.get(f"{BASE_URL}/tickets/{ticket_id}/audits.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
@@ -77,7 +72,7 @@ def fetch_ticket_audits(ticket_id):
     data = response.json()
     return data
 
-# Funkcja pobierania polityki SLA i jej trwania zależnie od czasu nazwa_polityki/pierwsza lub nastepna odpowiedz/priorytet -> 24 opcje
+# Funcion fetching SLA policy and duration of policy according to policy name, and policy metrics (priority) -> 24 options
 def fetch_sla_policies():
     response = requests.get(f"{BASE_URL}/slas/policies",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
@@ -93,7 +88,7 @@ def fetch_sla_policies():
 sla_policies = fetch_sla_policies()
 # print("SLA:", sla_policies)
 
-#funkcja zwraca czas trwania SLA w sekundach, zależnie od parametrów
+# Function returns sla_duration in seconds according to metrics, title and priority
 
 def sla_duration(policy_name, priority, metric):
     for policy in sla_policies:
@@ -102,27 +97,7 @@ def sla_duration(policy_name, priority, metric):
                 if (metrics["priority"] == priority) and metrics["metric"] == metric: 
                     return metrics["target_in_seconds"]
 
-# print(sla_duration("SLA ogólne", "low", "first_reply_time"))
-# print(sla_duration("SLA ogólne", "normal", "first_reply_time"))
-# print(sla_duration("SLA ogólne", "high", "first_reply_time"))
-# print(sla_duration("SLA ogólne", "urgent", "first_reply_time"))
-
-# print(sla_duration("SLA ogólne", "low", "next_reply_time"))
-# print(sla_duration("SLA ogólne", "normal", "next_reply_time"))
-# print(sla_duration("SLA ogólne", "high", "next_reply_time"))
-# print(sla_duration("SLA ogólne", "urgent", "next_reply_time"))
-
-# print(sla_duration("SLA nowe", "low", "first_reply_time"))
-# print(sla_duration("SLA nowe", "normal", "first_reply_time"))
-# print(sla_duration("SLA nowe", "high", "first_reply_time"))
-# print(sla_duration("SLA nowe", "urgent", "first_reply_time"))
-
-# print(sla_duration("SLA nowe", "low", "next_reply_time"))
-# print(sla_duration("SLA nowe", "normal", "next_reply_time"))
-# print(sla_duration("SLA nowe", "high", "next_reply_time"))
-# print(sla_duration("SLA nowe", "urgent", "next_reply_time"))
-
-# Funkcja pobierania nazwy i id grupy
+# Function fetch group id and group name
 def fetch_groups(): 
     response = requests.get(f"{BASE_URL}/groups.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
@@ -133,13 +108,12 @@ def fetch_groups():
 
     filtered_groups = [{'group_name': group['name'], 'group_id': group['id']} for group in data['groups']]
     
-    # Zwracamy obiekt o tej samej strukturze
     return filtered_groups
 
 groups_info = fetch_groups()
 # print(groups_info)
 
-# Funkcja pobierania info o userze id/nazwy i id grupy oraz nazwy grupy do ktorej nalezy user
+# Function fetch user info and add group name after user id in user info (just for future needs)
 def fetch_user_data(id):
     response = requests.get(f"{BASE_URL}/users/{id}.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
@@ -161,7 +135,163 @@ def fetch_user_data(id):
 
 # print(fetch_user_data(16180946529180))
 
+# Function fetch schedules of bussines hours
+def fetch_schedules(): 
+    response = requests.get(f"{BASE_URL}/business_hours/schedules",
+                                headers={'Authorization': f'Basic {encoded_credentials}'})
+    if response.status_code != 200:
+        print("Error fetching tickets")
+        print(f"Response: {response.json()}")        
+    schedules = response.json()
+    return schedules['schedules'][0]['intervals']
 
+intervals = fetch_schedules()
+
+# Zendesk count time since 23:59 at Saturday as a 0 or 10080, but dates in audits are in string
+
+def find_first_saturday_before(date):
+    # saturday 23:59 is a time 0 oraz time 10080 in Zendesk
+    date = date.astimezone(pytz.timezone("Europe/Warsaw"))
+    print("date:", date)
+    
+    if date.weekday() == 5: #case when date is saturday, and we want earlier saturday
+        date -= timedelta(days=1)
+
+    while date.weekday() != 5: 
+        date -= timedelta(days=1)
+
+    saturday = datetime(date.year, date.month, date.day, 23, 59, 0)
+    saturday = pytz.timezone("Europe/Warsaw").localize(saturday)
+    # return first saturday 23:59 before date
+    return saturday
+
+def dt_in_bh(start_str, end_str, intervals):
+    #start_str and end_str in Zendesk API are in CET +0
+    tz = pytz.timezone('Europe/Warsaw')
+    start_date = datetime.strptime(start_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
+    end_date = datetime.strptime(end_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
+    first_saturday_before_start = find_first_saturday_before(start_date)
+    print("first_saturday_before_start:", first_saturday_before_start)
+    # switch all dates to unix
+    start_unix = int(start_date.timestamp())
+    end_unix = int(end_date.timestamp())
+    first_saturday_unix = int(first_saturday_before_start.timestamp())
+    print("start_unix:", start_unix, "end_unix:", end_unix, "first_saturday_unix:", first_saturday_unix)
+    # calc start and end date in minutes
+    start_diff = math.floor((start_unix - first_saturday_unix)/60)
+    end_diff = math.floor((end_unix - first_saturday_unix)/60)
+    amount_of_days = math.ceil(end_diff/1440) #number of steps and last step for end_date
+    start_step = math.floor(start_diff/1440) #step with start_date
+
+    print("start_diff:",start_diff,"end_diff:", end_diff, "amount_of_days:",amount_of_days, "start_step:", start_step)   
+    day_min_arr = [{'start_day': 1, 'end_day': 1440},{'start_day': 1441, 'end_day': 2880},{'start_day': 2881, 'end_day': 4320},{'start_day': 4321, 'end_day': 5760},{'start_day': 5761, 'end_day': 7200},{'start_day': 7201, 'end_day': 8640},{'start_day': 8641, 'end_day': 10080},]
+   
+   #neasted function is needed here!
+    def bussines_hours_in_whole_week(day_min_arr, intervals):
+        bh_day_min_arr = []
+
+        # Iterate over each day interval
+        for day in day_min_arr:
+            day_start = day['start_day']
+            day_end = day['end_day']
+            overlap_found = False  # Flag to track if any overlap is found
+
+            # Iterate over each interval to check overlap
+            for interval in intervals:
+                interval_start = interval['start_time']
+                interval_end = interval['end_time']
+
+                # Check for overlap between day and interval
+                overlap_start = max(day_start, interval_start)
+                overlap_end = min(day_end, interval_end)
+
+                # If they overlap, add the overlapping range to the result
+                if overlap_start <= overlap_end:
+                    bh_day_min_arr.append({'start_time': overlap_start, 'end_time': overlap_end})
+                    overlap_found = True  # Set flag when overlap is found
+                    break  # Exit loop once we find the first overlap
+
+            # If no overlap was found, append a zeroed-out object
+            if not overlap_found:
+                bh_day_min_arr.append({'start_time': 0, 'end_time': 0})
+
+        return bh_day_min_arr
+
+    bh_day_min_arr = bussines_hours_in_whole_week(day_min_arr,intervals)
+    print("bh_day_min_arr:", bh_day_min_arr)
+    
+    sla = 0
+    start_date_temp = start_diff
+    end_date_temp = end_diff
+    for i in range(0,amount_of_days):
+        
+        if i > 0 and i%7==0:
+            start_date_temp -= 10080
+            end_date_temp -= 10080
+            print(i,"start_date_temp:",start_date_temp,"end_date_temp",end_date_temp)
+        if i < start_step : 
+            print(i,"empty step")
+            pass
+        if i == start_step and start_step < amount_of_days - 1: 
+            print(i,"add first sla and go on")
+            # print(start_date_temp,day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
+            start = max(start_date_temp,bh_day_min_arr[i%7]['start_time'])
+            end = min(day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['end_time'])     
+            # print("start:", start, "end:", end)
+            if end > start:
+                sla += end - start
+                print("start:", start, "end:", end, "sla:", sla)
+        if i == start_step and start_step == amount_of_days - 1:
+            print(i,"sla starts and ends in the same day")
+            # print(start_date_temp,end_date_temp, bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
+            start = max(start_date_temp,bh_day_min_arr[i%7]['start_time'])
+            end = min(end_date_temp, bh_day_min_arr[i%7]['end_time'])     
+            # print("start:", start, "end:", end)
+            if end > start:
+                sla += end - start
+                print("start:", start, "end:", end, "sla:", sla)
+        if start_step < i < amount_of_days - 1:
+            print(i,"add full day to sla")
+            # print(day_min_arr[i%7]['start_day'],day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
+            start = max(day_min_arr[i%7]['start_day'],bh_day_min_arr[i%7]['start_time'])
+            end = min(day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['end_time'])     
+            # print("start:", start, "end:", end)
+            if end > start:
+                sla += end - start
+                print("start:", start, "end:", end, "sla:", sla)
+        if start_step < i and i == amount_of_days -1:
+            print(i,"add last day to sla")
+            # print(day_min_arr[i%7]['start_day'],end_date_temp, bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
+            start = max(day_min_arr[i%7]['start_day'],bh_day_min_arr[i%7]['start_time'])
+            end = min(end_date_temp, bh_day_min_arr[i%7]['end_time'])     
+            # print("start:", start, "end:", end)
+            if end > start:
+                sla += end - start
+                print("start:", start, "end:", end, "sla:", sla)
+    if end_date < start_date: 
+        print("Error, start_date cannot be greater then end_date")
+    return sla
+
+# start_str = "2024-09-17T21:59:59Z" # saturday one minute before midnight, first iteration is empty! 
+# end_str = "2024-09-17T8:59:25Z"
+# error :D
+
+# start_str = "2024-08-16T21:59:59Z" 
+# end_str = "2024-09-17T14:56:25Z"
+# 13197
+
+# start_str = "2024-09-16T21:59:59Z" 
+# end_str = "2024-09-17T14:56:25Z" 
+# 597
+
+start_str = "2024-08-31T21:59:59Z" 
+end_str = "2024-09-02T5:03:25Z" 
+# 597
+
+print("dt_in_bh:", dt_in_bh(start_str,end_str,intervals))
+
+
+################################################################################
 # poniżej szkic funkcji -- test
 def calculate_sla_overruns(audits):
     # Co muszę mieć:
@@ -172,16 +302,15 @@ def calculate_sla_overruns(audits):
     # godziny biznesowe uwzględnić https://hft71.zendesk.com/api/v2/business_hours/schedules wtf  https://hft71.zendesk.com/admin/objects-rules/rules/schedules 7-17 codzennie
     # na teraz odpuscic sla dla nieoffice hours (wszędzie jest true)
 
-
     # Konfiguracja - czas SLA w minutach
     SLA_TIME_MINUTES = 240  # Pobrać w sekundach z funkcji sla_duration
     user_sla = {}
     for audit in audits['audits']:
         # print("Audit:!!", audits['audits'])
-        # print("Audit:!!", audit)
+        print("Audit:!!", audit)
         ticket_id = audit['ticket_id']
         created_at = datetime.fromisoformat(audit['created_at'].replace("Z", "+00:00"))  # Używamy UTC
-        print("created_at:", created_at)
+        # print("created_at:", created_at)
         events = audit.get('events', [])
 
         # Zmienna do przechowywania ostatniego przypisania
@@ -189,7 +318,7 @@ def calculate_sla_overruns(audits):
         last_assigned_time = created_at
 
         for event in events:
-                print("Event:", event)
+                # print("Event:", event)
                 if event['type'] == 'Change':
                     field_name = event['field_name']
                     value = event['value']
@@ -210,7 +339,7 @@ def calculate_sla_overruns(audits):
         results = {}
         for user_id, overruns in user_sla.items():
             results[user_id] = overruns.total_seconds() / 60  # Zwracamy w minutach
-        print(results)
+        # print(results)
         return results
 
 
