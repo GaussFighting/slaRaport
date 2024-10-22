@@ -224,13 +224,12 @@ def dt_in_bh(start_str, end_str, intervals):
     start_date_temp = start_diff
     end_date_temp = end_diff
     for i in range(0,amount_of_days):
-        
         if i > 0 and i%7==0:
             start_date_temp -= 10080
             end_date_temp -= 10080
-            print(i,"start_date_temp:",start_date_temp,"end_date_temp",end_date_temp)
+            # print(i,"start_date_temp:",start_date_temp,"end_date_temp",end_date_temp)
         if i < start_step : 
-            print(i,"empty step")
+            # print(i,"empty step")
             pass
         if i == start_step and start_step < amount_of_days - 1: 
             print(i,"add first sla and go on")
@@ -240,7 +239,7 @@ def dt_in_bh(start_str, end_str, intervals):
             # print("start:", start, "end:", end)
             if end > start:
                 sla += end - start
-                print("start:", start, "end:", end, "sla:", sla)
+                # print("start:", start, "end:", end, "sla:", sla)
         if i == start_step and start_step == amount_of_days - 1:
             print(i,"sla starts and ends in the same day")
             # print(start_date_temp,end_date_temp, bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
@@ -249,7 +248,7 @@ def dt_in_bh(start_str, end_str, intervals):
             # print("start:", start, "end:", end)
             if end > start:
                 sla += end - start
-                print("start:", start, "end:", end, "sla:", sla)
+                # print("start:", start, "end:", end, "sla:", sla)
         if start_step < i < amount_of_days - 1:
             print(i,"add full day to sla")
             # print(day_min_arr[i%7]['start_day'],day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
@@ -258,7 +257,7 @@ def dt_in_bh(start_str, end_str, intervals):
             # print("start:", start, "end:", end)
             if end > start:
                 sla += end - start
-                print("start:", start, "end:", end, "sla:", sla)
+                # print("start:", start, "end:", end, "sla:", sla)
         if start_step < i and i == amount_of_days -1:
             print(i,"add last day to sla")
             # print(day_min_arr[i%7]['start_day'],end_date_temp, bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
@@ -267,7 +266,7 @@ def dt_in_bh(start_str, end_str, intervals):
             # print("start:", start, "end:", end)
             if end > start:
                 sla += end - start
-                print("start:", start, "end:", end, "sla:", sla)
+                # print("start:", start, "end:", end, "sla:", sla)
     if end_date < start_date: 
         print("Error, start_date cannot be greater then end_date")
     return sla
@@ -292,7 +291,6 @@ print("dt_in_bh:", dt_in_bh(start_str,end_str,intervals))
 
 
 ################################################################################
-# poniżej szkic funkcji -- test
 def calculate_breached_sla(audits):
     users_sla = []
     user = {}
@@ -302,21 +300,20 @@ def calculate_breached_sla(audits):
     temp_sla_start_date = ""
     temp_sla_end_date = ""
     for idx, audit in enumerate(audits['audits']):
-        # print(idx, audit['created_at'])
-        # print(audit['events'], "\n")
         print(f"{idx} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         for index,event in enumerate(audit['events']):
             print(idx, index, event, "\n")
             if 'via' in event and event['via']['source']['rel'] == 'sla_target_change' and event['value'] is not None: # When event['value'] is null -> then canceled policy
                 temp_sla_is_breached_after = event['value']['minutes'] #add index to it? :>
                 temp_sla_start_date = audit['created_at']
-                print("temp_sla_start_date", temp_sla_start_date, "start counting SLA",temp_sla_is_breached_after)
+                # print("temp_sla_start_date", temp_sla_start_date, "start counting SLA",temp_sla_is_breached_after)
             if "field_name" in event and event['field_name'] == 'group_id':
                 last_assigned_group = event['value']
-                print("last_assigned_group", last_assigned_group)
+                # print("last_assigned_group", last_assigned_group)
             if "field_name" in event and event['field_name'] == 'assignee_id':
                 last_assigned_user = event['value']
-                print("last_assigned_user", last_assigned_user)
+                # print("last_assigned_user", last_assigned_user)
+            # end date conditions! #1 answer to customer #2 answer not required #3 reassigne group or user id
             condition_1 = 'via' in event and event['type'] == 'Notification' and event['via']['source']['from']['title'] == 'Notify requester and CCs of comment update'
             condition_2 = event['type'] == "Change" and event["value"] == "1" and event["field_name"] == "360020814459"
             condition_3 = ("field_name" in event and event['field_name'] == 'group_id' and last_assigned_group != event["previous_value"]) or ("field_name" in event and event['field_name'] == 'assignee_id' and last_assigned_user != event["previous_value"])
@@ -344,11 +341,23 @@ def calculate_breached_sla(audits):
                         print("poprzedni użytkownik/grupa nie był przypisany, więc SLA będziemy liczyli dla tego co dopiero zostanie przypisany - brak zmiany agenta/grupy")
                         pass
                     if event['previous_value']:
-                        
+                        temp_sla_end_date = audit['created_at']
+                        sla = dt_in_bh(temp_sla_start_date,temp_sla_end_date, intervals) - temp_sla_is_breached_after
+                        (print("AAAAAAAA", event['value'], event["previous_value"],temp_sla_end_date,temp_sla_start_date, "sla:", sla ))
+                        if sla > 0: # 
+                            print(audit['created_at'], "Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
+                            user['assignee_id'] = event["previous_value"]
+                            user['group_id'] = event["previous_value"]
+                            user['sla'] = sla
+                            users_sla.append(user.copy()) # COPY : O obiekty w pythonie są mutowalnetj. jesli referencja tego samego obiektu jest dodawana wielokrotnie do listy to kazda zmiana obiektu powoduje zmiane wczesniejszych kopii
+                            print("users_sla:", users_sla, "Dodać warunek na nastepne liczenie, rekurencja?, bo mamy dane startowa i nadal szukamy czegos pomiedzy cond_1-3")
+                        if sla <= 0:
+                            print("Sla jest nieprzekroczone")
                         print("Pobierz datę, policz sla do tej grupy/użytkownika z previous_value, nadpisz sla_start-date bo od tego momentu liczymy dla nowego użykownika")
                 print(audit['created_at'])
                 print("123")
-
+        print("BBB", users_sla)
+    return users_sla
 
     # Co muszę mieć:
     # przejść po każdym audicie
@@ -413,4 +422,4 @@ def calculate_breached_sla(audits):
 ticket_audits = fetch_ticket_audits('41645')
 print("AA", ticket_audits)
 breached_results = calculate_breached_sla(ticket_audits)
-print(breached_results)
+print("breached_results:", breached_results)
