@@ -53,7 +53,7 @@ def get_tickets_with_updates(updated_since, updated_before):
         # page += 1  
 # SKASOWAC PO TEST poniżej też tylko 2 elementy z dict
 
-    return tickets[:2]  # return array of tickets id
+    return tickets[:1]  # return array of tickets id
 
 # Main logic
 updated_since = '2024-07-01T00:00:00Z'
@@ -86,7 +86,7 @@ def fetch_sla_policies():
     return filtered_policies
 
 sla_policies = fetch_sla_policies()
-# print("SLA:", sla_policies)
+print("SLA:", sla_policies)
 
 # Function returns sla_duration in seconds according to metrics, title and priority
 
@@ -293,7 +293,63 @@ print("dt_in_bh:", dt_in_bh(start_str,end_str,intervals))
 
 ################################################################################
 # poniżej szkic funkcji -- test
-def calculate_sla_overruns(audits):
+def calculate_breached_sla(audits):
+    users_sla = []
+    user = {}
+    last_assigned_user = None
+    last_assigned_group = None
+    temp_sla_is_breached_after = ""
+    temp_sla_start_date = ""
+    temp_sla_end_date = ""
+    for idx, audit in enumerate(audits['audits']):
+        # print(idx, audit['created_at'])
+        # print(audit['events'], "\n")
+        print(f"{idx} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        for index,event in enumerate(audit['events']):
+            print(idx, index, event, "\n")
+            if 'via' in event and event['via']['source']['rel'] == 'sla_target_change' and event['value'] is not None: # When event['value'] is null -> then canceled policy
+                temp_sla_is_breached_after = event['value']['minutes'] #add index to it? :>
+                temp_sla_start_date = audit['created_at']
+                print("temp_sla_start_date", temp_sla_start_date, "start counting SLA",temp_sla_is_breached_after)
+            if "field_name" in event and event['field_name'] == 'group_id':
+                last_assigned_group = event['value']
+                print("last_assigned_group", last_assigned_group)
+            if "field_name" in event and event['field_name'] == 'assignee_id':
+                last_assigned_user = event['value']
+                print("last_assigned_user", last_assigned_user)
+            condition_1 = 'via' in event and event['type'] == 'Notification' and event['via']['source']['from']['title'] == 'Notify requester and CCs of comment update'
+            condition_2 = event['type'] == "Change" and event["value"] == "1" and event["field_name"] == "360020814459"
+            condition_3 = ("field_name" in event and event['field_name'] == 'group_id' and last_assigned_group != event["previous_value"]) or ("field_name" in event and event['field_name'] == 'assignee_id' and last_assigned_user != event["previous_value"])
+            if condition_1 or condition_2 or condition_3:
+                if condition_1:
+                    if temp_sla_start_date != "": #safety agents send few answers withour customer messages
+                        temp_sla_end_date = audit['created_at']
+                        sla = dt_in_bh(temp_sla_start_date,temp_sla_end_date, intervals) - temp_sla_is_breached_after
+                        if sla > 0:
+                            print("Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
+                            user['assignee_id'] = last_assigned_user
+                            user['group_id'] = last_assigned_group
+                            user['sla'] = sla
+                            users_sla.append(user)
+                            print("users_sla:", users_sla)
+                        if sla <= 0:
+                            print("Sla jest nieprzekroczone")
+                        temp_sla_start_date = ""
+                if condition_2: 
+                    temp_sla_start_date = ""
+                    temp_sla_is_breached_after = ""
+                    print("Nie bierz pod uwagę tego przypadku, odpowiedź niewymagana, wyjdź z pętli, wyzeruj temp_sla_start_date i temp_sla_is_breached_after")    
+                if condition_3:
+                    if event['previous_value'] == None:
+                        print("poprzedni użytkownik/grupa nie był przypisany, więc SLA będziemy liczyli dla tego co dopiero zostanie przypisany - brak zmiany agenta/grupy")
+                        pass
+                    if event['previous_value']:
+                        
+                        print("Pobierz datę, policz sla do tej grupy/użytkownika z previous_value, nadpisz sla_start-date bo od tego momentu liczymy dla nowego użykownika")
+                print(audit['created_at'])
+                print("123")
+
+
     # Co muszę mieć:
     # przejść po każdym audicie
     # w każdym audicie namierzyć events array i sprawdzić co się "wydarzyło"
@@ -302,55 +358,59 @@ def calculate_sla_overruns(audits):
     # godziny biznesowe uwzględnić https://hft71.zendesk.com/api/v2/business_hours/schedules wtf  https://hft71.zendesk.com/admin/objects-rules/rules/schedules 7-17 codzennie
     # na teraz odpuscic sla dla nieoffice hours (wszędzie jest true)
 
-    # Konfiguracja - czas SLA w minutach
-    SLA_TIME_MINUTES = 240  # Pobrać w sekundach z funkcji sla_duration
-    user_sla = {}
-    for audit in audits['audits']:
-        # print("Audit:!!", audits['audits'])
-        print("Audit:!!", audit)
-        ticket_id = audit['ticket_id']
-        created_at = datetime.fromisoformat(audit['created_at'].replace("Z", "+00:00"))  # Używamy UTC
-        # print("created_at:", created_at)
-        events = audit.get('events', [])
+    # # Konfiguracja - czas SLA w minutach
+    # SLA_TIME_MINUTES = 240  # Pobrać w sekundach z funkcji sla_duration
+    # user_sla = {}
+    # for audit in audits['audits']:
+    #     # print("Audit:!!", audits['audits'])
+    #     print("Audit:!!", audit)
+    #     ticket_id = audit['ticket_id']
+    #     created_at = datetime.fromisoformat(audit['created_at'].replace("Z", "+00:00"))  # Używamy UTC
+    #     # print("created_at:", created_at)
+    #     events = audit.get('events', [])
 
-        # Zmienna do przechowywania ostatniego przypisania
-        last_assignee = None
-        last_assigned_time = created_at
+    #     # Zmienna do przechowywania ostatniego przypisania
+    #     last_assignee = None
+    #     last_assigned_time = created_at
 
-        for event in events:
-                # print("Event:", event)
-                if event['type'] == 'Change':
-                    field_name = event['field_name']
-                    value = event['value']
-                    # Sprawdzamy przypisanie użytkownika
-                    if field_name == 'assignee_id':
-                        if value:
-                            last_assignee = value
-                            last_assigned_time = created_at  # Ustawiamy czas przypisania na czas audytu
-                # Obliczamy, czy SLA zostało przekroczone
-                if last_assignee:
-                    # Czas trwania SLA
-                    sla_expiration_time = last_assigned_time + timedelta(minutes=SLA_TIME_MINUTES)
-                    if datetime.now(timezone.utc) > sla_expiration_time:  # Sprawdzamy, czy SLA zostało przekroczone
-                        if last_assignee not in user_sla:
-                            user_sla[last_assignee] = timedelta()
-                        user_sla[last_assignee] += datetime.now(timezone.utc) - sla_expiration_time
-        # Formatowanie wyników
-        results = {}
-        for user_id, overruns in user_sla.items():
-            results[user_id] = overruns.total_seconds() / 60  # Zwracamy w minutach
-        # print(results)
-        return results
-
-
+    #     for event in events:
+    #             # print("Event:", event)
+    #             if event['type'] == 'Change':
+    #                 field_name = event['field_name']
+    #                 value = event['value']
+    #                 # Sprawdzamy przypisanie użytkownika
+    #                 if field_name == 'assignee_id':
+    #                     if value:
+    #                         last_assignee = value
+    #                         last_assigned_time = created_at  # Ustawiamy czas przypisania na czas audytu
+    #             # Obliczamy, czy SLA zostało przekroczone
+    #             if last_assignee:
+    #                 # Czas trwania SLA
+    #                 sla_expiration_time = last_assigned_time + timedelta(minutes=SLA_TIME_MINUTES)
+    #                 if datetime.now(timezone.utc) > sla_expiration_time:  # Sprawdzamy, czy SLA zostało przekroczone
+    #                     if last_assignee not in user_sla:
+    #                         user_sla[last_assignee] = timedelta()
+    #                     user_sla[last_assignee] += datetime.now(timezone.utc) - sla_expiration_time
+    #     # Formatowanie wyników
+    #     results = {}
+    #     for user_id, overruns in user_sla.items():
+    #         results[user_id] = overruns.total_seconds() / 60  # Zwracamy w minutach
+    #     # print(results)
+    #     return results
 
 
 
 
 
 
+
+# Loop over tickets and make audit for each
 # for ticket_id in updated_ticket_ids:
 #     ticket_audits = fetch_ticket_audits(ticket_id)
-#     overrun_results = calculate_sla_overruns(ticket_audits)
-#     print(overrun_results)
+#     breached_results = calculate_breached_sla(ticket_audits)
+#     print(breached_results)
 
+ticket_audits = fetch_ticket_audits('41645')
+print("AA", ticket_audits)
+breached_results = calculate_breached_sla(ticket_audits)
+print(breached_results)

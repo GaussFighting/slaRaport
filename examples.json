@@ -1,0 +1,657 @@
+// important events to check
+// #1 Sla start counting, save date and policy (to calc sla start and policy for sla_breach event['value']['minutes'] )
+{
+    "id": 16456335355164,
+    "ticket_id": 41849,
+    "created_at": "2024-10-18T07:49:47Z",
+    "author_id": -1,
+    "metadata": {
+        "system": {},
+        "custom": {},
+        "parent_audit_id": "16456335325340"
+    },
+    "events": [
+        {
+            "id": 16456335355420,
+            "type": "Change",
+            "previous_value": null,
+            "value": {
+                "minutes": 240,
+                "seconds": 14400,
+                "in_business_hours": true
+            },
+            "field_name": "first_reply_time",
+            "via": {
+                "source": {
+                    "rel": "sla_target_change"
+                },
+                "current_sla_policy": "SLA nowe"
+            }
+        }
+    ],
+    "via": {
+        "channel": "sla",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+}
+// #2 group or/and user assignement (save both values)
+{
+    "id": 15617864663196,
+    "type": "Change",
+    "value": "11341922019868",
+    "field_name": "assignee_id",
+    "previous_value": null
+},
+// group_id
+{
+    "id": 15617864663324,
+    "type": "Change",
+    "value": "7116292168732",
+    "field_name": "group_id",
+    "previous_value": null
+}
+// Check if it's trigger the answer
+//  Email notification Krzysztof Kowerczyk #16371431772060
+// #3 Trigger Notify assignee of comment update
+// "title": "Notify requester and CCs of comment update", po tym znajdę odpowiedź!!!!!
+{
+    "id": 16371506390044,
+    "type": "Notification",
+    "via": {
+        "channel": "rule",
+        "source": {
+            "from": {
+                "deleted": false,
+                "title": "Notify requester and CCs of comment update",
+                "id": 360050118000 
+            },
+            "rel": "trigger"
+        }
+    },
+    "subject": "[{{ticket.account}}] Re: {{ticket.title}}",
+    "body": "Your request ({{ticket.id}}) has been updated. To add additional comments, reply to this email.\n{{ticket.comments_formatted}}",
+    "recipients": [
+        16318125887644
+    ]
+}
+// odpowiedź niewymagana  z sla_policy na null, anulować ostatnio liczone sla
+{
+    "id": 15917176693276,
+    "type": "Change",
+    "value": null,
+    "field_name": "sla_policy",
+    "previous_value": "SLA nowe"
+}
+// #######################################################################
+// TICKET #41849
+// System event before sla new policy 
+{
+    "id": 16456335325340,
+    "ticket_id": 41849,
+    "created_at": "2024-10-18T07:49:47Z",
+    "author_id": 392850623039,
+    "metadata": {
+        "system": {
+            "message_id": "<CAFbzOzokXGbpXA64q2KPWdsefWPc4iEc2XXydFxtoFLLEDjXcA@mail.gmail.com>",
+            "email_id": "01JAF9MZK8Z1J2067P80S48637",
+            "raw_email_identifier": "10183421/57c1f18f-b6ff-4f06-a86b-f572b23ddfe0.eml",
+            "json_email_identifier": "10183421/57c1f18f-b6ff-4f06-a86b-f572b23ddfe0.json",
+            "eml_redacted": false
+        },
+        "custom": {},
+        "suspension_type_id": null
+    }
+// sla new policy 
+{
+    "id": 16456328625564,
+    "type": "Create",
+    "value": "SLA nowe",
+    "field_name": "sla_policy"
+}
+
+// if customer respone is first in ticket, author_id of event from sla is the same as customer
+// requester is
+
+{
+    "id": 16456335325724,
+    "type": "Create",
+    "value": "392850623039",
+    "field_name": "requester_id"
+}
+// priority change, at the very beggining is null
+{
+    "id": 16456335326748,
+    "type": "Change",
+    "via": {
+        "channel": "rule",
+        "source": {
+            "from": {
+                "deleted": false,
+                "title": "Prio normal",
+                "id": 360076343579
+            },
+            "rel": "trigger"
+        }
+    },
+    "value": "normal",
+    "field_name": "priority",
+    "previous_value": null
+}
+// sla apply, author_id -1 in AUDIT, value["minutes"] = sla policy + "in_bussines_hours"
+{
+    "id": 16456335355164,
+    "ticket_id": 41849,
+    "created_at": "2024-10-18T07:49:47Z",
+    "author_id": -1,
+    "metadata": {
+        "system": {},
+        "custom": {},
+        "parent_audit_id": "16456335325340"
+    },
+    "events": [
+        {
+            "id": 16456335355420,
+            "type": "Change",
+            "previous_value": null,
+            "value": {
+                "minutes": 240,
+                "seconds": 14400,
+                "in_business_hours": true
+            },
+            "field_name": "first_reply_time",
+            "via": {
+                "source": {
+                    "rel": "sla_target_change"
+                },
+                "current_sla_policy": "SLA nowe"
+            }
+        }
+    ],
+    "via": {
+        "channel": "sla",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+}
+// TICKET #40407
+// assignee_id
+{
+    "id": 15617864663196,
+    "type": "Change",
+    "value": "11341922019868",
+    "field_name": "assignee_id",
+    "previous_value": null
+},
+// group_id
+{
+    "id": 15617864663324,
+    "type": "Change",
+    "value": "7116292168732",
+    "field_name": "group_id",
+    "previous_value": null
+}
+//  odpowiedź niewymagana first cancel sla couting
+{
+    "id": 15917176689308,
+    "type": "Change",
+    "value": "1",
+    "field_name": "360020814459",
+    "previous_value": "0"
+}
+// in the same event sla_policy -> null
+{
+    "id": 15917176693276,
+    "type": "Change",
+    "value": null,
+    "field_name": "sla_policy",
+    "previous_value": "SLA nowe"
+}
+// assignee someone or group by id
+{
+    "id": 15617864663196,
+    "type": "Change",
+    "value": "11341922019868",
+    "field_name": "assignee_id",
+    "previous_value": null
+},
+{
+    "id": 15617864663324,
+    "type": "Change",
+    "value": "7116292168732",
+    "field_name": "group_id",
+    "previous_value": null
+},
+//  odpowiedź niewymagana change! 0 -> start sla counting
+{
+    "id": 15810686856732,
+    "type": "Change",
+    "via": {
+        "channel": "rule",
+        "source": {
+            "from": {
+                "deleted": false,
+                "title": "Answer required",
+                "id": 360076643119
+            },
+            "rel": "trigger"
+        }
+    },
+    "value": "0",
+    "field_name": "360020814459",
+    "previous_value": "1"
+}
+//  next sla => start counting
+{
+    "id": 15810686931612,
+    "ticket_id": 40407,
+    "created_at": "2024-09-09T11:20:48Z",
+    "author_id": -1,
+    "metadata": {
+        "system": {},
+        "custom": {},
+        "parent_audit_id": "15810686856092"
+    },
+    "events": [
+        {
+            "id": 15810686931996,
+            "type": "Change",
+            "previous_value": null,
+            "value": {
+                "minutes": 240,
+                "seconds": 14400,
+                "in_business_hours": true
+            },
+            "field_name": "next_reply_time",
+            "via": {
+                "source": {
+                    "rel": "sla_target_change"
+                },
+                "current_sla_policy": "SLA nowe"
+            }
+        }
+    ],
+    "via": {
+        "channel": "sla",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+}
+// agent response -> stop counting SLA // author_id = assinge
+// has type Comment, author_id = assigne_id and body
+{"events": [
+    {
+        "id": 15812519772956,
+        "type": "Comment",
+        "author_id": 11341922019868,
+        "body": "Panie Kamilu\n\nWyślemy Panu symulację, na której ..."
+    ,"public": true // false is a internal note
+     ]}
+// status change after agent response open-> pending
+    {
+    "id": 15812519773084,
+    "type": "Change",
+    "value": "pending",
+    "field_name": "status",
+    "previous_value": "open"
+    }
+// after every client response
+{
+    "id": 15827792500764,
+    "ticket_id": 40407,
+    "created_at": "2024-09-10T09:59:24Z",
+    "author_id": -1,
+    "metadata": {
+        "system": {},
+        "custom": {},
+        "parent_audit_id": "15827838106012"
+    },
+    "events": [
+        {
+            "id": 15827775738396,
+            "type": "Change",
+            "previous_value": null,
+            "value": {
+                "minutes": 240,
+                "seconds": 14400,
+                "in_business_hours": true
+            },
+            "field_name": "next_reply_time",
+            "via": {
+                "source": {
+                    "rel": "sla_target_change"
+                },
+                "current_sla_policy": "SLA nowe"
+            }
+        }
+    ],
+    "via": {
+        "channel": "sla",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+}
+// change group without and null user
+{
+    "id": 15849306428188,
+    "type": "Change",
+    "value": null,
+    "field_name": "assignee_id",
+    "previous_value": "11341922019868"
+},
+{
+    "id": 15849306428316,
+    "type": "Change",
+    "value": "14733292875164",
+    "field_name": "group_id",
+    "previous_value": "7116292168732"
+}
+// if group_id is assigneed look for assignee_id
+{
+    "id": 15850405074716,
+    "type": "Change",
+    "value": "14299903870364",
+    "field_name": "assignee_id",
+    "previous_value": null
+}
+// change assigneed user in the same group
+{
+    "id": 15882366472092,
+    "type": "Change",
+    "value": "391604490460",
+    "field_name": "assignee_id",
+    "previous_value": "14299903870364"
+}
+
+// customer response and answer not needed
+// anwser turn sla anyway
+{
+    "id": 15916800769820,
+    "ticket_id": 40407,
+    "created_at": "2024-09-16T07:44:49Z",
+    "author_id": -1,
+    "metadata": {
+        "system": {},
+        "custom": {},
+        "parent_audit_id": "15916812983836"
+    },
+    "events": [
+        {
+            "id": 15916831994268,
+            "type": "Change",
+            "previous_value": null,
+            "value": {
+                "minutes": 240,
+                "seconds": 14400,
+                "in_business_hours": true
+            },
+            "field_name": "next_reply_time",
+            "via": {
+                "source": {
+                    "rel": "sla_target_change"
+                },
+                "current_sla_policy": "SLA nowe"
+            }
+        }
+    ],
+    "via": {
+        "channel": "sla",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+},
+// anser not needed, field checked
+{
+    "id": 15917176689308,
+    "type": "Change",
+    "value": "1",
+    "field_name": "360020814459",
+    "previous_value": "0"
+},
+// sla policy canceled
+{
+    "id": 15917176693276,
+    "type": "Change",
+    "value": null,
+    "field_name": "sla_policy",
+    "previous_value": "SLA nowe"
+}
+// change value to null
+{
+    "id": 15917176740380,
+    "ticket_id": 40407,
+    "created_at": "2024-09-16T08:00:38Z",
+    "author_id": -1,
+    "metadata": {
+        "system": {},
+        "custom": {},
+        "parent_audit_id": "15917176688284"
+    },
+    "events": [
+        {
+            "id": 15917162082844,
+            "type": "Change",
+            "previous_value": {
+                "minutes": 240,
+                "seconds": 14400,
+                "in_business_hours": true
+            },
+            "value": null,
+            "field_name": "next_reply_time",
+            "via": {
+                "source": {
+                    "rel": "sla_target_change"
+                },
+                "current_sla_policy": null
+            }
+        }
+    ],
+    "via": {
+        "channel": "sla",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+},
+// change priority when sla is not counted
+{
+    "id": 16375305771164,
+    "ticket_id": 41644,
+    "created_at": "2024-10-14T09:38:06Z",
+    "author_id": 16180946529180,
+    "metadata": {
+        "system": {
+            "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "ip_address": "178.183.0.122",
+            "location": "Jabłonna, 14, Poland",
+            "latitude": 52.3767,
+            "longitude": 20.9256
+        },
+        "custom": {}
+    },
+    "events": [
+        {
+            "id": 16375305771292,
+            "type": "Change",
+            "value": "urgent",
+            "field_name": "priority",
+            "previous_value": "normal"
+        }
+    ],
+    "via": {
+        "channel": "web",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+},
+// change priority when sla is counted urgent -> high
+{
+    "id": 16377670705052,
+    "ticket_id": 41644,
+    "created_at": "2024-10-14T11:09:21Z",
+    "author_id": -1,
+    "metadata": {
+        "system": {},
+        "custom": {},
+        "parent_audit_id": "16377685789724"
+    },
+    "events": [
+        {
+            "id": 16377670706460,
+            "type": "Change",
+            "previous_value": {
+                "minutes": 60,
+                "seconds": 3600,
+                "in_business_hours": true
+            },
+            "value": {
+                "minutes": 120,
+                "seconds": 7200,
+                "in_business_hours": true
+            },
+            "field_name": "next_reply_time",
+            "via": {
+                "source": {
+                    "rel": "sla_target_change"
+                },
+                "current_sla_policy": "SLA nowe"
+            }
+        }
+    ],
+    "via": {
+        "channel": "sla",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+},
+{
+    "id": 16377685789724,
+    "ticket_id": 41644,
+    "created_at": "2024-10-14T11:09:21Z",
+    "author_id": 16180946529180,
+    "metadata": {
+        "system": {
+            "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "ip_address": "178.183.0.122",
+            "location": "Jabłonna, 14, Poland",
+            "latitude": 52.3767,
+            "longitude": 20.9256
+        },
+        "custom": {}
+    },
+    "events": [
+        {
+            "id": 16377685789852,
+            "type": "Change",
+            "value": "high",
+            "field_name": "priority",
+            "previous_value": "urgent"
+        }
+    ],
+    "via": {
+        "channel": "web",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+},
+// high -> normal
+{
+    "id": 16377688579356,
+    "ticket_id": 41644,
+    "created_at": "2024-10-14T11:09:58Z",
+    "author_id": 16180946529180,
+    "metadata": {
+        "system": {
+            "client": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+            "ip_address": "178.183.0.122",
+            "location": "Jabłonna, 14, Poland",
+            "latitude": 52.3767,
+            "longitude": 20.9256
+        },
+        "custom": {}
+    },
+    "events": [
+        {
+            "id": 16377688579484,
+            "type": "Change",
+            "value": "normal",
+            "field_name": "priority",
+            "previous_value": "high"
+        }
+    ],
+    "via": {
+        "channel": "web",
+        "source": {
+            "from": {},
+            "to": {},
+            "rel": null
+        }
+    }
+    {
+        "id": 16377701656604,
+        "ticket_id": 41644,
+        "created_at": "2024-10-14T11:09:58Z",
+        "author_id": -1,
+        "metadata": {
+            "system": {},
+            "custom": {},
+            "parent_audit_id": "16377688579356"
+        },
+        "events": [
+            {
+                "id": 16377673152412,
+                "type": "Change",
+                "previous_value": {
+                    "minutes": 120,
+                    "seconds": 7200,
+                    "in_business_hours": true
+                },
+                "value": {
+                    "minutes": 240,
+                    "seconds": 14400,
+                    "in_business_hours": true
+                },
+                "field_name": "next_reply_time",
+                "via": {
+                    "source": {
+                        "rel": "sla_target_change"
+                    },
+                    "current_sla_policy": "SLA nowe"
+                }
+            }
+        ],
+        "via": {
+            "channel": "sla",
+            "source": {
+                "from": {},
+                "to": {},
+                "rel": null
+            }
+        }
+    },
