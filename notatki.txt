@@ -4,3 +4,27 @@ test
 ODPOWIEDŹ KONIEC SLA temp_sla_start_date 2024-10-16T05:46:55Z start counting SLA 120 temp_sla_end_date 2024-10-16T07:51:41Z
 ODPOWIEDŹ KONIEC SLA temp_sla_start_date 2024-10-16T05:46:55Z start counting SLA 120 temp_sla_end_date 2024-10-21T11:22:44Z
 ODPOWIEDŹ KONIEC SLA temp_sla_start_date 2024-10-21T12:19:31Z start counting SLA 120 temp_sla_end_date 2024-10-21T12:45:36Z
+
+Cześć, 
+
+jeśli mogę na chwilę zawrócić głowę. Jestem na "finiszu" ale jeszcze głowię się nad kilkoma szczególnymi przypadkami, np. 
+
+ticket 41645, NZ (Natalia Zaborowska), EZ (Ewelina Zarzycka)
+
+16 października
+
+7:46 odpala się SLA (2h), do ticketu przypisana jest NZ (Sales)
+
+8:46 ticket wpada do CS (sla nie przekroczone, ale 1h już poleciała)
+
+9:01 ticket zostaje przypisany do EZ (CS) -> 45 minut do końca granicy SLA
+
+9:51 EZ odpowiada klientowi, SLA przekroczone o 5 minut 
+
+
+
+Jak ja to mam przedstawić? ⁠
+
+Szeroko uśmiechnięta twarz o uśmiechniętych oczach
+
+ bo defacto jest przekroczone 5 minut w CS, ale godzinę kwitło w Salesach
