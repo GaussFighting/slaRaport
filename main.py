@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 import pytz
 import math
+import csv
+import time
 
 load_dotenv() # loading env. from file
 
@@ -29,7 +31,7 @@ def get_tickets_with_updates(updated_since, updated_before):
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
         
         if response.status_code != 200:
-            print("Error fetching tickets")
+            print("Error fetching tickets between dates")
             print(f"Response: {response.json()}")
             break
         
@@ -42,18 +44,19 @@ def get_tickets_with_updates(updated_since, updated_before):
 
 # TEST ZWRACAMY TYLKO PIERWSZA STRONĘ 
         # Check if there is more pages
-        # if 'next_page' not in data or data['next_page'] is None:  
-        #     break
-        # page += 1       
+        if 'next_page' not in data or data['next_page'] is None:  
+            break
+        page += 1       
 # TEST KONIEC ODKOMENTOWAĆ PO NAPISANIU FUNKCJI LICZACEJ SLA
 
 # SKASOWAĆ PO TEST
-        if 'next_page' not in data or data['next_page']:  
-                break
+        # if 'next_page' not in data or data['next_page']:  
+        #         break
         # page += 1  
 # SKASOWAC PO TEST poniżej też tylko 2 elementy z dict
 
-    return tickets[:1]  # return array of tickets id
+    return tickets # return array of tickets id
+
 
 # Main logic
 updated_since = '2024-07-01T00:00:00Z'
@@ -67,9 +70,11 @@ def fetch_ticket_audits(ticket_id):
     response = requests.get(f"{BASE_URL}/tickets/{ticket_id}/audits.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
-        print("Error fetching tickets")
+        print(ticket_id)
+        print("Error fetching tickets audits")
         print(f"Response: {response.json()}")        
     data = response.json()
+    time.sleep(3)
     return data
 
 # Funcion fetching SLA policy and duration of policy according to policy name, and policy metrics (priority) -> 24 options
@@ -77,7 +82,7 @@ def fetch_sla_policies():
     response = requests.get(f"{BASE_URL}/slas/policies",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
-        print("Error fetching tickets")
+        print("Error fetching sla policies")
         print(f"Response: {response.json()}")        
     data = response.json()
 
@@ -86,7 +91,7 @@ def fetch_sla_policies():
     return filtered_policies
 
 sla_policies = fetch_sla_policies()
-print("SLA:", sla_policies)
+# print("SLA:", sla_policies)
 
 # Function returns sla_duration in seconds according to metrics, title and priority
 
@@ -102,7 +107,7 @@ def fetch_groups():
     response = requests.get(f"{BASE_URL}/groups.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
-        print("Error fetching tickets")
+        print("Error fetching groups")
         print(f"Response: {response.json()}")        
     data = response.json()
 
@@ -111,36 +116,44 @@ def fetch_groups():
     return filtered_groups
 
 groups_info = fetch_groups()
-# print(groups_info)
+# print("groups_info:", groups_info)
 
 # Function fetch user info and add group name after user id in user info (just for future needs)
 def fetch_user_data(id):
     response = requests.get(f"{BASE_URL}/users/{id}.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
-        print("Error fetching tickets")
-        print(f"Response: {response.json()}")        
-    data = response.json()
+        print(f"Error fetching user data of {id}")
+        print(f"Response: {response.json()}") 
+        user_info = {}
+        user_info["id"] = id
+        user_info["name"] = "Deleted user"
+        user_info["group_id"] = "Deleted user" 
+        user_info["group_name"] = "Deleted user"
+    
+    else:
+        data = response.json()
+        user_info = {}
+        user_info["id"] = data["user"]["id"]
+        user_info["name"] = data["user"]["name"]
+        user_info["group_id"] = data["user"]["default_group_id"]
 
-    user_info = {}
-    user_info["id"] = data["user"]["id"]
-    user_info["name"] = data["user"]["name"]
-    user_info["group_id"] = data["user"]["default_group_id"]
-
-    for group in groups_info: 
-        if group["group_id"] == user_info["group_id"]:
-            user_info["group_name"] = group["group_name"]
-        
+        for group in groups_info: 
+            if not "group_name" in user_info:
+                user_info["group_name"] = "Not assigned to any group"
+            if group["group_id"] == user_info["group_id"]:
+                user_info["group_name"] = group["group_name"]
+            
     return user_info
 
-# print(fetch_user_data(16180946529180))
+# print("USER INFO:", fetch_user_data(16180946529180))
 
 # Function fetch schedules of bussines hours
 def fetch_schedules(): 
     response = requests.get(f"{BASE_URL}/business_hours/schedules",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
-        print("Error fetching tickets")
+        print("Error fetching schedules")
         print(f"Response: {response.json()}")        
     schedules = response.json()
     return schedules['schedules'][0]['intervals']
@@ -168,23 +181,23 @@ def find_first_saturday_before(date):
 def dt_in_bh(start_str, end_str, intervals):
     #start_str and end_str in Zendesk API are in CET +0
     tz = pytz.timezone('Europe/Warsaw')
-    print("STARTDATEEEE:", start_str)
+    # print("STARTDATEEEE:", start_str)
     start_date = datetime.strptime(start_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
     end_date = datetime.strptime(end_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=pytz.UTC).astimezone(tz)
     first_saturday_before_start = find_first_saturday_before(start_date)
-    print("first_saturday_before_start:", first_saturday_before_start)
+    # print("first_saturday_before_start:", first_saturday_before_start)
     # switch all dates to unix
     start_unix = int(start_date.timestamp())
     end_unix = int(end_date.timestamp())
     first_saturday_unix = int(first_saturday_before_start.timestamp())
-    print("start_unix:", start_unix, "end_unix:", end_unix, "first_saturday_unix:", first_saturday_unix)
+    # print("start_unix:", start_unix, "end_unix:", end_unix, "first_saturday_unix:", first_saturday_unix)
     # calc start and end date in minutes
     start_diff = math.floor((start_unix - first_saturday_unix)/60)
     end_diff = math.floor((end_unix - first_saturday_unix)/60)
     amount_of_days = math.ceil(end_diff/1440) #number of steps and last step for end_date
     start_step = math.floor(start_diff/1440) #step with start_date
 
-    print("start_diff:",start_diff,"end_diff:", end_diff, "amount_of_days:",amount_of_days, "start_step:", start_step)   
+    # print("start_diff:",start_diff,"end_diff:", end_diff, "amount_of_days:",amount_of_days, "start_step:", start_step)   
     day_min_arr = [{'start_day': 1, 'end_day': 1440},{'start_day': 1441, 'end_day': 2880},{'start_day': 2881, 'end_day': 4320},{'start_day': 4321, 'end_day': 5760},{'start_day': 5761, 'end_day': 7200},{'start_day': 7201, 'end_day': 8640},{'start_day': 8641, 'end_day': 10080},]
    
    #neasted function is needed here!
@@ -219,7 +232,7 @@ def dt_in_bh(start_str, end_str, intervals):
         return bh_day_min_arr
 
     bh_day_min_arr = bussines_hours_in_whole_week(day_min_arr,intervals)
-    print("bh_day_min_arr:", bh_day_min_arr)
+    # print("bh_day_min_arr:", bh_day_min_arr)
     
     sla = 0
     start_date_temp = start_diff
@@ -233,7 +246,7 @@ def dt_in_bh(start_str, end_str, intervals):
             # print(i,"empty step")
             pass
         if i == start_step and start_step < amount_of_days - 1: 
-            print(i,"add first sla and go on")
+            # print(i,"add first sla and go on")
             # print(start_date_temp,day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
             start = max(start_date_temp,bh_day_min_arr[i%7]['start_time'])
             end = min(day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['end_time'])     
@@ -242,7 +255,7 @@ def dt_in_bh(start_str, end_str, intervals):
                 sla += end - start
                 # print("start:", start, "end:", end, "sla:", sla)
         if i == start_step and start_step == amount_of_days - 1:
-            print(i,"sla starts and ends in the same day")
+            # print(i,"sla starts and ends in the same day")
             # print(start_date_temp,end_date_temp, bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
             start = max(start_date_temp,bh_day_min_arr[i%7]['start_time'])
             end = min(end_date_temp, bh_day_min_arr[i%7]['end_time'])     
@@ -251,7 +264,7 @@ def dt_in_bh(start_str, end_str, intervals):
                 sla += end - start
                 # print("start:", start, "end:", end, "sla:", sla)
         if start_step < i < amount_of_days - 1:
-            print(i,"add full day to sla")
+            # print(i,"add full day to sla")
             # print(day_min_arr[i%7]['start_day'],day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
             start = max(day_min_arr[i%7]['start_day'],bh_day_min_arr[i%7]['start_time'])
             end = min(day_min_arr[i%7]['end_day'],bh_day_min_arr[i%7]['end_time'])     
@@ -260,7 +273,7 @@ def dt_in_bh(start_str, end_str, intervals):
                 sla += end - start
                 # print("start:", start, "end:", end, "sla:", sla)
         if start_step < i and i == amount_of_days -1:
-            print(i,"add last day to sla")
+            # print(i,"add last day to sla")
             # print(day_min_arr[i%7]['start_day'],end_date_temp, bh_day_min_arr[i%7]['start_time'],bh_day_min_arr[i%7]['end_time'])
             start = max(day_min_arr[i%7]['start_day'],bh_day_min_arr[i%7]['start_time'])
             end = min(end_date_temp, bh_day_min_arr[i%7]['end_time'])     
@@ -288,7 +301,7 @@ start_str = "2024-08-31T21:59:59Z"
 end_str = "2024-09-02T5:03:25Z" 
 # 597
 
-print("dt_in_bh:", dt_in_bh(start_str,end_str,intervals))
+# print("dt_in_bh:", dt_in_bh(start_str,end_str,intervals))
 
 
 ################################################################################
@@ -302,10 +315,10 @@ def calculate_breached_sla(audits):
     temp_sla_start_date = ""
     temp_sla_end_date = ""
     for idx, audit in enumerate(audits['audits']):
-        print(f"{idx} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        # print(f"{idx} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         for index,event in enumerate(audit['events']):
             # print(idx, index, event, "\n")
-            print(idx, index, "\n", "temp_sla_start_date:", temp_sla_start_date)
+            # print(idx, index, "\n", "temp_sla_start_date:", temp_sla_start_date)
             if 'via' in event and event['via']['source']['rel'] == 'sla_target_change' and event['value'] is not None: # When event['value'] is null -> then canceled policy
                 temp_sla_is_breached_after = event['value']['minutes'] #add index to it? :>
                 temp_sla_start_date = audit['created_at']
@@ -326,17 +339,19 @@ def calculate_breached_sla(audits):
                 if condition_1:
                     if temp_sla_start_date: #safety agents send few answers withour customer messages
                         temp_sla_end_date = audit['created_at']
-                        print("ASDXFFFF:",temp_sla_start_date)
+                        # print("ASDXFFFF:",temp_sla_start_date)
                         sla = dt_in_bh(temp_sla_start_date,temp_sla_end_date, intervals) - temp_sla_is_breached_after
                         if sla > 0:
-                            print("Sla przekroczone, odpowiedź do klienta, Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
+                            # print("Sla przekroczone, odpowiedź do klienta, Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
                             user['assignee_id'] = last_assigned_user
+                            user['name'] = fetch_user_data(user['assignee_id'])['name']
+                            user['group_name'] = fetch_user_data(user['assignee_id'])['group_name']
                             user['group_id'] = last_assigned_group
                             user['sla'] = sla
                             user['sla_start'] = temp_sla_start_date
                             user['sla_end'] = temp_sla_end_date
                             users_sla.append(user.copy())
-                            print("users_sla:", users_sla)
+                            # print("users_sla:", users_sla)
                         if sla <= 0:
                             print("Sla nie jest przekroczone")
                         temp_sla_start_date = ""
@@ -354,11 +369,14 @@ def calculate_breached_sla(audits):
                         if temp_sla_start_date:
                             temp_sla_end_date = audit['created_at']
                             sla = dt_in_bh(temp_sla_start_date,temp_sla_end_date, intervals) - temp_sla_is_breached_after
-                            (print("Zmiana użytkownika/grupy liczymy SLA", event['value'], event["previous_value"],temp_sla_end_date,temp_sla_start_date, "sla:", sla ))
+                            # (print("Zmiana użytkownika/grupy liczymy SLA", event['value'], event["previous_value"],temp_sla_end_date,temp_sla_start_date, "sla:", sla, "ticket:", audit['ticket_id'] ))
                             if sla > 0: # 
-                                print(audit['created_at'], "Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
+                                # print(audit['created_at'], "Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
                                 user['assignee_id'] = event["previous_value"]
+                                user['name'] = fetch_user_data(user['assignee_id'])['name']
                                 user['group_id'] = event["previous_value"]
+                                # print("KeyError", user['assignee_id'], audit['ticket_id'])
+                                user['group_name'] = fetch_user_data(user['assignee_id'])['group_name']
                                 user['sla'] = sla
                                 user['sla_start'] = temp_sla_start_date
                                 user['sla_end'] = temp_sla_end_date
@@ -371,52 +389,111 @@ def calculate_breached_sla(audits):
                                 print("Sla jest nieprzekroczone")
                             print("Pobierz datę, policz sla do tej grupy/użytkownika z previous_value, nadpisz sla_start-date bo od tego momentu liczymy dla nowego użykownika")
                 pass
-                print(audit['created_at'])
-                print("123")
+                # print(audit['created_at'])
+                # print("123")
         # print("BBB", users_sla)
         if users_sla:
-            results['users_sla'] = users_sla
             results['ticket_id'] = audits['audits'][0]['ticket_id']
+            results['users_sla'] = users_sla
+            results['sum_sla'] = sum(item['sla'] for item in results['users_sla']) 
+            results['count_sla'] = len(results['users_sla']) 
+
         else:
-            print("No breached sla")
+            print("No breached sla") 
+        
     return results
 
  
-
-
+# fetch_user_data(id)
+# USER INFO: {'id': 16180946529180, 'name': 'Krzysztof Kowerczyk', 'group_id': 360004747159, 'group_name': 'Admistrators'}
+#liczba przekroczonych SLA
+#suma o ile godzin przekroczono SLA
 
 
 
 
 
 # Loop over tickets and make audit for each
-# for ticket_id in updated_ticket_ids:
-#     ticket_audits = fetch_ticket_audits(ticket_id)
-#     breached_results = calculate_breached_sla(ticket_audits)
-#     print(breached_results)
+results = []
+for ticket_id in updated_ticket_ids:
+    ticket_audits = fetch_ticket_audits(ticket_id)
+    breached_results = calculate_breached_sla(ticket_audits)
+    results.append(breached_results.copy())
+    print(breached_results)
 
-ticket_audits = fetch_ticket_audits('41645') # 886 i 5
+# results = [] # TEST
+# for ticket_id in ['41645', '39293', '41644', '41551']:
+#     ticket_audits = fetch_ticket_audits(ticket_id)
+#     reached_results = calculate_breached_sla(ticket_audits)
+#     results.append(reached_results.copy())
+#     print("FINAL:", results)
+#     # print(breached_results)
+
+def find_longest_users_sla_length(results):
+    max_length = 0  # Zmienna do przechowywania maksymalnej długości
+    for ticket in results:
+        if 'users_sla' in ticket:
+            users_sla_length = len(ticket['users_sla'])  # Długość tablicy users_sla
+            if users_sla_length > max_length:  # Sprawdzenie, czy jest większa od maksymalnej
+                max_length = users_sla_length
+        else:
+            max_length = 0
+    return max_length
+
+max_length = find_longest_users_sla_length(results)
+# print("MAX_LENGTH:", max_length)
+def export_to_csv(results):
+    current_date = datetime.now().strftime('%Y-%m-%dT%H-%M-%SZ')
+    # current_date = datetime.now().strftime('%Y-%m-%d')
+    filename = f'Raport_SLA_{current_date}.csv'
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file, delimiter=';')
+        headers = ['Numer Ticketu', 'Suma złamanych SLA', 'Liczba złamanych SLA']
+        for i in range(1, max_length +1):
+            headers += [
+                        f'Imię i nazwisko #{i}', f'Grupa #{i}', f'Przekroczone SLA #{i}' #, 
+                        # f'sla_start_{i}', f'sla_end_{i}'
+                    ]
+        writer.writerow(headers)
+        for item in results:
+            # print("ITEM:", item)
+            if item:
+                row = [item['ticket_id'], item['sum_sla'], item['count_sla']]
+                for idx, user_sla in enumerate(item['users_sla']):
+                        # print("ADFS", user_sla)
+                        row += [
+                            user_sla['name'],  
+                            user_sla['group_name'],    
+                            user_sla['sla'],        
+                            #user_sla['sla_start'],  
+                            #user_sla['sla_end']     
+                            ]
+                writer.writerow(row)
+export_to_csv(results)
+
+# ticket_audits = fetch_ticket_audits('41645') # 886 i 5
 # ticket_audits = fetch_ticket_audits('41257') # tu nie było przekroczonych
 # ticket_audits = fetch_ticket_audits('41265') # tu nie było przekroczonych
 # ticket_audits = fetch_ticket_audits('41856') # tu nie było przekroczonych 
 # ticket_audits = fetch_ticket_audits('40868') # tu nie było przekroczonych
-ticket_audits = fetch_ticket_audits('40085') # tu nie było przekroczonych
-# ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
-# ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
-# ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
+# ticket_audits = fetch_ticket_audits('40085') # tu nie było przekroczonych
+# ticket_audits = fetch_ticket_audits('39293') # 18
+# ticket_audits = fetch_ticket_audits('41644') # mój 1636
+# ticket_audits = fetch_ticket_audits('41551') # mój 362, 105, 152
 # ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
 # ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
 # ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
 # ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
 
 
-print("AA", ticket_audits)
-breached_results = calculate_breached_sla(ticket_audits)
-print("breached_results:", breached_results)
+# print("AA", ticket_audits)
+# breached_results = calculate_breached_sla(ticket_audits)
 
-# brak warunku na ticket w którym właśnie jest liczone SLA (przekroczone) i nic się więcej nie zadziało!
+# print("breached_results:", breached_results)
+
+# brak warunku na ticket w którym właśnie jest liczone SLA (przekroczone) i nic się więcej nie zadziało! z drugiej strony zawsze może dojść odpowiedź niewymagana
 # brak warunku na krótki ticket w którym nikt nie został przypisany, a sla się liczyło i ktoś odpowiedział  40868
-# export do csv? stwórz z niepustych obiektów! [Raport złamanych SLA] Najlepiej w postaci ticket_id / suma sla / assignee_id#1 / group_id#1 / sla#1 i nastepnę /  || Numer ticketu / suma sla / imię i nazwisko#1 / nazwa grupy #1 / przekroczone sla [min]#1
+# export do csv? stwórz z niepustych obiektów! [Raport złamanych SLA] Najlepiej w postaci ticket_id / suma sla / ile razy zostało przekroczone / assignee_id#1 / group_id#1 / sla#1 i nastepnę /  || Numer ticketu / suma sla / imię i nazwisko#1 / nazwa grupy #1 / przekroczone sla [min]#1
 # na koncu podac ile było ticketów z SLA przekroczonym o mniej niz godzine, o mniej niz 2 godziny i o wiecej niz 2h
 # zamienić assigne_id na username
 # group_id na nazwe grupy
