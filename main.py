@@ -29,7 +29,6 @@ def get_tickets_with_updates(updated_since, updated_before):
     while True:
         response = requests.get(f"{BASE_URL}/tickets.json?updated_since={updated_since}&updated_before={updated_before}&page={page}",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
-        
         if response.status_code != 200:
             print("Error fetching tickets between dates")
             print(f"Response: {response.json()}")
@@ -42,31 +41,28 @@ def get_tickets_with_updates(updated_since, updated_before):
             if updated_since <= updated_at <= updated_before:
                 tickets.append(ticket['id'])  # Dodaj ID ticketa
 
-# TEST ZWRACAMY TYLKO PIERWSZA STRONĘ 
         # Check if there is more pages
         if 'next_page' not in data or data['next_page'] is None:  
             break
         page += 1       
-# TEST KONIEC ODKOMENTOWAĆ PO NAPISANIU FUNKCJI LICZACEJ SLA
-
-# SKASOWAĆ PO TEST
-        # if 'next_page' not in data or data['next_page']:  
-        #         break
-        # page += 1  
-# SKASOWAC PO TEST poniżej też tylko 2 elementy z dict
 
     return tickets # return array of tickets id
-
 
 # Main logic
 updated_since = '2024-07-01T00:00:00Z'
 updated_before = '2024-09-30T23:59:59Z'
+# ODKOMENTOWAC PO TESCIE
 updated_ticket_ids = get_tickets_with_updates(updated_since, updated_before)
+number_of_checked_tickets = len(updated_ticket_ids)
 
+print("number_of_checked_tickets:", number_of_checked_tickets)
 print("returned tickets id:", updated_ticket_ids)
+# ODKOMENTOWAC PO TESCIE
 
 # Function fetching audits of any ticket by id
 def fetch_ticket_audits(ticket_id):
+    time.sleep(0.3)
+    #https://developer.zendesk.com/api-reference/introduction/rate-limits/ Proffessional ma 400/minute
     response = requests.get(f"{BASE_URL}/tickets/{ticket_id}/audits.json",
                                 headers={'Authorization': f'Basic {encoded_credentials}'})
     if response.status_code != 200:
@@ -74,7 +70,7 @@ def fetch_ticket_audits(ticket_id):
         print("Error fetching tickets audits")
         print(f"Response: {response.json()}")        
     data = response.json()
-    time.sleep(3)
+
     return data
 
 # Funcion fetching SLA policy and duration of policy according to policy name, and policy metrics (priority) -> 24 options
@@ -94,7 +90,6 @@ sla_policies = fetch_sla_policies()
 # print("SLA:", sla_policies)
 
 # Function returns sla_duration in seconds according to metrics, title and priority
-
 def sla_duration(policy_name, priority, metric):
     for policy in sla_policies:
         if policy["title"] == policy_name:
@@ -127,9 +122,9 @@ def fetch_user_data(id):
         print(f"Response: {response.json()}") 
         user_info = {}
         user_info["id"] = id
-        user_info["name"] = "Deleted user"
-        user_info["group_id"] = "Deleted user" 
-        user_info["group_name"] = "Deleted user"
+        user_info["name"] = "Brak przypisanego użytkownika"
+        user_info["group_id"] = "Brak przypisanej grupy" 
+        user_info["group_name"] = "Brak przypisanej grupy"
     
     else:
         data = response.json()
@@ -140,12 +135,11 @@ def fetch_user_data(id):
 
         for group in groups_info: 
             if not "group_name" in user_info:
-                user_info["group_name"] = "Not assigned to any group"
+                user_info["group_name"] = "Użytkownik nieprzypisany do żadnej grupy"
             if group["group_id"] == user_info["group_id"]:
                 user_info["group_name"] = group["group_name"]
             
     return user_info
-
 # print("USER INFO:", fetch_user_data(16180946529180))
 
 # Function fetch schedules of bussines hours
@@ -159,13 +153,12 @@ def fetch_schedules():
     return schedules['schedules'][0]['intervals']
 
 intervals = fetch_schedules()
-
 # Zendesk count time since 23:59 at Saturday as a 0 or 10080, but dates in audits are in string
 
 def find_first_saturday_before(date):
     # saturday 23:59 is a time 0 oraz time 10080 in Zendesk
     date = date.astimezone(pytz.timezone("Europe/Warsaw"))
-    print("date:", date)
+    # print("date:", date)
     
     if date.weekday() == 5: #case when date is saturday, and we want earlier saturday
         date -= timedelta(days=1)
@@ -285,26 +278,8 @@ def dt_in_bh(start_str, end_str, intervals):
         print("Error, start_date cannot be greater then end_date")
     return sla
 
-# start_str = "2024-09-17T21:59:59Z" # saturday one minute before midnight, first iteration is empty! 
-# end_str = "2024-09-17T8:59:25Z"
-# error :D
-
-# start_str = "2024-08-16T21:59:59Z" 
-# end_str = "2024-09-17T14:56:25Z"
-# 13197
-
-# start_str = "2024-09-16T21:59:59Z" 
-# end_str = "2024-09-17T14:56:25Z" 
-# 597
-
-start_str = "2024-08-31T21:59:59Z" 
-end_str = "2024-09-02T5:03:25Z" 
-# 597
-
 # print("dt_in_bh:", dt_in_bh(start_str,end_str,intervals))
 
-
-################################################################################
 def calculate_breached_sla(audits):
     results = {}
     users_sla = []
@@ -353,17 +328,18 @@ def calculate_breached_sla(audits):
                             users_sla.append(user.copy())
                             # print("users_sla:", users_sla)
                         if sla <= 0:
-                            print("Sla nie jest przekroczone")
+                            # print("Sla nie jest przekroczone")
+                            pass
                         temp_sla_start_date = ""
                     pass
                 if condition_2: 
                     temp_sla_start_date = ""
                     temp_sla_is_breached_after = ""
-                    print("Odpowiedź niewymagana, kasuje ostatnio liczone SLA, wyjdź z pętli, wyzeruj temp_sla_start_date i temp_sla_is_breached_after > to chyba nie")  
+                    # print("Odpowiedź niewymagana, kasuje ostatnio liczone SLA, wyjdź z pętli, wyzeruj temp_sla_start_date i temp_sla_is_breached_after > to chyba nie")  
                     pass  
                 if condition_3:
                     if 'previous_value' not in event:
-                        print("Poprzedni użytkownik/grupa nie był przypisany, więc SLA będziemy liczyli dla tego co dopiero zostanie przypisany - brak zmiany agenta/grupy")
+                        # print("Poprzedni użytkownik/grupa nie był przypisany, więc SLA będziemy liczyli dla tego co dopiero zostanie przypisany - brak zmiany agenta/grupy")
                         pass
                     if event['previous_value']:
                         if temp_sla_start_date:
@@ -381,13 +357,14 @@ def calculate_breached_sla(audits):
                                 user['sla_start'] = temp_sla_start_date
                                 user['sla_end'] = temp_sla_end_date
                                 users_sla.append(user.copy()) # COPY : O obiekty w pythonie są mutowalnej. jesli referencja tego samego obiektu jest dodawana wielokrotnie do listy to kazda zmiana obiektu powoduje zmiane wczesniejszych kopii
-                                print("users_sla:", users_sla, "Dodać warunek na nastepne liczenie, rekurencja?, bo mamy dane startowa i nadal szukamy czegos pomiedzy cond_1-3")
+                                # print("users_sla:", users_sla, "Dodać warunek na nastepne liczenie, rekurencja?, bo mamy dane startowa i nadal szukamy czegos pomiedzy cond_1-3")
                                 # temp_sla_start_date = temp_sla_end_date
-                                print("Condition3, zmiana usera w trakcie SLA", last_assigned_user, last_assigned_group, temp_sla_start_date)
+                                # print("Condition3, zmiana usera w trakcie SLA", last_assigned_user, last_assigned_group, temp_sla_start_date)
                                 pass
                             if sla <= 0:
-                                print("Sla jest nieprzekroczone")
-                            print("Pobierz datę, policz sla do tej grupy/użytkownika z previous_value, nadpisz sla_start-date bo od tego momentu liczymy dla nowego użykownika")
+                                pass
+                                # print("Sla jest nieprzekroczone")
+                            # print("Pobierz datę, policz sla do tej grupy/użytkownika z previous_value, nadpisz sla_start-date bo od tego momentu liczymy dla nowego użykownika")
                 pass
                 # print(audit['created_at'])
                 # print("123")
@@ -395,49 +372,37 @@ def calculate_breached_sla(audits):
         if users_sla:
             results['ticket_id'] = audits['audits'][0]['ticket_id']
             results['users_sla'] = users_sla
-            results['sum_sla'] = sum(item['sla'] for item in results['users_sla']) 
+            results['sum_sla'] = str(round(sum(item['sla'] for item in results['users_sla'])/ 60, 2)).replace('.',',')
             results['count_sla'] = len(results['users_sla']) 
 
         else:
-            print("No breached sla") 
-        
+            pass
+            # print("No breached sla") 
     return results
-
- 
-# fetch_user_data(id)
-# USER INFO: {'id': 16180946529180, 'name': 'Krzysztof Kowerczyk', 'group_id': 360004747159, 'group_name': 'Admistrators'}
-#liczba przekroczonych SLA
-#suma o ile godzin przekroczono SLA
-
-
-
-
 
 # Loop over tickets and make audit for each
 results = []
+# ODKOMENTOWAĆ PO TESCIE
 for ticket_id in updated_ticket_ids:
     ticket_audits = fetch_ticket_audits(ticket_id)
     breached_results = calculate_breached_sla(ticket_audits)
     results.append(breached_results.copy())
     print(breached_results)
+# ODKOMENTOWAC PO TESCIE
 
-# results = [] # TEST
-# for ticket_id in ['41645', '39293', '41644', '41551']:
-#     ticket_audits = fetch_ticket_audits(ticket_id)
-#     reached_results = calculate_breached_sla(ticket_audits)
-#     results.append(reached_results.copy())
-#     print("FINAL:", results)
-#     # print(breached_results)
+# # TEST POJEDYNCZEGO TICKETU, trzeba tylko na poczatku kody zakomentowac blok z pobieraniem ticketow
+# ticket_audits = fetch_ticket_audits("41158")
+# breached_results = calculate_breached_sla(ticket_audits)
+# results.append(breached_results.copy())
+# # END TEST
 
 def find_longest_users_sla_length(results):
-    max_length = 0  # Zmienna do przechowywania maksymalnej długości
+    max_length = 0  
     for ticket in results:
         if 'users_sla' in ticket:
-            users_sla_length = len(ticket['users_sla'])  # Długość tablicy users_sla
-            if users_sla_length > max_length:  # Sprawdzenie, czy jest większa od maksymalnej
+            users_sla_length = len(ticket['users_sla']) 
+            if users_sla_length > max_length:
                 max_length = users_sla_length
-        else:
-            max_length = 0
     return max_length
 
 max_length = find_longest_users_sla_length(results)
@@ -448,7 +413,7 @@ def export_to_csv(results):
     filename = f'Raport_SLA_{current_date}.csv'
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file, delimiter=';')
-        headers = ['Numer Ticketu', 'Suma złamanych SLA', 'Liczba złamanych SLA']
+        headers = ['Numer Ticketu', 'Suma złamanych SLA [h]', 'Liczba złamanych SLA']
         for i in range(1, max_length +1):
             headers += [
                         f'Imię i nazwisko #{i}', f'Grupa #{i}', f'Przekroczone SLA #{i}' #, 
@@ -481,21 +446,34 @@ export_to_csv(results)
 # ticket_audits = fetch_ticket_audits('41644') # mój 1636
 # ticket_audits = fetch_ticket_audits('41551') # mój 362, 105, 152
 # ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
-# ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
-# ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
-# ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
 
-
-# print("AA", ticket_audits)
-# breached_results = calculate_breached_sla(ticket_audits)
-
-# print("breached_results:", breached_results)
-
+#TO DO
 # brak warunku na ticket w którym właśnie jest liczone SLA (przekroczone) i nic się więcej nie zadziało! z drugiej strony zawsze może dojść odpowiedź niewymagana
 # brak warunku na krótki ticket w którym nikt nie został przypisany, a sla się liczyło i ktoś odpowiedział  40868
-# export do csv? stwórz z niepustych obiektów! [Raport złamanych SLA] Najlepiej w postaci ticket_id / suma sla / ile razy zostało przekroczone / assignee_id#1 / group_id#1 / sla#1 i nastepnę /  || Numer ticketu / suma sla / imię i nazwisko#1 / nazwa grupy #1 / przekroczone sla [min]#1
-# na koncu podac ile było ticketów z SLA przekroczonym o mniej niz godzine, o mniej niz 2 godziny i o wiecej niz 2h
-# zamienić assigne_id na username
-# group_id na nazwe grupy
-# do zrobienia w przyszłości, można wyrzucić ile każdy user/grupa ile miała złamanych sla i o ile i ile średnio 
+# do zrobienia w przyszłości, można wyrzucić ile każdy user/grupa ile miała złamanych sla i o ile i ile średnio np. zwrócić to w kolejnym arkuszu
 
+# co do poprawy
+# informacja ile ticketów zostało przeanalizowanych ile miało przekroczone SLA, %
+# informacja z jakiego przedziału czasowego przeanalizowano tickety
+# informacja ile ticketów miało złamane SLA o mniej niż 60min i o mniej niż 120min oraz o więcej niż 120min
+# nie pokazuje nagłówków na górze dla userów f'Imię i nazwisko #{i}', f'Grupa #{i}', f'Przekroczone SLA #{i}' #, 
+# ticket 41158 wyłapuje błąd, bierze internal wiadomość i liczy do niej >_< 
+# makro do excela na poszerzanie kolumn, wysrodkowanie i kolorowanie
+    # Private Sub Workbook_Open()
+    #     Call DostosujSzerokośćKolumn
+    # End Sub
+
+    # Sub DostosujSzerokośćKolumn()
+    #     Cells.EntireColumn.AutoFit
+    # End Sub
+    # Kolory HFT
+
+    # RGB(255, 192, 203) 
+    # RGB(173, 216, 230) 
+    # RGB(144, 238, 144) 
+    # RGB(240, 240, 240)
+    # RGB(200, 200, 200)
+
+
+# Error, ticket 41042 14:30 pisze klient, sla idzie, odpowiada Ewelina Zarzycka, ale ticket nie był do nikogo przypisany :D ani do grupy ani do usera
+# Ticket 35427 Permanently deleted user to Adam Scibor id: 9479686926364 :D
