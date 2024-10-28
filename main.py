@@ -57,11 +57,11 @@ def get_tickets_with_updates(updated_since, updated_before): #CR: Util function
 updated_since = '2024-07-01T00:00:00Z'
 updated_before = '2024-09-30T23:59:59Z'
 # ODKOMENTOWAC PO TEST CR: EN pls :)
-# updated_ticket_ids = get_tickets_with_updates(updated_since, updated_before)
-# number_of_checked_tickets = len(updated_ticket_ids)
+updated_ticket_ids = get_tickets_with_updates(updated_since, updated_before)
+number_of_checked_tickets = len(updated_ticket_ids)
 
-# print("number_of_checked_tickets:", number_of_checked_tickets)
-# print("returned tickets id:", updated_ticket_ids)
+print("number_of_checked_tickets:", number_of_checked_tickets)
+print("returned tickets id:", updated_ticket_ids)
 # ODKOMENTOWAC PO TEST CR: EN pls :)
 
 # Function fetching audits of any ticket by ticket id
@@ -284,64 +284,69 @@ def dt_in_bh(start_str, end_str, intervals):
 
 # print("dt_in_bh:", dt_in_bh(start_str,end_str,intervals))
 
-def calculate_breached_sla(audits):
-    results = {}
-    users_sla = []
-    user = {}
-    last_assigned_user = None
-    last_assigned_group = None
-    temp_sla_is_breached_after = ""
-    temp_sla_start_date = ""
-    temp_sla_end_date = ""
-    audits = audits['audits']
-    def recurent_function(audits, results, users_sla, user, last_assigned_user, last_assigned_group, temp_sla_is_breached_after, temp_sla_start_date, temp_sla_end_date):
-        is_recursion = False
-        temp_sla_is_breached_after = 0
-        for idx, audit in enumerate(audits):
-            print(idx, len(audits))
-            # print(f"{idx} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-            for index,event in enumerate(audit['events']):
-                # print(idx, index, event, "\n")
+def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_group = None, results = None, users_sla = None, user = None, sla_is_breached_after = 0, sla_start_date = "", sla_end_date = ""):
+    # print(audits[0]['ticket_id'])
+    recursion_audits = audits
+    temp_last_assigned_user = last_assigned_user
+    temp_last_assigned_group = last_assigned_group
+    if results is None:
+        results = {}
+    temp_results = results
+    if users_sla is None:
+        users_sla = []
+    temp_users_sla = users_sla
+    if user is None:
+        user = {}
+    temp_user = user
+    temp_sla_is_breached_after = sla_is_breached_after
+    temp_sla_start_date = sla_start_date
+    temp_sla_end_date = sla_end_date
+    is_recursion = False
+    for idx, audit in enumerate(audits):
+        # print(idx, len(audits))
+        # print(f"{idx} XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        if 'events' in audit:
+            for event in audit['events']:
+                    # print(idx, index, event, "\n")
                 # print(idx, index, "\n", "temp_sla_start_date:", temp_sla_start_date)
                 if 'via' in event and event['via']['source']['rel'] == 'sla_target_change' and event['value'] is not None: # When event['value'] is null -> then canceled policy
                     temp_sla_is_breached_after = event['value']['minutes'] #add index to it? :>
                     temp_sla_start_date = audit['created_at']
                     # print("temp_sla_start_date", temp_sla_start_date, "start counting SLA",temp_sla_is_breached_after)
                 if "field_name" in event and event['field_name'] == 'group_id':
-                    last_assigned_group = event['value']
+                    temp_last_assigned_group = event['value']
                     # temp_sla_start_date = audit['created_at']
-                    # print("last_assigned_group", last_assigned_group)
+                    # print("temp_last_assigned_group", temp_last_assigned_group)
                 if "field_name" in event and event['field_name'] == 'assignee_id':
-                    last_assigned_user = event['value']
+                    temp_last_assigned_user = event['value']
                     # temp_sla_start_date = audit['created_at']
-                    # print("last_assigned_user", last_assigned_user)
-                # end date conditions! #1 answer to customer #2 answer not required #3 reassigne group or user id
+                    # print("temp_last_assigned_user", temp_last_assigned_user)
+                # end date conditions! #1 answer to customer #2 answer not required #3 reassigne group or temp_user id
                 condition_1 = 'via' in event and event['type'] == 'Notification' and event['via']['source']['from']['title'] == 'Notify requester and CCs of comment update'
                 condition_2 = event['type'] == "Change" and event["value"] == "1" and event["field_name"] == "360020814459"
-                condition_3 = ("field_name" in event and event['field_name'] == 'group_id' and 'previous_value' in event and last_assigned_group != event["previous_value"]) or ("field_name" in event and event['field_name'] == 'assignee_id' and 'previous_value' in event and last_assigned_user != event["previous_value"])
+                condition_3 = ("field_name" in event and event['field_name'] == 'group_id' and 'previous_value' in event and temp_last_assigned_group != event["previous_value"]) or ("field_name" in event and event['field_name'] == 'assignee_id' and 'previous_value' in event and temp_last_assigned_user != event["previous_value"])
                 if condition_1 or condition_2 or condition_3: # CR: Do we need that statement here, since we check particular condition (1, 2, 3) separately below?
-                    is_recursion = False
                     if condition_1:
                         if temp_sla_start_date: #safety agents send few answers withour customer messages
                             temp_sla_end_date = audit['created_at']
                             # print("ASDXFFFF:",temp_sla_start_date)
                             sla = dt_in_bh(temp_sla_start_date,temp_sla_end_date, intervals) - temp_sla_is_breached_after
                             if sla > 0:
-                                # print("Sla przekroczone, odpowiedź do klienta, Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
-                                user['assignee_id'] = last_assigned_user
-                                user['name'] = fetch_user_data(user['assignee_id'])['name']
-                                # user['group_name'] = fetch_user_data(user['assignee_id'])['group_name']
-                                user['group_id'] = last_assigned_group
+                                # print("Sla przekroczone, odpowiedź do klienta, Zwróć obiekt do arraya:", "temp_last_assigned_user:", temp_last_assigned_user, "temp_last_assigned_group", temp_last_assigned_group, "SLA:", sla)
+                                temp_user['assignee_id'] = temp_last_assigned_user
+                                temp_user['name'] = fetch_user_data(temp_user['assignee_id'])['name']
+                                # temp_user['group_name'] = fetch_user_data(temp_user['assignee_id'])['group_name']
+                                temp_user['group_id'] = temp_last_assigned_group
                                 for group in groups_info:
-                                    if last_assigned_group is not None and int(group["group_id"]) == int(last_assigned_group):
-                                        user['group_name'] = group['group_name']
+                                    if temp_last_assigned_group is not None and int(group["group_id"]) == int(temp_last_assigned_group):
+                                        temp_user['group_name'] = group['group_name']
                                     else: 
-                                        user['group_name'] = "Brak przypisanej grupy"
-                                user['sla'] = sla
-                                user['sla_start'] = temp_sla_start_date
-                                user['sla_end'] = temp_sla_end_date
-                                users_sla.append(user.copy())
-                                # print("users_sla:", users_sla)
+                                        temp_user['group_name'] = "Brak przypisanej grupy"
+                                temp_user['sla'] = sla
+                                temp_user['sla_start'] = temp_sla_start_date
+                                temp_user['sla_end'] = temp_sla_end_date
+                                temp_users_sla.append(temp_user.copy())
+                                # print("temp_users_sla:", temp_users_sla)
                             if sla <= 0: # CR: If we don't do anything with that condition, is it needed? Maybe a comment would be enough? Or commented together with "print" line?
                                 # print("Sla nie jest przekroczone")
                                 pass
@@ -352,7 +357,7 @@ def calculate_breached_sla(audits):
                         temp_sla_is_breached_after = ""
                         # print("Odpowiedź niewymagana, kasuje ostatnio liczone SLA, wyjdź z pętli, wyzeruj temp_sla_start_date i temp_sla_is_breached_after > to chyba nie")  
                         pass  
-                    print("index przed condition 3", idx)
+                    # print("index przed condition 3", idx)
                     if condition_3:
                         if 'previous_value' not in event:
                             # print("Poprzedni użytkownik/grupa nie był przypisany, więc SLA będziemy liczyli dla tego co dopiero zostanie przypisany - brak zmiany agenta/grupy")
@@ -364,76 +369,78 @@ def calculate_breached_sla(audits):
                                 # (print("Zmiana użytkownika/grupy liczymy SLA", event['value'], event["previous_value"],temp_sla_end_date,temp_sla_start_date, "sla:", sla, "ticket:", audit['ticket_id'] ))
                                 if sla > 0: # 
                                     is_recursion = True
-                                    print("A", idx, len(audits))
-                                    if is_recursion: 
-                                        # print(audit['created_at'], "Zwróć obiekt do arraya:", "last_assigned_user:", last_assigned_user, "last_assigned_group", last_assigned_group, "SLA:", sla)
-                                        user['assignee_id'] = event["previous_value"]
-                                        user['name'] = fetch_user_data(user['assignee_id'])['name']
-                                        user['group_id'] = last_assigned_group
-                                        # print("KeyError", user['assignee_id'], audit['ticket_id'])
-                                        # user['group_name'] = fetch_user_data(user['assignee_id'])['group_name']
-                                        for group in groups_info:
-                                            if user['group_id'] is not None and int(group["group_id"]) == int(user['group_id']):
-                                                user['group_name'] = group['group_name']
-                                            if user['group_id'] is None:
-                                                user['group_name'] = "Brak przypisanej grupy"
-                                        user['sla'] = sla
-                                        user['sla_start'] = temp_sla_start_date
-                                        user['sla_end'] = temp_sla_end_date
-                                        users_sla.append(user.copy()) # COPY : O obiekty w pythonie są mutowalnej. jesli referencja tego samego obiektu jest dodawana wielokrotnie do listy to kazda zmiana obiektu powoduje zmiane wczesniejszych kopii
-                                        if idx < len(audits):
-                                            print("idx", idx, "len(audits)", len(audits))
-                                            recursion_audits = audits[idx + 1:]
-                                            print("Len recursion_audits:", len(recursion_audits))
-                                            temp_sla_start_date = temp_sla_end_date
-                                            last_assigned_user = event["value"]
-                                            last_assigned_group = event["value"]
-                                            recurent_function(recursion_audits, results, users_sla, user, last_assigned_user, last_assigned_group, temp_sla_is_breached_after, temp_sla_start_date, temp_sla_end_date)
-                                        else: 
-                                            break
+                                    # print("A", idx, len(audits))
+                                    # print(audit['created_at'], "Zwróć obiekt do arraya:", "temp_last_assigned_user:", temp_last_assigned_user, "temp_last_assigned_group", temp_last_assigned_group, "SLA:", sla)
+                                    temp_user['assignee_id'] = event["previous_value"]
+                                    temp_user['name'] = fetch_user_data(temp_user['assignee_id'])['name']
+                                    temp_user['group_id'] = temp_last_assigned_group
+                                    # print("temp_last_assigned_group", temp_last_assigned_group)
+                                    # print("KeyError", temp_user['assignee_id'], audit['ticket_id'])
+                                    # temp_user['group_name'] = fetch_user_data(temp_user['assignee_id'])['group_name']
+                                    for group in groups_info:
+                                        if temp_user['group_id'] is not None and int(group["group_id"]) == int(temp_user['group_id']):
+                                            temp_user['group_name'] = group['group_name']
+                                        if temp_user['group_id'] is None:
+                                            temp_user['group_name'] = "Brak przypisanej grupy"
+                                    temp_user['sla'] = sla
+                                    temp_user['sla_start'] = temp_sla_start_date
+                                    temp_user['sla_end'] = temp_sla_end_date
+                                    temp_users_sla.append(temp_user.copy()) # COPY : O obiekty w pythonie są mutowalnej. jesli referencja tego samego obiektu jest dodawana wielokrotnie do listy to kazda zmiana obiektu powoduje zmiane wczesniejszych kopii
+                                    if idx < len(audits):
+                                        # print("idx", idx, "len(audits)", len(audits))
+                                        recursion_audits = audits[idx + 1:]
+                                        # print("Len recursion_audits:", len(recursion_audits))
+                                        temp_sla_start_date = temp_sla_end_date
+                                        temp_last_assigned_user = event["value"]
+                                        temp_last_assigned_group = event["value"]
+                                    else: 
+                                        break
                                         
-                                        # print("users_sla:", users_sla, "Dodać warunek na nastepne liczenie, rekurencja?, bo mamy dane startowa i nadal szukamy czegos pomiedzy cond_1-3")
+                                        # print("temp_users_sla:", temp_users_sla, "Dodać warunek na nastepne liczenie, rekurencja?, bo mamy dane startowa i nadal szukamy czegos pomiedzy cond_1-3")
                                         # temp_sla_start_date = temp_sla_end_date
-                                        # print("Condition3, zmiana usera w trakcie SLA", last_assigned_user, last_assigned_group, temp_sla_start_date)
+                                        # print("Condition3, zmiana usera w trakcie SLA", temp_last_assigned_user, temp_last_assigned_group, temp_sla_start_date)
                                     pass
                                 if sla <= 0: # CR: If we don't do anything with that condition, is it needed? Maybe a comment would be enough?
-                                    is_recursion = False
                                     break
                                     # print("Sla jest nieprzekroczone")
                                 # print("Pobierz datę, policz sla do tej grupy/użytkownika z previous_value, nadpisz sla_start-date bo od tego momentu liczymy dla nowego użykownika")
                     pass
                     # print(audit['created_at'])
                     # print("123")
-            # print("BBB", users_sla)
-            if users_sla:
-                results['ticket_id'] = audits[0]['ticket_id']
-                results['users_sla'] = users_sla
-                results['sum_sla'] = str(round(sum(item['sla'] for item in results['users_sla'])/ 60, 2)).replace('.',',')
-                results['count_sla'] = len(results['users_sla']) 
+            # print("BBB", temp_users_sla)
+            if temp_users_sla:
+                temp_results['ticket_id'] = audits[0]['ticket_id']
+                temp_results['users_sla'] = temp_users_sla
+                temp_results['sum_sla'] = str(round(sum(item['sla'] for item in temp_results['users_sla'])/ 60, 2)).replace('.',',')
+                temp_results['count_sla'] = len(temp_results['users_sla']) 
 
             else: # CR: If we don't do anything with that condition, is it needed? Maybe a comment would be enough?
                 pass
                 # print("No breached sla") 
-        recursion_audits = audits[idx + 1:]
-        return results, recursion_audits
-        
-    return recurent_function(audits, results, users_sla, user, last_assigned_user, last_assigned_group, temp_sla_is_breached_after, temp_sla_start_date, temp_sla_end_date)
+            if(is_recursion):
+                # print("temp_last_assigned_user", temp_last_assigned_user, "temp_last_assigned_group", temp_last_assigned_group)
+                calculate_breached_sla(recursion_audits, temp_last_assigned_user, temp_last_assigned_group, temp_results, temp_users_sla, temp_user, temp_sla_is_breached_after, temp_sla_start_date, temp_sla_end_date)
+                break
+    # print(temp_results)
+            # recursion_audits = audits[idx + 1:]
+    return temp_results
 
 # Loop over tickets and make audit for each
 results = []
 # ODKOMENTOWAĆ PO TESCIE #CR: EN pls
-# for idx,ticket_id in enumerate(updated_ticket_ids):
-#     ticket_audits = fetch_ticket_audits(ticket_id) #CR: Just a question: does Python ensure a proper order of sending related requests? Mean: don't we need any kind of "await/async" here?
-#     breached_results = calculate_breached_sla(ticket_audits)
-#     results.append(breached_results.copy())
-#     print("Progress:", f"{idx} / {number_of_checked_tickets}")
-#     print(breached_results)
+for idx,ticket_id in enumerate(updated_ticket_ids):
+    ticket_audits = fetch_ticket_audits(ticket_id) #CR: Just a question: does Python ensure a proper order of sending related requests? Mean: don't we need any kind of "await/async" here?
+    breached_results = calculate_breached_sla(ticket_audits['audits'])
+    results.append(breached_results.copy())
+    # print(results)
+    print("Progress:", f"{idx} / {number_of_checked_tickets -1 }")
+    # print(breached_results)
 # ODKOMENTOWAC PO TESCIE #CR: EN pls
 
 # TEST POJEDYNCZEGO TICKETU, trzeba tylko na poczatku kody zakomentowac blok z pobieraniem ticketow #CR: EN pls
-ticket_audits = fetch_ticket_audits(32641)
-breached_results = calculate_breached_sla(ticket_audits)
-results.append(breached_results.copy())
+# ticket_audits = fetch_ticket_audits(41645)
+# breached_results = calculate_breached_sla(ticket_audits['audits'])
+# results.append(breached_results.copy())
 # END TEST
 
 def find_longest_users_sla_length(results): #CR: Util function
