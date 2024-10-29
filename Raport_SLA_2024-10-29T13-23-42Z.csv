@@ -1,0 +1,693 @@
+Numer Ticketu;Suma z³amanych SLA [h];Liczba z³amanych SLA;Imiê i nazwisko #1;Grupa #1;Przekroczone SLA #1;Imiê i nazwisko #2;Grupa #2;Przekroczone SLA #2;Imiê i nazwisko #3;Grupa #3;Przekroczone SLA #3;Imiê i nazwisko #4;Grupa #4;Przekroczone SLA #4;Imiê i nazwisko #5;Grupa #5;Przekroczone SLA #5;Imiê i nazwisko #6;Grupa #6;Przekroczone SLA #6;Imiê i nazwisko #7;Grupa #7;Przekroczone SLA #7;Imiê i nazwisko #8;Grupa #8;Przekroczone SLA #8;Imiê i nazwisko #9;Grupa #9;Przekroczone SLA #9;Imiê i nazwisko #10;Grupa #10;Przekroczone SLA #10;Imiê i nazwisko #11;Grupa #11;Przekroczone SLA #11;Imiê i nazwisko #12;Grupa #12;Przekroczone SLA #12;Imiê i nazwisko #13;Grupa #13;Przekroczone SLA #13;Imiê i nazwisko #14;Grupa #14;Przekroczone SLA #14;Imiê i nazwisko #15;Grupa #15;Przekroczone SLA #15;Imiê i nazwisko #16;Grupa #16;Przekroczone SLA #16;Imiê i nazwisko #17;Grupa #17;Przekroczone SLA #17
+27782;12,93;2;Przemyslaw Piotrowski;Q-CELL EMB;153;Przemyslaw Piotrowski;Q-CELL EMB;623
+29334;44,87;6;Miko³aj Platonow;Sales;420;Miko³aj Platonow;Sales;235;Miko³aj Platonow;Sales;519;Miko³aj Platonow;Sales;1064;Miko³aj Platonow;Sales;279;Miko³aj Platonow;Sales;175
+30123;35,53;1;Miko³aj Platonow;Sales;2132
+30215;34,23;5;Miko³aj Platonow;Sales;32;Miko³aj Platonow;Sales;27;Miko³aj Platonow;Sales;1806;Miko³aj Platonow;Sales;33;Miko³aj Platonow;Sales;156
+32641;145,88;12;Nikola Krupa;Sales;290;Nikola Krupa;Sales;2094;George Sayegh;Sales;533;Nikola Krupa;Q-CELL DIGI PRINT HT;665;George Sayegh;Q-CELL DIGI PRINT HT;586;Natalia Bierut;U¿ytkownik nieprzypisany do ¿adnej grupy;565;Natalia Bierut;Q-CELL DIGI PRINT HT;475;Bartosz Matyjasz;Q-CELL DIGI PRINT HT;559;George Sayegh;U¿ytkownik nieprzypisany do ¿adnej grupy;264;George Sayegh;U¿ytkownik nieprzypisany do ¿adnej grupy;360;Permanently deleted user;U¿ytkownik nieprzypisany do ¿adnej grupy;2141;Permanently deleted user;U¿ytkownik nieprzypisany do ¿adnej grupy;221
+34023;2,9;1;Kinga Ford;Q-CELL EMB;174
+34071;72,82;10;Natalia Zaborowska;Sales;105;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;467;Mariola Mochoñ;Q-CELL EMB;521;Mariola Mochoñ;Q-CELL EMB;1299;Mariola Mochoñ;Q-CELL EMB;63;Mariola Mochoñ;Q-CELL EMB;18;Mariola Mochoñ;Q-CELL EMB;644;Mariola Mochoñ;Q-CELL EMB;141;Mariola Mochoñ;Q-CELL EMB;376;Mariola Mochoñ;Q-CELL EMB;735
+34089;31,2;5;Mariola Mochoñ;Q-CELL EMB;570;Natalia Zaborowska;Sales;641;Izabela Fidler;Q-CELL EMB;126;Izabela Fidler;Q-CELL EMB;363;Izabela Fidler;Q-CELL EMB;172
+34091;26,77;8;Agnieszka DuŸniak;Q-CELL EMB;96;George Sayegh;U¿ytkownik nieprzypisany do ¿adnej grupy;98;George Sayegh;U¿ytkownik nieprzypisany do ¿adnej grupy;106;Katarzyna Martyniak;CS;121;Katarzyna Martyniak;CS;1;Kinga Ford;Q-CELL EMB;274;Kinga Ford;Q-CELL EMB;573;Kinga Ford;Q-CELL EMB;337
+34153;19,62;2;Mariola Mochoñ;Q-CELL EMB;790;Mariola Mochoñ;Q-CELL EMB;387
+34185;43,62;8;George Sayegh;Sales;431;Mariola Mochoñ;Q-CELL EMB;212;Izabela Fidler;Q-CELL EMB;315;Izabela Fidler;Q-CELL EMB;212;Mariola Mochoñ;Q-CELL EMB;182;Mariola Mochoñ;Q-CELL EMB;365;Mariola Mochoñ;Q-CELL EMB;869;Mariola Mochoñ;Q-CELL EMB;31
+34264;0,48;1;Kinga Ford;Q-CELL EMB;29
+34321;2,6;2;Katarzyna Martyniak;CS;10;Katarzyna Martyniak;CS;146
+34359;120,78;2;Kinga Ford;Q-CELL EMB;108;Kinga Ford;Q-CELL EMB;7139
+34438;7,23;1;Agnieszka DuŸniak;Sales;434
+34698;14,73;5;Mariola Mochoñ;Q-CELL EMB;190;Mariola Mochoñ;Q-CELL EMB;305;Mariola Mochoñ;Q-CELL EMB;352;Mariola Mochoñ;Q-CELL EMB;21;Mariola Mochoñ;Q-CELL EMB;16
+34721;28,68;2;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;931;Kinga Ford;Q-CELL EMB;790
+34738;12,88;1;Agnieszka DuŸniak;Sales;773
+34883;42,27;6;Wojciech Gibas;Sales;44;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;6;Kinga Ford;Q-CELL EMB;182;Kinga Ford;Q-CELL EMB;316;Kinga Ford;Q-CELL EMB;545;Kinga Ford;Q-CELL EMB;1443
+34886;18,45;2;Mariola Mochoñ;Q-CELL EMB;806;Mariola Mochoñ;Q-CELL EMB;301
+34896;28,32;1;Kinga Ford;Q-CELL EMB;1699
+35095;71,3;3;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;3790;Kinga Ford;Q-CELL EMB;423;Magdalena Rusinowicz;Q-CELL EMB;65
+35104;3,82;1;Kinga Ford;Q-CELL EMB;229
+35129;125,48;9;Izabela Fidler;Sales;204;Agnieszka DuŸniak;Sales;596;Agnieszka DuŸniak;Sales;2143;Mariola Mochoñ;Q-CELL EMB;147;Mariola Mochoñ;Q-CELL EMB;743;Izabela Fidler;Sales;4;Natalia Zaborowska;Sales;361;Wiktoria Wojciechowska;CS;1595;Wiktoria Wojciechowska;Q-CELL EMB;1736
+35171;36,05;5;Mariola Mochoñ;Q-CELL EMB;1190;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;415;Kinga Ford;Q-CELL EMB;450;Kinga Ford;Q-CELL EMB;40;Magdalena Rusinowicz;Q-CELL EMB;68
+35195;15,27;1;Brak przypisanego u¿ytkownika;SCM;916
+35213;158,17;9;Izabela Fidler;Sales;2;Brak przypisanego u¿ytkownika;Sales;2219;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1767;Mariola Mochoñ;Q-CELL EMB;2272;Mariola Mochoñ;Q-CELL EMB;309;Mariola Mochoñ;Q-CELL EMB;330;Mariola Mochoñ;Q-CELL EMB;658;Mariola Mochoñ;Q-CELL EMB;1808;Mariola Mochoñ;Q-CELL EMB;125
+35225;4,93;1;Katarzyna Martyniak;Sales;296
+35231;7,9;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;474
+35235;92,13;4;Kinga Ford;Q-CELL EMB;887;Kinga Ford;Q-CELL EMB;1060;Kinga Ford;Q-CELL EMB;72;Kinga Ford;Q-CELL EMB;3509
+35249;9,05;1;Kinga Ford;Q-CELL EMB;543
+35258;23,98;1;Klaudia Majstrowicz;U¿ytkownik nieprzypisany do ¿adnej grupy;1439
+35264;231,57;16;Izabela Fidler;Sales;2;Mariola Mochoñ;Sales;3463;Miko³aj Platonow;Sales;39;Mariola Mochoñ;Q-CELL EMB;125;Miko³aj Platonow;Sales;791;Mariola Mochoñ;Q-CELL EMB;1904;Mariola Mochoñ;Q-CELL EMB;330;Izabela Fidler;Sales;353;Mariola Mochoñ;Q-CELL EMB;605;Mariola Mochoñ;Q-CELL EMB;444;Mariola Mochoñ;Q-CELL EMB;433;Mariola Mochoñ;Sales;116;Miko³aj Platonow;Sales;543;Miko³aj Platonow;Sales;18;Miko³aj Platonow;Sales;36;Mariola Mochoñ;Q-CELL EMB;4692
+35296;27,18;4;Natalia Zaborowska;Sales;45;Mariola Mochoñ;Q-CELL EMB;77;Agnieszka DuŸniak;Sales;588;Agnieszka DuŸniak;Sales;921
+35303;29,02;2;Miko³aj Platonow;Sales;1678;Bartosz Matyjasz;Q-CELL DTG;63
+35321;33,45;1;Kinga Ford;Q-CELL EMB;2007
+35322;19,95;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1197
+35389;6,38;2;Kinga Ford;Q-CELL EMB;329;Kinga Ford;Q-CELL EMB;54
+35395;0,1;1;Logistics;SCM;6
+35424;19,18;2;Kinga Ford;Q-CELL EMB;788;Kinga Ford;Q-CELL EMB;363
+35425;1,35;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;81
+35427;44,87;3;Permanently deleted user;U¿ytkownik nieprzypisany do ¿adnej grupy;205;Mariola Mochoñ;Q-CELL EMB;676;Mariola Mochoñ;Q-CELL EMB;1811
+35455;16,4;3;Miko³aj Platonow;Sales;76;Miko³aj Platonow;Sales;855;Mariola Mochoñ;Q-CELL EMB;53
+35496;29,15;1;Miko³aj Platonow;Sales;1749
+35497;11,7;1;Brak przypisanego u¿ytkownika;Q-CELL DTG;702
+35528;8,97;2;Kinga Ford;Q-CELL EMB;365;Kinga Ford;Q-CELL EMB;173
+35551;9,78;1;Kinga Ford;Q-CELL EMB;587
+35571;30,73;3;Katarzyna Martyniak;Q-CELL SP;268;Miko³aj Platonow;Q-CELL SP;944;Katarzyna Martyniak;Q-CELL SP;632
+35614;143,73;7;Mariola Mochoñ;Q-CELL EMB;1319;Mariola Mochoñ;Q-CELL EMB;916;Mariola Mochoñ;Q-CELL EMB;3595;Mariola Mochoñ;Q-CELL EMB;1126;Mariola Mochoñ;Q-CELL EMB;849;Agnieszka DuŸniak;Sales;400;Izabela Fidler;Q-CELL EMB;419
+35795;160,97;4;Mariola Mochoñ;Q-CELL EMB;781;Mariola Mochoñ;Q-CELL EMB;897;Mariola Mochoñ;Q-CELL EMB;105;Permanently deleted user;Sales;7875
+35831;128,57;14;Mariola Mochoñ;Q-CELL EMB;37;Mariola Mochoñ;Q-CELL EMB;2191;Mariola Mochoñ;Q-CELL EMB;954;Mariola Mochoñ;Q-CELL EMB;322;Mariola Mochoñ;Q-CELL EMB;1546;Permanently deleted user;Q-CELL EMB;393;Wojciech Gibas;Q-CELL EMB;357;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;20;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;123;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;711;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;389;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;545;Wojciech Gibas;Q-CELL EMB;51;Kinga Ford;Q-CELL EMB;75
+35881;25,3;4;Katarzyna Martyniak;CS;402;Katarzyna Martyniak;CS;496;Katarzyna Martyniak;CS;585;Logistics;Sales;35
+35899;32,33;2;Kinga Ford;Q-CELL EMB;702;Kinga Ford;Q-CELL EMB;1238
+35901;10,78;1;Kinga Ford;Q-CELL EMB;647
+35902;9,85;1;Kinga Ford;Q-CELL EMB;591
+35903;9,57;1;Kinga Ford;Q-CELL EMB;574
+35910;1,47;1;Kinga Ford;Q-CELL EMB;88
+35956;57,63;3;Agnieszka DuŸniak;Sales;3176;Ewelina Zarzycka;CS;182;Katarzyna Martyniak;CS;100
+35977;75,83;12;Katarzyna Martyniak;Sales;344;Mariola Mochoñ;Q-CELL EMB;753;Mariola Mochoñ;Q-CELL EMB;129;Mariola Mochoñ;Q-CELL EMB;480;Agnieszka DuŸniak;Q-CELL SP;649;Katarzyna Martyniak;CS;120;Katarzyna Martyniak;Q-CELL SP;101;Mariola Mochoñ;Q-CELL EMB;564;Mariola Mochoñ;Q-CELL EMB;1076;Katarzyna Martyniak;CS;231;Katarzyna Martyniak;Q-CELL SP;101;Joanna Szymañska;Q-CELL SP;2
+35978;37,03;5;Mariola Mochoñ;Q-CELL EMB;730;Mariola Mochoñ;Q-CELL EMB;384;Mariola Mochoñ;Q-CELL EMB;142;Mariola Mochoñ;Q-CELL EMB;785;Mariola Mochoñ;Q-CELL EMB;181
+35981;13,6;2;Kinga Ford;Q-CELL EMB;437;Kinga Ford;Q-CELL EMB;379
+35990;36,58;5;Katarzyna Martyniak;CS;294;Izabela Fidler;Q-CELL EMB;385;Mariola Mochoñ;Q-CELL EMB;1170;Katarzyna Martyniak;CS;142;Katarzyna Martyniak;CS;204
+36018;0,17;1;Kinga Ford;Q-CELL EMB;10
+36057;7,1;1;Kinga Ford;Q-CELL EMB;426
+36074;5,03;1;Natalia Zaborowska;Sales;302
+36088;48,45;5;Mariola Mochoñ;Q-CELL EMB;888;Mariola Mochoñ;Q-CELL EMB;189;Mariola Mochoñ;Q-CELL EMB;1157;Mariola Mochoñ;Q-CELL EMB;80;Mariola Mochoñ;Q-CELL EMB;593
+36090;34,85;3;Kinga Ford;Q-CELL EMB;418;Kinga Ford;Q-CELL EMB;534;Kinga Ford;Q-CELL EMB;1139
+36099;51,63;6;Agnieszka DuŸniak;Sales;181;Katarzyna Martyniak;CS;53;Izabela Fidler;Q-CELL EMB;2086;Izabela Fidler;Q-CELL EMB;96;Izabela Fidler;Q-CELL EMB;294;Izabela Fidler;Q-CELL EMB;388
+36102;3,6;1;Kinga Ford;Q-CELL EMB;216
+36104;12,63;1;Kinga Ford;Q-CELL EMB;758
+36124;22,42;1;Kinga Ford;Q-CELL EMB;1345
+36151;97,7;3;Kinga Ford;Q-CELL EMB;268;Kinga Ford;Q-CELL EMB;3090;Kinga Ford;Q-CELL EMB;2504
+36156;16,02;2;Mariola Mochoñ;Q-CELL EMB;769;Mariola Mochoñ;Q-CELL EMB;192
+36161;120,6;7;Mariola Mochoñ;Q-CELL EMB;2319;Mariola Mochoñ;Q-CELL EMB;3090;Mariola Mochoñ;Q-CELL EMB;253;Logistics;SCM;1107;Zuzanna Gilewicz;Q-CELL DIGI PRINT HT;35;Kinga Ford;Q-CELL EMB;420;Kinga Ford;Q-CELL EMB;12
+36170;71,93;3;Kinga Ford;Q-CELL EMB;5;Mariola Mochoñ;Q-CELL EMB;80;Izabela Fidler;Q-CELL EMB;4231
+36205;4,13;2;Katarzyna Martyniak;CS;180;Agnieszka DuŸniak;Q-CELL SP;68
+36236;4,13;1;Wiktoria Wojciechowska;CS;248
+36238;28,52;5;Bartosz Matyjasz;Q-CELL DTG;369;Magazyn / Warehouse;SCM;415;Miko³aj Platonow;Sales;85;Mariola Mochoñ;Q-CELL EMB;32;Mariola Mochoñ;Q-CELL EMB;810
+36242;36,93;4;Piotr Urbañski;Sales;1068;Kinga Ford;Q-CELL EMB;493;Kinga Ford;Q-CELL EMB;636;Katarzyna Martyniak;CS;19
+36288;3,7;1;Kinga Ford;Q-CELL EMB;222
+36373;5,25;1;Wojciech Gibas;Sales;315
+36376;3,73;1;Katarzyna Martyniak;Q-CELL SP;224
+36379;0,27;1;Mariola Mochoñ;Q-CELL EMB;16
+36381;10,78;2;Katarzyna Martyniak;CS;541;Katarzyna Martyniak;CS;106
+36396;36,85;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;2211
+36423;28,9;1;Miko³aj Platonow;Sales;1734
+36439;44,48;3;Kinga Ford;Q-CELL EMB;2161;Kinga Ford;Q-CELL EMB;411;Kinga Ford;Q-CELL EMB;97
+36440;69,92;4;Kinga Ford;Q-CELL EMB;71;Kinga Ford;Q-CELL EMB;710;Kinga Ford;Q-CELL EMB;594;Kinga Ford;Q-CELL EMB;2820
+36443;53,62;2;Mariola Mochoñ;Q-CELL EMB;2954;Mariola Mochoñ;Q-CELL EMB;263
+36445;66,53;3;Kinga Ford;Q-CELL EMB;1993;Kinga Ford;Q-CELL EMB;134;Kinga Ford;Q-CELL EMB;1865
+36448;32,13;2;Kinga Ford;Q-CELL EMB;1911;Kinga Ford;Q-CELL EMB;17
+36449;29,53;5;Natalia Zaborowska;Sales;607;Pawe³ Wojtowicz;Sales;286;Katarzyna Martyniak;CS;1;Katarzyna Martyniak;CS;101;Natalia Zaborowska;Sales;777
+36478;16,33;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;980
+36492;11,72;5;Natalia Zaborowska;Sales;153;Zuzanna Gilewicz;CS;6;Zuzanna Gilewicz;CS;285;Zuzanna Gilewicz;Sales;63;Bartosz Matyjasz;Q-CELL DIGI PRINT HT;196
+36509;41,38;2;Kinga Ford;Q-CELL EMB;602;Kinga Ford;Q-CELL EMB;1881
+36511;111,28;7;Permanently deleted user;Sales;3198;Permanently deleted user;Q-CELL EMB;782;Izabela Fidler;Q-CELL EMB;72;Wojciech Gibas;Sales;43;Izabela Fidler;Q-CELL EMB;157;Izabela Fidler;Sales;667;Brak przypisanego u¿ytkownika;Sales;1758
+36513;8,93;1;Kinga Ford;Q-CELL EMB;536
+36514;148,65;5;Agnieszka DuŸniak;Sales;5616;Agnieszka DuŸniak;Sales;78;Agnieszka DuŸniak;Sales;2003;Katarzyna Martyniak;Q-CELL SP;170;Agnieszka DuŸniak;Sales;1052
+36516;97,4;17;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;220;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;13;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;157;Brak przypisanego u¿ytkownika;Sales;2696;Wojciech Gibas;Sales;105;Katarzyna Martyniak;Q-CELL SP;263;Joanna Szymañska;Q-CELL SP;216;Izabela Fidler;Q-CELL EMB;194;Izabela Fidler;Q-CELL EMB;157;Izabela Fidler;Q-CELL EMB;7;Izabela Fidler;Q-CELL EMB;45;Joanna Szymañska;CS;849;Joanna Szymañska;CS;4;Joanna Szymañska;CS;162;Wojciech Gibas;Q-CELL SP;352;Katarzyna Martyniak;Q-CELL SP;13;Wojciech Gibas;Sales;391
+36522;7,07;2;Kinga Ford;Q-CELL EMB;273;Kinga Ford;Q-CELL EMB;151
+36529;185,63;9;Miko³aj Platonow;Sales;598;Mariola Mochoñ;Q-CELL EMB;1496;Mariola Mochoñ;Q-CELL EMB;194;Mariola Mochoñ;Q-CELL EMB;1062;Mariola Mochoñ;Q-CELL EMB;851;Mariola Mochoñ;Q-CELL EMB;592;Mariola Mochoñ;Q-CELL EMB;897;Mariola Mochoñ;Q-CELL EMB;554;Mariola Mochoñ;Q-CELL EMB;4894
+36542;23,37;4;Izabela Fidler;Q-CELL EMB;963;Izabela Fidler;Q-CELL EMB;80;Izabela Fidler;Q-CELL EMB;288;Izabela Fidler;Q-CELL EMB;71
+36567;7,98;1;Agnieszka DuŸniak;Sales;479
+36573;10,97;2;Kinga Ford;Q-CELL EMB;217;Kinga Ford;Q-CELL EMB;441
+36576;2,9;1;Piotr Urbañski;Sales;174
+36631;3,1;1;Izabela Fidler;Q-CELL EMB;186
+36648;76,37;7;Mariola Mochoñ;Q-CELL EMB;119;Mariola Mochoñ;Q-CELL EMB;733;Mariola Mochoñ;Q-CELL EMB;1800;Mariola Mochoñ;Q-CELL EMB;274;Mariola Mochoñ;Q-CELL EMB;173;Mariola Mochoñ;Sales;319;Mariola Mochoñ;Q-CELL EMB;1164
+36685;17,97;6;Katarzyna Martyniak;CS;238;Katarzyna Martyniak;Q-CELL SP;187;Katarzyna Martyniak;CS;24;Katarzyna Martyniak;CS;569;Katarzyna Martyniak;Sales;42;Joanna Szymañska;CS;18
+36699;1,12;1;Permanently deleted user;Sales;67
+36702;72,17;5;Mariola Mochoñ;Q-CELL EMB;1371;Mariola Mochoñ;Q-CELL EMB;1560;Mariola Mochoñ;Q-CELL EMB;872;Kinga Ford;Q-CELL EMB;198;Kinga Ford;Q-CELL EMB;329
+36719;15,58;2;Izabela Fidler;Q-CELL EMB;578;Izabela Fidler;Q-CELL EMB;357
+36731;103,88;11;Natalia Zaborowska;Sales;57;Katarzyna Martyniak;CS;7;Mariola Mochoñ;Q-CELL EMB;292;Mariola Mochoñ;Q-CELL EMB;1184;Mariola Mochoñ;Q-CELL EMB;3065;Katarzyna Martyniak;CS;4;Mariola Mochoñ;Q-CELL EMB;157;Mariola Mochoñ;Q-CELL SP;1119;Natalia Zaborowska;Sales;1;Joanna Szymañska;CS;346;Agnieszka DuŸniak;Sales;1
+36740;117,43;9;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;175;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;259;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;498;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;724;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;324;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;1231;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;64;Zuzanna Gilewicz;SCM;756;Zuzanna Gilewicz;Sales;3015
+36751;36,65;5;Natalia Zaborowska;Sales;640;Zuzanna Gilewicz;CS;58;Zuzanna Gilewicz;CS;469;Zuzanna Gilewicz;CS;265;Zuzanna Gilewicz;CS;767
+36769;0,12;1;Brak przypisanego u¿ytkownika;Q-CELL DTG;7
+36777;3,67;2;Joanna Szymañska;Sales;53;Agnieszka DuŸniak;Sales;167
+36786;3,15;1;Katarzyna Martyniak;CS;189
+36787;86,38;6;Miko³aj Platonow;Sales;145;Mariola Mochoñ;Q-CELL EMB;2096;Mariola Mochoñ;Q-CELL EMB;1484;Izabela Fidler;Q-CELL EMB;42;Izabela Fidler;Q-CELL EMB;556;Kinga Ford;Q-CELL EMB;860
+36790;26,92;3;Kinga Ford;Q-CELL EMB;424;Kinga Ford;Q-CELL EMB;58;Kinga Ford;Q-CELL EMB;1133
+36807;2,02;2;Katarzyna Martyniak;Q-CELL SP;22;Miko³aj Platonow;Sales;99
+36818;11,5;2;Miko³aj Platonow;Sales;305;Katarzyna Martyniak;CS;385
+36819;86,45;5;Mariola Mochoñ;Q-CELL EMB;235;Mariola Mochoñ;Q-CELL EMB;81;Kinga Ford;Q-CELL EMB;777;Kinga Ford;Q-CELL EMB;1635;Kinga Ford;Q-CELL EMB;2459
+36820;7,78;1;Kinga Ford;Q-CELL EMB;467
+36870;9,07;2;Mariola Mochoñ;Q-CELL EMB;97;Mariola Mochoñ;Q-CELL EMB;447
+36872;45,47;3;Mariola Mochoñ;Q-CELL EMB;1681;Mariola Mochoñ;Q-CELL EMB;51;Mariola Mochoñ;Sales;996
+36888;14,67;1;Mariola Mochoñ;Q-CELL EMB;880
+36891;19,4;1;Miko³aj Platonow;Sales;1164
+36905;14,85;1;Kinga Ford;Q-CELL EMB;891
+36916;94,55;4;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1107;Kinga Ford;Sales;875;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;2311;Kinga Ford;Q-CELL EMB;1380
+36930;61,78;2;Agnieszka DuŸniak;Sales;3596;Natalia Zaborowska;Sales;111
+36933;29,75;2;Brak przypisanego u¿ytkownika;Sales;1212;Izabela Fidler;Q-CELL EMB;573
+36953;81,85;4;Katarzyna Martyniak;CS;281;Mariola Mochoñ;Q-CELL EMB;9;Brak przypisanego u¿ytkownika;Q-CELL SP;4393;Katarzyna Martyniak;CS;228
+36958;0,02;1;Katarzyna Martyniak;CS;1
+36974;10,5;2;Miko³aj Platonow;Sales;458;Katarzyna Martyniak;CS;172
+36987;1,5;1;Wiktoria Wojciechowska;CS;90
+36995;4,58;1;Katarzyna Martyniak;CS;275
+36996;5,62;1;Kinga Ford;Q-CELL EMB;337
+36998;13,95;1;Mariola Mochoñ;Q-CELL EMB;837
+37003;68,47;2;Mariola Mochoñ;Q-CELL EMB;307;Mariola Mochoñ;Sales;3801
+37005;17,25;1;Kinga Ford;Q-CELL EMB;1035
+37012;26,65;2;Kinga Ford;Q-CELL EMB;744;Kinga Ford;Q-CELL EMB;855
+37023;62,2;4;Natalia Zaborowska;Sales;15;Zuzanna Gilewicz;Q-CELL DTG;2199;Brak przypisanego u¿ytkownika;CS;1438;Zuzanna Gilewicz;CS;80
+37027;39,52;1;Brak przypisanego u¿ytkownika;SCM;2371
+37052;12,58;1;Mariola Mochoñ;Q-CELL EMB;755
+37054;90,7;4;Mariola Mochoñ;Sales;492;Natalia Zaborowska;SCM;19;Zuzanna Gilewicz;CS;1685;Zuzanna Gilewicz;CS;3246
+37081;9,7;2;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;131;Kinga Ford;Q-CELL EMB;451
+37082;110,48;12;Katarzyna Martyniak;Sales;714;Wojciech Gibas;Sales;92;Piotr Urbañski;Sales;1207;Katarzyna Martyniak;Q-CELL SP;72;Magazyn / Warehouse;SCM;2034;Brak przypisanego u¿ytkownika;Sales;274;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;42;Brak przypisanego u¿ytkownika;Sales;45;Wojciech Gibas;Sales;167;Wojciech Gibas;Q-CELL SP;60;Katarzyna Martyniak;CS;5;Joanna Szymañska;Q-CELL SP;1917
+37086;0,42;1;Katarzyna Martyniak;CS;25
+37087;14,18;1;Kinga Ford;Q-CELL EMB;851
+37090;5,02;1;Natalia Zaborowska;Sales;301
+37092;1,88;1;Zuzanna Gilewicz;CS;113
+37098;57,62;2;Mariola Mochoñ;Q-CELL EMB;1642;Mariola Mochoñ;Q-CELL EMB;1815
+37102;70,17;7;Piotr Urbañski;Sales;24;Piotr Urbañski;Sales;413;Wojciech Gibas;Sales;170;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;677;Kinga Ford;Q-CELL EMB;89;Kinga Ford;Q-CELL EMB;80;Kinga Ford;Q-CELL EMB;2757
+37111;30,23;1;Mariola Mochoñ;Q-CELL EMB;1814
+37114;31,87;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1912
+37115;283,8;2;Joanna Szymañska;Q-CELL SP;292;Katarzyna Martyniak;Q-CELL SP;16736
+37121;0,95;1;Natalia Zaborowska;Sales;57
+37131;18,88;1;Kinga Ford;Q-CELL EMB;1133
+37135;101,02;6;Wojciech Gibas;Sales;358;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1938;Izabela Fidler;Sales;55;Brak przypisanego u¿ytkownika;Q-CELL EMB;679;Wiktoria Wojciechowska;CS;1754;Wiktoria Wojciechowska;CS;1277
+37139;2,65;1;Katarzyna Martyniak;Sales;159
+37145;6,13;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;368
+37146;6,9;1;Piotr Urbañski;Sales;414
+37167;18,78;1;Katarzyna Martyniak;CS;1127
+37170;69,7;2;Wojciech Gibas;Sales;1599;Kinga Ford;Q-CELL EMB;2583
+37171;37,68;9;Izabela Fidler;Q-CELL EMB;44;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;77;Wojciech Gibas;Sales;49;Izabela Fidler;Q-CELL EMB;54;Natalia Zaborowska;Sales;103;Izabela Fidler;Q-CELL EMB;1421;Izabela Fidler;Q-CELL EMB;472;Izabela Fidler;Q-CELL EMB;5;Izabela Fidler;Q-CELL EMB;36
+37190;52,75;4;Natalia Zaborowska;Sales;222;Wojciech Gibas;Sales;607;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1192;Mariola Mochoñ;Q-CELL EMB;1144
+37214;38,42;2;Mariola Mochoñ;Q-CELL EMB;1906;Mariola Mochoñ;Q-CELL EMB;399
+37215;68,75;3;Miko³aj Platonow;Sales;3756;Wiktoria Wojciechowska;Q-CELL DIGI PRINT HT;9;Zuzanna Gilewicz;CS;360
+37219;50,85;1;Kinga Ford;Q-CELL EMB;3051
+37221;96,37;3;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;3038;Kinga Ford;Q-CELL EMB;69;Kinga Ford;Q-CELL EMB;2675
+37224;97,75;3;Kinga Ford;Q-CELL EMB;3033;Kinga Ford;Q-CELL EMB;1859;Kinga Ford;Q-CELL EMB;973
+37226;5,58;1;Piotr Urbañski;Sales;335
+37235;48,67;1;Kinga Ford;Q-CELL EMB;2920
+37237;6,43;1;Katarzyna Martyniak;Q-CELL SP;386
+37238;6,4;1;Katarzyna Martyniak;Q-CELL SP;384
+37239;17,0;2;Brak przypisanego u¿ytkownika;Sales;997;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;23
+37240;39,47;7;Katarzyna Martyniak;Sales;36;Joanna Szymañska;Sales;20;Wojciech Gibas;Sales;158;Piotr Urbañski;Sales;306;Wojciech Gibas;Q-CELL SP;86;Pawe³ Wojtowicz;Q-CELL SP;898;Logistics;Q-CELL SP;864
+37242;11,1;4;Natalia Zaborowska;Sales;101;Katarzyna Martyniak;Q-CELL SP;471;Katarzyna Martyniak;CS;42;Katarzyna Martyniak;CS;52
+37244;6,7;3;Natalia Zaborowska;Sales;121;Mariola Mochoñ;Q-CELL EMB;238;Wiktoria Wojciechowska;CS;43
+37269;46,05;2;Kinga Ford;Q-CELL EMB;2531;Kinga Ford;Q-CELL EMB;232
+37270;0,38;1;Agnieszka DuŸniak;Q-CELL DIGI PRINT HT;23
+37271;45,93;2;Kinga Ford;Q-CELL EMB;2480;Kinga Ford;Q-CELL EMB;276
+37272;7,3;4;Agnieszka DuŸniak;Q-CELL EMB;137;Natalia Zaborowska;Sales;117;Natalia Zaborowska;Q-CELL EMB;65;Wiktoria Wojciechowska;CS;119
+37278;2,1;1;Joanna Szymañska;CS;126
+37281;4,45;1;Przemyslaw Piotrowski;Q-CELL EMB;267
+37284;9,07;7;Katarzyna Martyniak;Q-CELL SP;107;Agnieszka DuŸniak;Sales;2;Joanna Szymañska;CS;60;Joanna Szymañska;CS;2;Katarzyna Martyniak;CS;208;Katarzyna Martyniak;CS;153;Katarzyna Martyniak;CS;12
+37292;240,83;4;Przemyslaw Piotrowski;Q-CELL EMB;219;Przemyslaw Filas;SCM;5757;Przemyslaw Filas;SCM;2372;Katarzyna Martyniak;Q-CELL SP;6102
+37293;1,42;1;Kinga Ford;Q-CELL EMB;85
+37296;0,65;1;Agnieszka DuŸniak;Sales;39
+37301;3,52;1;Wojciech Gibas;Sales;211
+37303;30,52;4;Katarzyna Martyniak;Q-CELL SP;892;Joanna Szymañska;Q-CELL SP;685;Katarzyna Martyniak;CS;208;Katarzyna Martyniak;CS;46
+37312;3,82;1;Agnieszka DuŸniak;Sales;229
+37315;5,32;1;Wiktoria Wojciechowska;Q-CELL DTG;319
+37317;8,62;1;Piotr Urbañski;Sales;517
+37318;103,97;3;Mariola Mochoñ;Q-CELL EMB;1956;Mariola Mochoñ;Q-CELL EMB;3624;Wojciech Gibas;Q-CELL EMB;658
+37321;24,27;3;Kinga Ford;Q-CELL EMB;400;Natalia Zaborowska;Sales;652;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;404
+37322;14,23;2;Pawe³ Wojtowicz;Q-CELL SP;828;Wojciech Gibas;Sales;26
+37324;18,88;1;Izabela Fidler;Q-CELL EMB;1133
+37325;11,1;2;Agnieszka DuŸniak;Sales;22;Zuzanna Gilewicz;CS;644
+37333;6,47;1;Zuzanna Gilewicz;CS;388
+37335;55,88;7;Natalia Zaborowska;Sales;129;Izabela Fidler;Q-CELL EMB;1176;Izabela Fidler;Q-CELL EMB;371;Izabela Fidler;Q-CELL EMB;1218;Izabela Fidler;Q-CELL EMB;176;Kinga Ford;Q-CELL EMB;241;Kinga Ford;Q-CELL EMB;42
+37337;1,05;1;Natalia Zaborowska;Sales;63
+37339;2,2;1;Zuzanna Gilewicz;CS;132
+37340;24,9;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1494
+37355;129,65;6;Izabela Fidler;Q-CELL EMB;53;Agnieszka DuŸniak;Sales;2152;Izabela Fidler;Q-CELL EMB;386;Izabela Fidler;Sales;146;Agnieszka DuŸniak;Sales;4875;Natalia Zaborowska;Sales;167
+37360;19,82;1;Kinga Ford;Q-CELL EMB;1189
+37362;15,22;2;Katarzyna Martyniak;Q-CELL SP;16;Joanna Szymañska;Q-CELL SP;897
+37369;30,03;1;Agnieszka DuŸniak;Sales;1802
+37371;15,87;1;Piotr Urbañski;Sales;952
+37372;27,28;1;Bartosz Matyjasz;Q-CELL DIGI PRINT HT;1637
+37386;15,55;1;Kinga Ford;Q-CELL EMB;933
+37388;27,82;4;Izabela Fidler;Q-CELL EMB;1170;Agnieszka DuŸniak;Sales;117;Katarzyna Martyniak;CS;86;Katarzyna Martyniak;CS;296
+37389;20,95;1;Katarzyna Martyniak;CS;1257
+37390;22,52;1;Katarzyna Martyniak;CS;1351
+37393;17,9;1;Izabela Fidler;Q-CELL EMB;1074
+37397;3,9;1;Kinga Ford;Q-CELL EMB;234
+37399;4,37;1;Natalia Zaborowska;Sales;262
+37401;3,1;2;Natalia Zaborowska;Sales;128;Zuzanna Gilewicz;CS;58
+37402;31,23;4;Brak przypisanego u¿ytkownika;Sales;24;Wiktoria Wojciechowska;CS;1288;Wiktoria Wojciechowska;CS;125;Wiktoria Wojciechowska;CS;437
+37412;30,3;4;Kinga Ford;Q-CELL EMB;22;Kinga Ford;Q-CELL EMB;1277;Ewelina Zarzycka;CS;276;Ewelina Zarzycka;Q-CELL EMB;243
+37413;11,33;3;Agnieszka DuŸniak;Sales;276;Katarzyna Martyniak;CS;205;Katarzyna Martyniak;CS;199
+37414;8,73;1;Katarzyna Martyniak;Q-CELL SP;524
+37425;1,55;1;Zuzanna Gilewicz;CS;93
+37429;82,75;4;Piotr Urbañski;Sales;3960;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;865;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;88;Izabela Fidler;Sales;52
+37443;50,12;2;Kinga Ford;Q-CELL EMB;2133;Kinga Ford;Q-CELL EMB;874
+37447;34,62;1;Kinga Ford;Q-CELL EMB;2077
+37453;26,88;4;Joanna Szymañska;Q-CELL SP;15;Izabela Fidler;Q-CELL EMB;176;Izabela Fidler;Q-CELL EMB;127;Izabela Fidler;Q-CELL SP;1295
+37457;66,05;5;Klaudia Tetnowska;Q-CELL DTG;807;Katarzyna Martyniak;Q-CELL SP;55;Katarzyna Martyniak;CS;774;Katarzyna Martyniak;CS;9;Katarzyna Martyniak;CS;2318
+37459;69,97;4;Logistics;SCM;404;Natalia Zaborowska;Sales;378;Natalia Zaborowska;Sales;1448;Krzysztof Kawa;Sales;1968
+37470;4,3;1;Wiktoria Wojciechowska;Q-CELL SP;258
+37474;40,15;3;Piotr Urbañski;Sales;1002;Wojciech Gibas;Sales;1406;Zuzanna Gilewicz;CS;1
+37475;7,08;1;Katarzyna Martyniak;CS;425
+37476;25,45;6;Miko³aj Platonow;Sales;522;Miko³aj Platonow;Sales;7;Joanna Szymañska;CS;143;Joanna Szymañska;CS;48;Ewelina Zarzycka;CS;465;Ewelina Zarzycka;CS;342
+37484;9,87;3;Zuzanna Gilewicz;CS;19;Zuzanna Gilewicz;CS;188;Zuzanna Gilewicz;CS;385
+37488;59,12;1;Wiktoria Wojciechowska;Q-CELL EMB;3547
+37489;46,83;2;Ewelina Zarzycka;CS;1723;Ewelina Zarzycka;CS;1087
+37492;19,7;4;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;744;Zuzanna Gilewicz;CS;356;Zuzanna Gilewicz;CS;32;Zuzanna Gilewicz;CS;50
+37495;27,5;3;Agnieszka DuŸniak;Sales;25;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;1490;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;135
+37496;14,47;2;Brak przypisanego u¿ytkownika;Q-CELL EMB;863;Izabela Fidler;Q-CELL EMB;5
+37500;13,78;9;Natalia Zaborowska;Sales;34;Natalia Zaborowska;Sales;203;Joanna Szymañska;CS;163;Joanna Szymañska;Sales;98;Katarzyna Martyniak;CS;44;Katarzyna Martyniak;CS;120;Katarzyna Martyniak;CS;116;Natalia Zaborowska;Sales;11;Katarzyna Martyniak;CS;38
+37501;0,32;2;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;4;Zuzanna Gilewicz;CS;15
+37507;1,1;1;Katarzyna Martyniak;CS;66
+37508;25,9;1;Zuzanna Gilewicz;CS;1554
+37509;185,63;1;Katarzyna Martyniak;Q-CELL SP;11138
+37517;152,47;1;Krzysztof £oziñski;Sales;9148
+37525;66,03;1;Kinga Ford;Q-CELL EMB;3962
+37527;4,15;1;Kinga Ford;Q-CELL EMB;249
+37532;16,98;1;Wiktoria Wojciechowska;CS;1019
+37534;100,65;1;Piotr Urbañski;Q-CELL SP;6039
+37535;7,43;1;Natalia Zaborowska;Sales;446
+37539;2,03;1;Katarzyna Martyniak;CS;122
+37540;13,83;4;Miko³aj Platonow;Sales;561;Joanna Szymañska;CS;224;Joanna Szymañska;CS;33;Joanna Szymañska;Q-CELL SP;12
+37541;4,15;3;Natalia Zaborowska;Sales;63;Zuzanna Gilewicz;CS;112;Zuzanna Gilewicz;CS;74
+37551;2,55;1;Katarzyna Martyniak;CS;153
+37553;18,7;1;Ewelina Zarzycka;CS;1122
+37556;60,83;3;Ewelina Zarzycka;CS;1117;Ewelina Zarzycka;Q-CELL EMB;2532;Brak przypisanego u¿ytkownika;CS;1
+37558;1,83;1;Katarzyna Martyniak;Q-CELL SP;110
+37561;35,25;2;Wojciech Gibas;Sales;306;Zuzanna Gilewicz;Q-CELL DTG;1809
+37563;1,08;2;Katarzyna Martyniak;Q-CELL SP;62;Natalia Zaborowska;Sales;3
+37571;14,68;1;Ewelina Zarzycka;CS;881
+37574;12,9;1;Kinga Ford;Q-CELL EMB;774
+37575;18,07;2;Zuzanna Gilewicz;CS;471;Zuzanna Gilewicz;CS;613
+37579;13,63;2;Katarzyna Martyniak;Sales;444;Joanna Szymañska;CS;374
+37585;131,0;14;Wojciech Gibas;Sales;103;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;1035;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;947;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;677;dtf;Q-CELL DTG;913;Katarzyna Martyniak;Q-CELL DTG;30;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;47;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;103;Zuzanna Gilewicz;Q-CELL DTG;3221;Brak przypisanego u¿ytkownika;Q-CELL EMB;44;Ewelina Zarzycka;CS;89;Ewelina Zarzycka;CS;208;Ewelina Zarzycka;CS;405;Ewelina Zarzycka;CS;38
+37588;49,42;10;Piotr Urbañski;Sales;328;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;503;Joanna Szymañska;CS;93;Katarzyna Martyniak;CS;11;Katarzyna Martyniak;CS;124;Katarzyna Martyniak;CS;736;Katarzyna Martyniak;CS;213;Katarzyna Martyniak;CS;80;Katarzyna Martyniak;CS;304;Ewelina Zarzycka;CS;573
+37599;2,67;1;Joanna Szymañska;CS;160
+37601;16,65;1;Kinga Ford;Q-CELL EMB;999
+37602;35,58;5;Zuzanna Gilewicz;CS;95;Zuzanna Gilewicz;CS;418;Zuzanna Gilewicz;CS;1302;Zuzanna Gilewicz;CS;64;Bartosz Matyjasz;Q-CELL DIGI PRINT HT;256
+37605;23,12;3;Zuzanna Gilewicz;Q-CELL DTG;462;Katarzyna Martyniak;Q-CELL SP;247;Zuzanna Gilewicz;CS;678
+37607;154,12;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;9247
+37608;70,73;6;Miko³aj Platonow;Sales;1559;Miko³aj Platonow;Sales;339;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;75;Katarzyna Martyniak;CS;752;Katarzyna Martyniak;Sales;8;Klaudia Tetnowska;Q-CELL DTG;1511
+37614;6,7;1;Miko³aj Platonow;Sales;402
+37617;75,02;4;Zuzanna Gilewicz;CS;696;Bartosz Matyjasz;Q-CELL DTG;3160;Zuzanna Gilewicz;Q-CELL DTG;73;Brak przypisanego u¿ytkownika;CS;572
+37618;23,28;2;Joanna Szymañska;CS;223;Zuzanna Gilewicz;Q-CELL DTG;1174
+37621;35,17;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;2110
+37632;30,77;1;Agnieszka DuŸniak;Sales;1846
+37640;7,32;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;439
+37641;7,38;4;Joanna Szymañska;CS;70;Joanna Szymañska;CS;210;Joanna Szymañska;Q-CELL SP;119;Katarzyna Martyniak;Q-CELL SP;44
+37646;23,78;1;Izabela Fidler;Q-CELL EMB;1427
+37650;0,72;1;Katarzyna Martyniak;CS;43
+37653;59,88;3;Ewelina Zarzycka;CS;497;Ewelina Zarzycka;CS;635;Ewelina Zarzycka;CS;2461
+37657;3,17;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;190
+37659;48,77;1;Przemyslaw Piotrowski;Q-CELL EMB;2926
+37660;123,45;1;Kinga Ford;Q-CELL EMB;7407
+37661;18,47;1;Kinga Ford;Q-CELL EMB;1108
+37666;13,57;1;Kinga Ford;Q-CELL EMB;814
+37667;2,38;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;143
+37668;2,42;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;145
+37669;2,33;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;140
+37670;0,42;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;25
+37672;1,43;1;Katarzyna Martyniak;CS;86
+37725;52,42;4;Kinga Ford;Q-CELL EMB;1020;Kinga Ford;Q-CELL EMB;180;Kinga Ford;Q-CELL EMB;1216;Krzysztof £oziñski;Sales;729
+37728;11,48;1;Ewelina Zarzycka;CS;689
+37730;29,23;3;Ewelina Zarzycka;CS;276;Ewelina Zarzycka;CS;1083;Ewelina Zarzycka;Q-CELL EMB;395
+37732;2,15;1;Natalia Zaborowska;Sales;129
+37734;28,47;1;Kinga Ford;Q-CELL EMB;1708
+37736;185,2;5;Miko³aj Platonow;Sales;579;Miko³aj Platonow;Sales;816;Magazyn / Warehouse;SCM;2187;Miko³aj Platonow;Sales;6357;Miko³aj Platonow;Q-CELL EMB;1173
+37742;0,08;1;Wojciech Gibas;Sales;5
+37743;0,63;1;Joanna Szymañska;CS;38
+37747;8,15;2;Izabela Fidler;Sales;20;Izabela Fidler;Q-CELL EMB;469
+37748;6,35;1;Joanna Szymañska;CS;381
+37750;8,43;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;506
+37751;9,18;1;Joanna Szymañska;CS;551
+37752;8,55;1;Ewelina Zarzycka;CS;513
+37755;12,78;1;Ewelina Zarzycka;CS;767
+37758;24,07;1;Wiktoria Wojciechowska;CS;1444
+37762;0,02;1;Natalia Zaborowska;Sales;1
+37763;2,92;1;Izabela Fidler;Sales;175
+37764;2,92;1;Izabela Fidler;Sales;175
+37765;2,63;1;Izabela Fidler;Sales;158
+37767;1,78;1;Joanna Szymañska;CS;107
+37768;26,55;5;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;521;Brak przypisanego u¿ytkownika;Sales;643;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;101;Joanna Szymañska;Q-CELL SP;59;Katarzyna Martyniak;CS;269
+37769;9,78;2;Natalia Zaborowska;Sales;86;Joanna Szymañska;CS;501
+37778;13,55;2;Joanna Szymañska;CS;742;Joanna Szymañska;CS;71
+37783;30,8;1;Katarzyna Martyniak;CS;1848
+37786;2,22;1;Zuzanna Gilewicz;CS;133
+37788;119,6;2;Joanna Szymañska;CS;610;Katarzyna Martyniak;Q-CELL SP;6566
+37793;10,88;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;653
+37796;17,8;2;Miko³aj Platonow;Sales;3;Zuzanna Gilewicz;CS;1065
+37799;1,85;1;Natalia Zaborowska;Sales;111
+37801;8,63;1;Joanna Szymañska;CS;518
+37802;63,7;6;Pawe³ Wojtowicz;Sales;1030;Miko³aj Platonow;Sales;395;Miko³aj Platonow;Q-CELL SP;84;Miko³aj Platonow;Q-CELL SP;131;Miko³aj Platonow;Q-CELL SP;847;Brak przypisanego u¿ytkownika;Sales;1335
+37814;6,32;1;Joanna Szymañska;CS;379
+37817;5,02;1;Joanna Szymañska;CS;301
+37818;16,0;2;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;771;Wiktoria Wojciechowska;Q-CELL EMB;189
+37819;1,72;1;Wiktoria Wojciechowska;CS;103
+37820;126,5;1;Joanna Szymañska;Q-CELL SP;7590
+37821;5,4;1;Joanna Szymañska;CS;324
+37822;18,27;4;Joanna Szymañska;CS;359;Katarzyna Martyniak;CS;344;Katarzyna Martyniak;CS;289;Katarzyna Martyniak;CS;104
+37825;33,75;1;Katarzyna Martyniak;CS;2025
+37826;1,98;3;Katarzyna Martyniak;CS;26;Katarzyna Martyniak;Sales;69;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;24
+37831;0,3;1;Joanna Szymañska;CS;18
+37832;2,87;2;Natalia Zaborowska;Sales;27;Zuzanna Gilewicz;CS;145
+37833;80,82;6;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;214;Zuzanna Gilewicz;Q-CELL DTG;768;Katarzyna Martyniak;CS;118;Katarzyna Martyniak;Q-CELL DTG;52;Bartosz Matyjasz;Q-CELL DTG;2287;Brak przypisanego u¿ytkownika;CS;1410
+37835;3,17;3;Natalia Zaborowska;Sales;6;Joanna Szymañska;CS;41;Katarzyna Martyniak;CS;143
+37836;0,12;1;Natalia Zaborowska;Sales;7
+37948;0,57;1;Wiktoria Wojciechowska;CS;34
+37951;19,7;1;Katarzyna Martyniak;CS;1182
+37953;1,47;1;Wojciech Gibas;Sales;88
+37981;9,28;1;Katarzyna Martyniak;CS;557
+37983;9,02;1;Wiktoria Wojciechowska;Q-CELL EMB;541
+37984;17,97;2;Katarzyna Martyniak;CS;950;Katarzyna Martyniak;CS;128
+37987;14,73;1;Katarzyna Martyniak;Q-CELL SP;884
+38086;14,42;2;Izabela Fidler;Q-CELL EMB;423;Agnieszka DuŸniak;Sales;442
+38098;59,8;5;Miko³aj Platonow;Sales;960;Miko³aj Platonow;Sales;514;Katarzyna Martyniak;Sales;155;Bartosz Matyjasz;Q-CELL DIGI PRINT HT;9;Bartosz Matyjasz;Q-CELL DTG;1950
+38107;11,22;2;Katarzyna Martyniak;CS;244;Katarzyna Martyniak;CS;429
+38109;12,6;4;Miko³aj Platonow;Sales;180;Zuzanna Gilewicz;Sales;1;Yurii Balashov;Sales;398;Katarzyna Martyniak;CS;177
+38140;40,68;2;Brak przypisanego u¿ytkownika;Sales;2089;Izabela Fidler;Q-CELL EMB;352
+38160;28,57;2;Ewelina Zarzycka;CS;1701;Ewelina Zarzycka;CS;13
+38162;65,8;4;Miko³aj Platonow;Sales;142;Yurii Balashov;Sales;262;Katarzyna Martyniak;CS;167;Bartosz Matyjasz;Q-CELL DTG;3377
+38170;11,43;5;Katarzyna Martyniak;CS;104;Katarzyna Martyniak;CS;91;Katarzyna Martyniak;CS;167;Katarzyna Martyniak;CS;43;Katarzyna Martyniak;CS;281
+38173;83,7;1;Brak przypisanego u¿ytkownika;CS;5022
+38193;17,03;1;Katarzyna Martyniak;CS;1022
+38195;9,35;2;Katarzyna Martyniak;CS;392;Logistics;CS;169
+38203;5,53;1;Kinga Ford;Q-CELL EMB;332
+38204;10,15;2;Katarzyna Martyniak;CS;467;Katarzyna Martyniak;CS;142
+38206;29,58;3;Bartosz Matyjasz;Q-CELL SP;680;Bartosz Matyjasz;Q-CELL SP;983;Katarzyna Martyniak;CS;112
+38209;8,03;3;Miko³aj Platonow;Sales;267;Katarzyna Martyniak;Sales;140;Katarzyna Martyniak;CS;75
+38210;33,7;3;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;341;Katarzyna Martyniak;CS;617;Wojciech Gibas;CS;1064
+38224;9,62;1;Kinga Ford;Q-CELL EMB;577
+38226;6,82;1;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;409
+38227;10,27;1;Katarzyna Martyniak;CS;616
+38236;9,65;1;Katarzyna Martyniak;CS;579
+38237;6,6;3;Natalia Zaborowska;Sales;35;Katarzyna Martyniak;CS;243;Bartosz Matyjasz;Q-CELL DIGI PRINT HT;118
+38239;15,48;2;Natalia Zaborowska;Sales;122;Przemyslaw Piotrowski;Q-CELL EMB;807
+38242;55,95;2;Katarzyna Martyniak;CS;247;Bartosz Matyjasz;Q-CELL DTG;3110
+38252;8,13;1;Katarzyna Martyniak;CS;488
+38257;12,9;2;Katarzyna Martyniak;CS;114;Katarzyna Martyniak;CS;660
+38270;62,88;1;Katarzyna Martyniak;Q-CELL SP;3773
+38271;8,17;1;Miko³aj Platonow;Sales;490
+38274;73,53;2;Logistics;SCM;3016;Brak przypisanego u¿ytkownika;CS;1396
+38275;8,33;1;Izabela Fidler;Q-CELL EMB;500
+38291;14,12;2;Miko³aj Platonow;Sales;746;Natalia Zaborowska;Sales;101
+38296;21,05;2;Ewelina Zarzycka;CS;544;Ewelina Zarzycka;CS;719
+38299;10,28;2;Katarzyna Martyniak;CS;222;Katarzyna Martyniak;CS;395
+38307;29,23;3;Zuzanna Gilewicz;CS;1346;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;341;Zuzanna Gilewicz;CS;67
+38308;4,65;1;Katarzyna Martyniak;CS;279
+38311;1,62;2;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;88;Izabela Fidler;Q-CELL EMB;9
+38322;4,25;2;Katarzyna Martyniak;Sales;101;Katarzyna Martyniak;CS;154
+38327;3,42;2;Katarzyna Martyniak;Sales;99;Katarzyna Martyniak;CS;106
+38334;7,17;3;Natalia Zaborowska;Sales;53;Katarzyna Martyniak;CS;177;Katarzyna Martyniak;CS;200
+38342;55,58;9;Miko³aj Platonow;Sales;80;Miko³aj Platonow;Sales;144;Natalia Zaborowska;Sales;26;Katarzyna Martyniak;CS;591;Miko³aj Platonow;Sales;794;Natalia Zaborowska;Sales;147;Miko³aj Platonow;Sales;577;Ewelina Zarzycka;CS;912;Ewelina Zarzycka;CS;64
+38345;11,98;4;Agnieszka DuŸniak;Sales;37;Katarzyna Martyniak;Q-CELL SP;125;Katarzyna Martyniak;Q-CELL SP;18;Ewelina Zarzycka;CS;539
+38350;54,1;3;Ewelina Zarzycka;CS;2505;Ewelina Zarzycka;Q-CELL EMB;166;Ewelina Zarzycka;CS;575
+38352;5,28;1;Izabela Fidler;Q-CELL EMB;317
+38353;30,87;2;Zuzanna Gilewicz;CS;1627;Bartosz Matyjasz;CS;225
+38355;3,57;1;Ewelina Zarzycka;CS;214
+38357;46,2;1;Katarzyna Martyniak;Q-CELL SP;2772
+38358;30,28;5;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;210;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;154;Ewelina Zarzycka;CS;1052;Ewelina Zarzycka;Sales;63;Miko³aj Platonow;Sales;338
+38359;34,05;3;Zuzanna Gilewicz;Q-CELL DTG;1412;Ewelina Zarzycka;CS;509;Ewelina Zarzycka;CS;122
+38360;0,83;1;Katarzyna Martyniak;CS;50
+38368;80,47;7;Miko³aj Platonow;Sales;1184;Natalia Zaborowska;Sales;115;Katarzyna Martyniak;Q-CELL SP;474;Ewelina Zarzycka;Q-CELL EMB;638;Miko³aj Platonow;Sales;68;Brak przypisanego u¿ytkownika;CS;28;Katarzyna Martyniak;CS;2321
+38369;45,27;3;Ewelina Zarzycka;CS;728;Ewelina Zarzycka;Q-CELL EMB;107;Ewelina Zarzycka;CS;1881
+38370;3,52;1;Izabela Fidler;Q-CELL EMB;211
+38372;0,25;1;Natalia Zaborowska;Sales;15
+38373;0,17;1;Zuzanna Gilewicz;CS;10
+38374;10,87;4;Agnieszka DuŸniak;Sales;287;Natalia Zaborowska;Sales;98;Katarzyna Martyniak;CS;235;Katarzyna Martyniak;CS;32
+38376;4,33;1;Izabela Fidler;Sales;260
+38378;7,4;1;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;444
+38384;4,33;2;Wiktoria Wojciechowska;CS;45;Wiktoria Wojciechowska;CS;215
+38399;28,9;1;Katarzyna Martyniak;CS;1734
+38404;31,82;1;Logistics;SCM;1909
+38406;20,77;4;Katarzyna Martyniak;CS;518;Izabela Fidler;Q-CELL EMB;545;Katarzyna Martyniak;Q-CELL SP;169;Katarzyna Martyniak;Q-CELL EMB;14
+38430;1,07;2;Piotr Urbañski;Sales;6;Wojciech Gibas;Q-CELL EMB;58
+38437;10,52;1;Izabela Fidler;Q-CELL EMB;631
+38445;8,67;1;Izabela Fidler;Q-CELL EMB;520
+38446;46,25;4;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;43;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;175;Wojciech Gibas;Sales;2531;Wojciech Gibas;CS;26
+38447;39,38;3;Katarzyna Martyniak;CS;250;Ewelina Zarzycka;Q-CELL SP;913;Ewelina Zarzycka;CS;1200
+38463;10,2;2;Kinga Ford;Q-CELL EMB;240;Kinga Ford;Q-CELL EMB;372
+38465;71,33;6;Kinga Ford;Q-CELL EMB;640;Natalia Zaborowska;Q-CELL SP;84;Kinga Ford;Q-CELL EMB;1125;Agnieszka DuŸniak;Sales;2406;Katarzyna Martyniak;CS;2;Agnieszka DuŸniak;Sales;23
+38466;31,48;3;Piotr Urbañski;Sales;1001;Piotr Urbañski;Sales;549;Joanna Szymañska;CS;339
+38468;19,35;1;Miko³aj Platonow;Sales;1161
+38471;9,95;2;Wojciech Gibas;Sales;47;Katarzyna Martyniak;CS;550
+38472;16,22;2;Agnieszka DuŸniak;Sales;869;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;104
+38479;8,35;1;Wojciech Gibas;Sales;501
+38483;18,13;2;Ewelina Zarzycka;CS;726;Katarzyna Martyniak;CS;362
+38489;13,9;3;Zuzanna Gilewicz;CS;615;Zuzanna Gilewicz;CS;138;Brak przypisanego u¿ytkownika;CS;81
+38490;4,52;1;Miko³aj Platonow;Sales;271
+38494;26,72;2;Joanna Szymañska;Q-CELL SP;828;Katarzyna Martyniak;CS;775
+38498;12,07;3;Katarzyna Martyniak;Q-CELL SP;72;Ewelina Zarzycka;Q-CELL EMB;454;Ewelina Zarzycka;CS;198
+38499;0,05;1;Natalia Zaborowska;Sales;3
+38500;4,07;1;Katarzyna Martyniak;CS;244
+38519;7,4;1;Miko³aj Platonow;Sales;444
+38526;7,07;1;Miko³aj Platonow;Sales;424
+38534;32,85;2;Agnieszka DuŸniak;Sales;285;Agnieszka DuŸniak;Sales;1686
+38535;4,72;2;Zuzanna Gilewicz;CS;43;Katarzyna Martyniak;CS;240
+38545;0,85;1;Katarzyna Martyniak;Q-CELL SP;51
+38546;0,52;1;Ewelina Zarzycka;CS;31
+38547;0,4;1;Katarzyna Martyniak;Q-CELL SP;24
+38548;0,7;1;Katarzyna Martyniak;Q-CELL SP;42
+38554;28,05;2;Brak przypisanego u¿ytkownika;CS;1612;Zuzanna Gilewicz;CS;71
+38572;11,25;1;Katarzyna Martyniak;CS;675
+38576;4,12;1;Izabela Fidler;Q-CELL EMB;247
+38582;31,02;2;Wiktoria Wojciechowska;CS;76;Agnieszka DuŸniak;Sales;1785
+38583;7,72;1;Joanna Szymañska;CS;463
+38585;31,62;4;Zuzanna Gilewicz;CS;402;Zuzanna Gilewicz;CS;318;Bartosz Matyjasz;Q-CELL DTG;78;Katarzyna Martyniak;CS;1099
+38606;35,95;1;Ewelina Zarzycka;CS;2157
+38607;10,2;1;Zuzanna Gilewicz;CS;612
+38609;9,98;1;Ewelina Zarzycka;CS;599
+38610;6,8;1;Zuzanna Gilewicz;CS;408
+38617;11,12;1;Ewelina Zarzycka;CS;667
+38618;4,05;2;Natalia Zaborowska;Sales;173;Natalia Zaborowska;Sales;70
+38640;27,78;6;Natalia Zaborowska;Sales;23;Ewelina Zarzycka;CS;1149;Ewelina Zarzycka;CS;74;Ewelina Zarzycka;Sales;122;Agnieszka DuŸniak;Sales;287;Ewelina Zarzycka;CS;12
+38642;11,95;2;Natalia Zaborowska;CS;42;Ewelina Zarzycka;CS;675
+38644;113,55;3;Ewelina Zarzycka;CS;710;Ewelina Zarzycka;CS;292;Katarzyna Martyniak;CS;5811
+38646;111,35;2;Ewelina Zarzycka;CS;178;Joanna Szymañska;CS;6503
+38651;6,75;1;Joanna Szymañska;CS;405
+38656;2,22;1;Izabela Fidler;CS;133
+38660;31,08;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1865
+38663;0,48;1;Agnieszka DuŸniak;Sales;29
+38667;5,67;1;Ewelina Zarzycka;CS;340
+38671;22,42;3;Magazyn / Warehouse;SCM;925;Wojciech Gibas;CS;231;Ewelina Zarzycka;CS;189
+38687;1,57;1;Ewelina Zarzycka;CS;94
+38689;59,75;1;Piotr Urbañski;Sales;3585
+38696;6,52;4;Agnieszka DuŸniak;Sales;215;Katarzyna Martyniak;CS;103;Katarzyna Martyniak;CS;66;Katarzyna Martyniak;CS;7
+38704;3,77;2;Zuzanna Gilewicz;CS;164;Ewelina Zarzycka;CS;62
+38706;6,65;2;Zuzanna Gilewicz;CS;274;Zuzanna Gilewicz;CS;125
+38730;5,87;2;Katarzyna Martyniak;CS;85;Katarzyna Martyniak;CS;267
+38734;2,48;2;Katarzyna Martyniak;CS;123;Katarzyna Martyniak;CS;26
+38736;1,23;1;Wojciech Gibas;CS;74
+38742;4,9;1;Piotr Urbañski;Sales;294
+38745;4,63;1;Katarzyna Martyniak;CS;278
+38762;5,12;2;Ewelina Zarzycka;CS;163;Ewelina Zarzycka;CS;144
+38767;2,05;1;Agnieszka DuŸniak;Sales;123
+38770;0,55;1;Ewelina Zarzycka;CS;33
+38779;2,63;1;Joanna Szymañska;CS;158
+38781;8,85;1;Przemyslaw Piotrowski;Q-CELL EMB;531
+38782;0,87;1;Katarzyna Martyniak;CS;52
+38785;11,22;1;Ewelina Zarzycka;CS;673
+38788;6,4;1;Katarzyna Martyniak;CS;384
+38792;14,65;2;Piotr Urbañski;Sales;678;Wojciech Gibas;CS;201
+38803;2,22;1;Logistics;SCM;133
+38805;4,2;1;Ewelina Zarzycka;CS;252
+38819;3,05;3;Ewelina Zarzycka;CS;175;Katarzyna Martyniak;CS;4;Joanna Szymañska;CS;4
+38820;5,55;2;Miko³aj Platonow;Sales;315;Ewelina Zarzycka;CS;18
+38821;6,58;1;Ewelina Zarzycka;CS;395
+38822;4,67;1;Ewelina Zarzycka;CS;280
+38836;2,37;1;Katarzyna Martyniak;CS;142
+38842;2,37;1;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;142
+38843;0,05;1;Agnieszka DuŸniak;Sales;3
+38844;3,27;2;Joanna Szymañska;CS;27;Ewelina Zarzycka;CS;169
+38845;2,07;1;Katarzyna Martyniak;CS;124
+38847;2,3;1;Wojciech Gibas;CS;138
+38851;2,07;1;Izabela Fidler;CS;124
+38855;0,88;1;Ewelina Zarzycka;Sales;53
+38861;6,37;2;Wojciech Gibas;Sales;21;Natalia Zaborowska;Sales;361
+38869;7,65;3;Zuzanna Gilewicz;Sales;195;Zuzanna Gilewicz;CS;21;Zuzanna Gilewicz;CS;243
+38871;6,8;2;Wojciech Gibas;Sales;175;Zuzanna Gilewicz;CS;233
+38916;3,2;1;Katarzyna Martyniak;CS;192
+38923;0,55;1;Ewelina Zarzycka;CS;33
+38928;2,23;1;Zuzanna Gilewicz;CS;134
+38929;0,87;1;Miko³aj Platonow;CS;52
+38956;0,93;1;Zuzanna Gilewicz;CS;56
+38981;2,18;1;Zuzanna Gilewicz;CS;131
+38983;5,6;1;Ewelina Zarzycka;CS;336
+39010;10,77;3;Piotr Urbañski;Sales;213;Piotr Urbañski;Sales;104;Zuzanna Gilewicz;CS;329
+39011;17,57;2;Piotr Urbañski;Sales;1022;Katarzyna Martyniak;CS;32
+39030;48,1;1;Sebastian Hentka;Q-CELL DTG;2886
+39034;18,4;2;Piotr Urbañski;Sales;144;Piotr Urbañski;Sales;960
+39057;1,37;1;Zuzanna Gilewicz;CS;82
+39058;0,97;1;Joanna Szymañska;CS;58
+39065;30,77;1;Piotr Urbañski;Sales;1846
+39066;6,77;1;Agnieszka DuŸniak;Sales;406
+39068;0,32;1;Brak przypisanego u¿ytkownika;Q-CELL EMB;19
+39069;65,07;2;Piotr Urbañski;Sales;787;Piotr Urbañski;Sales;3117
+39090;2,23;1;Izabela Fidler;Q-CELL EMB;134
+39100;4,07;1;Ewelina Zarzycka;CS;244
+39108;13,82;1;Piotr Urbañski;Sales;829
+39109;13,7;1;Piotr Urbañski;Sales;822
+39117;0,05;1;Katarzyna Martyniak;CS;3
+39118;14,92;1;Agnieszka DuŸniak;Sales;895
+39120;0,92;1;Natalia Zaborowska;Sales;55
+39121;8,38;3;Miko³aj Platonow;Sales;224;Miko³aj Platonow;Q-CELL EMB;153;Zuzanna Gilewicz;CS;126
+39150;7,9;3;Piotr Urbañski;Sales;16;Piotr Urbañski;Sales;341;Ewelina Zarzycka;CS;117
+39151;10,58;1;Karolina Naciasta;Sales;635
+39157;0,27;1;Natalia Zaborowska;CS;16
+39158;56,18;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;3371
+39168;17,38;2;Katarzyna Martyniak;CS;9;Ewelina Zarzycka;CS;1034
+39172;3,4;1;Katarzyna Martyniak;CS;204
+39173;2,88;1;Agnieszka DuŸniak;Sales;173
+39184;27,78;1;Agnieszka DuŸniak;Sales;1667
+39196;0,32;1;Joanna Szymañska;CS;19
+39233;7,67;1;Agnieszka DuŸniak;Sales;460
+39240;2,7;1;Joanna Szymañska;CS;162
+39249;0,03;1;Izabela Fidler;Sales;2
+39250;12,6;1;Piotr Urbañski;Sales;756
+39252;33,17;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1990
+39253;1,83;1;Miko³aj Platonow;Sales;110
+39264;4,2;3;Agnieszka DuŸniak;Sales;74;Natalia Zaborowska;Sales;53;Zuzanna Gilewicz;CS;125
+39265;0,4;1;Katarzyna Martyniak;Sales;24
+39267;3,48;1;Piotr Urbañski;Sales;209
+39268;0,22;1;Katarzyna Martyniak;CS;13
+39270;28,83;3;Piotr Urbañski;Sales;1390;Piotr Urbañski;Sales;289;Piotr Urbañski;Sales;51
+39282;1,82;1;Piotr Urbañski;Sales;109
+39297;0,12;1;Zuzanna Gilewicz;CS;7
+39315;23,88;1;Piotr Urbañski;Sales;1433
+39316;21,47;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;1288
+39319;4,52;1;Agnieszka DuŸniak;Q-CELL EMB;271
+39354;3,92;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;235
+39355;130,8;2;Przemyslaw Piotrowski;CS;7333;Izabela Fidler;CS;515
+39359;62,32;2;Miko³aj Platonow;Sales;877;Klaudia Tetnowska;Sales;2862
+39401;1,12;1;Natalia Zaborowska;Sales;67
+39408;0,45;1;Zuzanna Gilewicz;CS;27
+39433;47,12;1;Agnieszka DuŸniak;Sales;2827
+39453;0,55;1;Piotr Urbañski;Sales;33
+39464;30,9;4;Krzysztof Kawa;SCM;1463;Krzysztof Kawa;Sales;29;Logistics;Sales;22;Agnieszka DuŸniak;Sales;340
+39466;2,2;1;Przemyslaw Piotrowski;Sales;132
+39470;20,13;2;Agnieszka DuŸniak;Sales;1191;Agnieszka DuŸniak;Sales;17
+39492;5,65;4;Ewelina Zarzycka;CS;75;Wojciech Gibas;Sales;140;Katarzyna Martyniak;CS;98;Katarzyna Martyniak;CS;26
+39495;11,78;3;Katarzyna Martyniak;CS;60;Katarzyna Martyniak;CS;276;Katarzyna Martyniak;CS;371
+39499;16,33;1;Karolina Naciasta;Sales;980
+39503;1,3;2;Natalia Zaborowska;Sales;9;Zuzanna Gilewicz;CS;69
+39507;0,05;1;Piotr Urbañski;Sales;3
+39509;97,55;5;Piotr Urbañski;Sales;914;Piotr Urbañski;Sales;2411;Piotr Urbañski;Sales;1984;Piotr Urbañski;Sales;326;Wojciech Gibas;Sales;218
+39512;39,12;1;Miko³aj Platonow;Sales;2347
+39521;0,17;1;Zuzanna Gilewicz;CS;10
+39525;0,95;1;Agnieszka DuŸniak;Sales;57
+39528;2,85;1;Ewelina Zarzycka;CS;171
+39530;14,13;1;Miko³aj Platonow;Sales;848
+39532;0,35;1;Ewelina Zarzycka;CS;21
+39535;0,12;1;Natalia Zaborowska;Sales;7
+39551;82,5;1;Miko³aj Platonow;Sales;4950
+39556;18,23;1;Karolina Naciasta;Sales;1094
+39562;0,13;1;Ewelina Zarzycka;CS;8
+39575;8,7;2;Piotr Urbañski;Sales;515;Wojciech Gibas;Sales;7
+39604;1,72;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;103
+39612;1,08;1;Zuzanna Gilewicz;Sales;65
+39626;10,15;2;Karolina Naciasta;Sales;596;Agnieszka DuŸniak;Sales;13
+39635;1,02;1;Katarzyna Martyniak;CS;61
+39662;48,12;1;Piotr Urbañski;Sales;2887
+39677;9,12;4;Ewelina Zarzycka;CS;334;Joanna Szymañska;CS;112;Katarzyna Martyniak;Sales;5;Logistics;SCM;96
+39680;14,72;1;Piotr Urbañski;Sales;883
+39682;34,77;1;Zuzanna Gilewicz;CS;2086
+39684;35,3;6;Miko³aj Platonow;Sales;464;Kinga Ford;Sales;48;Miko³aj Platonow;Sales;1090;Katarzyna Martyniak;CS;17;Katarzyna Martyniak;CS;11;Kinga Ford;Q-CELL EMB;488
+39690;0,68;1;Kinga Ford;Sales;41
+39704;3,85;3;Zuzanna Gilewicz;CS;153;Zuzanna Gilewicz;CS;63;Zuzanna Gilewicz;CS;15
+39705;34,03;2;Piotr Urbañski;Sales;1672;Piotr Urbañski;Sales;370
+39709;12,42;1;Katarzyna Martyniak;CS;745
+39712;11,33;2;Wojciech Gibas;Sales;6;Piotr Urbañski;Sales;674
+39717;5,2;1;Natalia Zaborowska;Sales;312
+39721;12,08;2;Kinga Ford;Q-CELL EMB;276;Miko³aj Platonow;Sales;449
+39729;0,52;1;Natalia Zaborowska;Sales;31
+39736;0,2;1;Natalia Zaborowska;Sales;12
+39746;16,28;2;Joanna Szymañska;CS;202;Joanna Szymañska;CS;775
+39753;1,17;1;Zuzanna Gilewicz;CS;70
+39757;8,45;2;Agnieszka DuŸniak;Sales;490;Karolina Naciasta;Sales;17
+39768;10,95;1;Piotr Urbañski;Sales;657
+39775;0,35;1;Piotr Urbañski;Sales;21
+39785;20,33;1;Miko³aj Platonow;Sales;1220
+39807;0,47;1;Joanna Szymañska;CS;28
+39810;3,52;1;Zuzanna Gilewicz;CS;211
+39821;0,52;1;Wojciech Gibas;Sales;31
+39823;0,32;1;Zuzanna Gilewicz;CS;19
+39824;0,33;1;Izabela Fidler;Sales;20
+39827;3,03;2;Wojciech Gibas;Sales;167;Zuzanna Gilewicz;CS;15
+39829;1,28;1;Wojciech Gibas;Sales;77
+39833;2,73;2;Piotr Urbañski;Sales;80;Katarzyna Martyniak;CS;84
+39842;4,25;1;Joanna Szymañska;CS;255
+39852;1,48;2;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;42;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;47
+39861;0,93;1;Katarzyna Martyniak;CS;56
+39869;2,47;1;Karolina Naciasta;Sales;148
+39872;7,73;2;Zuzanna Gilewicz;CS;291;Zuzanna Gilewicz;CS;173
+39877;15,95;2;Agnieszka DuŸniak;Sales;288;Agnieszka DuŸniak;Sales;669
+39879;1,03;1;Karolina Naciasta;Sales;62
+39898;9,67;1;Katarzyna Martyniak;CS;580
+39909;1,7;1;Wojciech Gibas;Sales;102
+39910;7,53;2;Brak przypisanego u¿ytkownika;Sales;50;Wojciech Gibas;Sales;402
+39911;76,62;3;Piotr Urbañski;Sales;83;Piotr Urbañski;Sales;1679;Piotr Urbañski;Sales;2835
+39915;7,87;2;Wojciech Gibas;Sales;326;Miko³aj Platonow;CS;146
+39931;0,63;1;Izabela Fidler;Q-CELL EMB;38
+39938;4,27;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;256
+39948;0,1;1;Katarzyna Martyniak;CS;6
+39949;3,37;2;Katarzyna Martyniak;CS;84;Katarzyna Martyniak;CS;118
+39954;11,13;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;668
+39995;2,02;1;Zuzanna Gilewicz;CS;121
+39999;11,3;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;678
+40001;3,77;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;226
+40004;1,95;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;117
+40014;4,22;2;Wojciech Gibas;Sales;212;Zuzanna Gilewicz;CS;41
+40017;2,28;1;Wojciech Gibas;Sales;137
+40025;5,43;1;Agnieszka DuŸniak;Sales;326
+40026;5,17;1;Joanna Szymañska;CS;310
+40027;3,83;2;Piotr Urbañski;Sales;194;Wojciech Gibas;Sales;36
+40043;11,87;2;Agnieszka DuŸniak;Sales;146;Agnieszka DuŸniak;Sales;566
+40050;64,13;4;Piotr Urbañski;Sales;2357;Piotr Urbañski;Sales;1445;Wojciech Gibas;Sales;9;Joanna Szymañska;CS;37
+40051;15,37;1;Miko³aj Platonow;Sales;922
+40052;0,37;2;Zuzanna Gilewicz;CS;18;Zuzanna Gilewicz;CS;4
+40054;26,23;1;Piotr Urbañski;Sales;1574
+40058;11,68;3;Brak przypisanego u¿ytkownika;CS;567;Brak przypisanego u¿ytkownika;Sales;56;Karolina Naciasta;Sales;78
+40059;15,92;2;Piotr Urbañski;Sales;864;Zuzanna Gilewicz;CS;91
+40068;8,07;1;Joanna Szymañska;CS;484
+40069;18,28;3;Zuzanna Gilewicz;CS;657;Zuzanna Gilewicz;CS;275;Zuzanna Gilewicz;CS;165
+40071;7,22;1;Joanna Szymañska;CS;433
+40073;5,0;1;Zuzanna Gilewicz;CS;300
+40080;11,67;2;Joanna Szymañska;CS;523;Joanna Szymañska;CS;177
+40090;14,42;2;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;444;Wojciech Gibas;Sales;421
+40171;7,65;2;Wojciech Gibas;Sales;405;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;54
+40202;0,32;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;19
+40208;19,4;4;Piotr Urbañski;Sales;512;Wojciech Gibas;Sales;225;Zuzanna Gilewicz;CS;190;Zuzanna Gilewicz;CS;237
+40209;0,97;1;Izabela Fidler;Q-CELL EMB;58
+40213;2,38;1;Natalia Zaborowska;Sales;143
+40232;4,8;2;Wojciech Gibas;Sales;145;Zuzanna Gilewicz;CS;143
+40233;26,45;1;Piotr Urbañski;Sales;1587
+40234;4,33;2;Wojciech Gibas;U¿ytkownik nieprzypisany do ¿adnej grupy;243;Wojciech Gibas;Sales;17
+40235;1,95;1;Logistics;SCM;117
+40269;3,22;1;Piotr Urbañski;Sales;193
+40297;13,98;1;Piotr Urbañski;Sales;839
+40307;66,25;2;Piotr Urbañski;Sales;635;Piotr Urbañski;Sales;3340
+40308;8,0;1;Zuzanna Gilewicz;CS;480
+40312;2,32;1;Ewelina Zarzycka;CS;139
+40318;0,3;1;Agnieszka DuŸniak;Sales;18
+40338;11,25;1;Piotr Urbañski;Sales;675
+40342;1,25;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;75
+40382;15,38;1;Joanna Szymañska;CS;923
+40385;4,85;1;Ewelina Zarzycka;CS;291
+40387;33,75;2;Piotr Urbañski;Sales;1299;Piotr Urbañski;Sales;726
+40388;2,77;1;Piotr Urbañski;Sales;166
+40391;0,03;1;Agnieszka DuŸniak;Sales;2
+40416;2,2;1;Joanna Szymañska;CS;132
+40426;14,08;2;Piotr Urbañski;Sales;746;Ewelina Zarzycka;CS;99
+40427;2,78;1;Izabela Fidler;Q-CELL EMB;167
+40465;10,63;3;Piotr Urbañski;Sales;66;Piotr Urbañski;Sales;530;Piotr Urbañski;Sales;42
+40469;0,07;1;Brak przypisanego u¿ytkownika;SCM;4
+40486;1,62;1;Ewelina Zarzycka;CS;97
+40537;0,55;1;Zuzanna Gilewicz;CS;33
+40565;1,03;1;Natalia Zaborowska;Sales;62
+40581;1,75;1;Izabela Fidler;Sales;105
+40609;39,13;1;Miko³aj Platonow;Sales;2348
+40630;0,98;1;Piotr Urbañski;Sales;59
+40656;4,12;1;Piotr Urbañski;Sales;247
+40709;4,05;1;Piotr Urbañski;Sales;243
+40713;34,12;2;Miko³aj Platonow;Sales;94;Miko³aj Platonow;Sales;1953
+40751;23,25;1;Agnieszka DuŸniak;SCM;1395
+40770;14,05;2;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;607;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;236
+40774;136,37;1;Wojciech Gibas;Sales;8182
+40776;135,98;1;Wojciech Gibas;Sales;8159
+40780;134,88;1;Wojciech Gibas;Sales;8093
+40868;1,18;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;71
+40876;5,58;1;Joanna Szymañska;CS;335
+40877;0,05;1;Izabela Fidler;Sales;3
+40887;86,43;1;Piotr Urbañski;Sales;5186
+40931;1,0;1;Izabela Fidler;Q-CELL EMB;60
+40936;73,65;1;Piotr Urbañski;Sales;4419
+40946;39,85;1;Przemyslaw Piotrowski;Q-CELL EMB;2391
+40950;3,68;1;Miko³aj Platonow;Sales;221
+40955;0,65;1;Joanna Szymañska;CS;39
+41001;2,67;1;Agnieszka DuŸniak;Sales;160
+41028;57,25;1;Piotr Urbañski;Sales;3435
+41042;0,67;1;Brak przypisanego u¿ytkownika;Brak przypisanej grupy;40
+41120;0,48;1;Katarzyna Martyniak;CS;29
+41121;18,25;1;Piotr Urbañski;Sales;1095
+41158;3,47;1;Izabela Fidler;CS;208

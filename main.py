@@ -294,8 +294,9 @@ def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_grou
     temp_sla_end_date = sla_end_date
     is_recursion = False
     for idx, audit in enumerate(audits):
+        # print(audits[idx])
         if 'events' in audit:
-            for event in audit['events']:
+            for index, event in enumerate(audit['events']):
                 # print(idx, index, "\n", "temp_sla_start_date:", temp_sla_start_date)
                 if 'via' in event and event['via']['source']['rel'] == 'sla_target_change' and event['value'] is not None: # When event['value'] is null -> then canceled policy
                     temp_sla_is_breached_after = event['value']['minutes'] #add index to it? :>
@@ -321,8 +322,10 @@ def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_grou
                             if sla > 0:
                                 # print("Sla Breached, client received answer, return obj to array with data:", "temp_last_assigned_user:", temp_last_assigned_user, "temp_last_assigned_group", temp_last_assigned_group, "SLA:", sla)
                                 temp_user['assignee_id'] = temp_last_assigned_user
+                                # print("ASDF", temp_user['assignee_id'])
                                 temp_user['name'] = fetch_user_data(temp_user['assignee_id'])['name']
                                 if 'name' in temp_user:
+                                    # print("ASDF2", temp_user['assignee_id'])
                                     temp_user['group_name'] = fetch_user_data(temp_user['assignee_id'])['group_name']
                                     temp_user['group_id'] = temp_last_assigned_group
                                 else:
@@ -359,26 +362,46 @@ def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_grou
                                 if sla > 0: # 
                                     is_recursion = True
                                     temp_user['assignee_id'] = event["previous_value"]
+                                    # print("asdf3", temp_user['assignee_id'])
                                     temp_user['name'] = fetch_user_data(temp_user['assignee_id'])['name']
                                     if 'name' in temp_user:
+                                        # print("asdf4", temp_user['assignee_id'])
                                         temp_user['group_name'] = fetch_user_data(temp_user['assignee_id'])['group_name']
                                         temp_user['group_id'] = temp_last_assigned_group
                                     else:
                                         temp_user['group_id'] = temp_last_assigned_group                                  
-                                    # for group in groups_info: #delete whole block?
-                                    #     if temp_user['group_id'] is not None and int(group["group_id"]) == int(temp_user['group_id']):
-                                    #         temp_user['group_name'] = group['group_name']
-                                    #     if temp_user['group_id'] is None:
-                                    #         temp_user['group_name'] = "Brak przypisanej grupy"
+                                    for group in groups_info: #delete whole block?
+                                        if temp_user['group_id'] is not None and int(group["group_id"]) == int(temp_user['group_id']):
+                                            temp_user['group_name'] = group['group_name']
+                                        if temp_user['group_id'] is None:
+                                            temp_user['group_name'] = "Brak przypisanej grupy"
                                     temp_user['sla'] = sla
                                     temp_user['sla_start'] = temp_sla_start_date
                                     temp_user['sla_end'] = temp_sla_end_date
                                     temp_users_sla.append(temp_user.copy()) 
+                                    # print("cond3:",temp_user['assignee_id'],temp_user['name'],temp_last_assigned_group,temp_user['group_id'], idx, len(audits) )
                                     if idx < len(audits):
+                                        # print("a")
                                         recursion_audits = audits[idx + 1:]
                                         temp_sla_start_date = temp_sla_end_date
-                                        temp_last_assigned_user = event["value"]
-                                        temp_last_assigned_group = event["value"]
+                                        # print("temp_last_assigned_user", temp_last_assigned_user)
+                                        # print("YYY", idx, index, audits[idx]["events"][index], len(event))
+                                        # if event["field_name"] == "group_id" and :
+                                        if event["field_name"] == "assigne_id" and event["value"] != None:
+                                            temp_last_assigned_user = event["value"] 
+                                            if event["value"] == None:
+                                                for event in audit['events']:
+                                                    if event["field_name"] == "assigne_id" and event["value"] != None:
+                                                        temp_last_assigned_user = event["value"] 
+                                        if event["field_name"] == "group_id" and event["value"] != None:
+                                            temp_last_assigned_group = event["value"] 
+                                            if event["value"] == None:
+                                                for event in audit['events']:
+                                                    if event["field_name"] == "group_id" and event["value"] != None:
+                                                        temp_last_assigned_group = event["value"] 
+                                        # temp_last_assigned_group = event["value"]
+                                        # print(event)
+                                        # print("XX",temp_last_assigned_user, temp_last_assigned_group)
                                     else: 
                                         break
                                         #this break is needed here?            
@@ -396,6 +419,7 @@ def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_grou
                 # print("No breached sla") 
             if(is_recursion):
                 # print("temp_last_assigned_user", temp_last_assigned_user, "temp_last_assigned_group", temp_last_assigned_group)
+                # print("before recu:", temp_last_assigned_user, temp_last_assigned_group )
                 calculate_breached_sla(recursion_audits, temp_last_assigned_user, temp_last_assigned_group, temp_results, temp_users_sla, temp_user, temp_sla_is_breached_after, temp_sla_start_date, temp_sla_end_date)
                 break
     # print(temp_results)
@@ -415,7 +439,7 @@ for idx,ticket_id in enumerate(updated_ticket_ids):
 # UNCOMMENT AFTER TEST
 
 # TEST FOR SINGLE TICKET, have to comment block above!
-# ticket_audits = fetch_ticket_audits(41645)
+# ticket_audits = fetch_ticket_audits(37190)
 # breached_results = calculate_breached_sla(ticket_audits['audits'])
 # results.append(breached_results.copy())
 # END TEST FOR SINGLE TICKET
