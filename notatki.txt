@@ -1,5 +1,99 @@
-test
+TO DO
+# informacja ile ticketów zostało przeanalizowanych ile miało przekroczone SLA, %
+# informacja z jakiego przedziału czasowego przeanalizowano tickety
+# informacja ile ticketów miało złamane SLA o mniej niż 60min i o mniej niż 120min oraz o więcej niż 120min
+# brak warunku na ticket w którym właśnie jest liczone SLA (przekroczone) i nic się więcej nie zadziało! z drugiej strony zawsze może dojść odpowiedź niewymagana
+# brak warunku na krótki ticket w którym nikt nie został przypisany, a sla się liczyło i ktoś odpowiedział  40868
+# do zrobienia w przyszłości, można wyrzucić ile każdy user/grupa ile miała złamanych sla i o ile i ile średnio np. zwrócić to w kolejnym arkuszu
+# ticket 41158 wyłapuje błąd, bierze internal wiadomość i liczy do niej >_< / KM nie przekroczyla SLA i podala dalej, u IF zostalo przekroczone i przepisane do KM, KM odpisala, ale policzyło całość na konto IF :/
 
+
+CR
+1. move the helper functions into utils file
+2. linter for python
+3. all notes in english!
+4. line 69 #CR: in such a case throwing an error would be more proper?. Just a good and often used habit to throw an err, if you may encounter it
+5. line 116#CR: When you have so many different endpoint, maybe you could consider to store them in a separated file i.e. "endpoints" and import a particular constants from it(?)
+6. bussines_hours_in_whole_week refactor?:>
+7. if condition_1 or condition_2 or condition_3: # CR: Do we need that statement here, since we check particular condition (1, 2, 3) separately below?
+8. ticket_audits = fetch_ticket_audits(ticket_id) #CR: Just a question: does Python ensure a proper order of sending related requests? Mean: don't we need any kind of "await/async" here?
+
+# ticket_audits = fetch_ticket_audits('41645') # 886 i 5
+# ticket_audits = fetch_ticket_audits('41257') # tu nie było przekroczonych
+# ticket_audits = fetch_ticket_audits('41265') # tu nie było przekroczonych
+# ticket_audits = fetch_ticket_audits('41856') # tu nie było przekroczonych 
+# ticket_audits = fetch_ticket_audits('40868') # tu nie było przekroczonych
+# ticket_audits = fetch_ticket_audits('40085') # tu nie było przekroczonych
+# ticket_audits = fetch_ticket_audits('39293') # 18
+# ticket_audits = fetch_ticket_audits('41644') # mój 1636
+# ticket_audits = fetch_ticket_audits('41551') # mój 362, 105, 152
+# ticket_audits = fetch_ticket_audits('X') # tu nie było przekroczonych
+
+# makro do excela na poszerzanie kolumn, wysrodkowanie i kolorowanie
+    # Private Sub Workbook_Open()
+    #     Call DostosujSzerokośćKolumn
+    # End Sub
+
+    # Sub DostosujSzerokośćKolumn()
+    #     Cells.EntireColumn.AutoFit
+    # End Sub
+    # Kolory HFT
+
+# makro do excela na poszerzanie kolumn i szare kolory na zmiane
+
+Sub FormatujArkusz()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim lastCol As Long
+    Dim i As Long
+
+    ' Przypisujemy aktywny arkusz do zmiennej
+    Set ws = ActiveSheet
+
+    ' Zidentyfikowanie ostatniego wiersza i kolumny
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    lastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+
+    ' Dopasowanie szerokości kolumn i wysokości wierszy
+    ws.Cells.EntireColumn.AutoFit
+    ws.Cells.EntireRow.AutoFit
+
+    ' Wycentrowanie tekstu we wszystkich komórkach
+    ws.Cells.HorizontalAlignment = xlCenter
+    ws.Cells.VerticalAlignment = xlCenter
+
+    ' Kolorowanie wierszy na przemian
+    For i = 1 To lastRow
+        If i Mod 2 = 0 Then
+            ' Ciemny szary dla parzystych wierszy
+            ws.Rows(i).Interior.Color = RGB(200, 200, 200)
+        Else
+            ' Jasny szary dla nieparzystych wierszy
+            ws.Rows(i).Interior.Color = RGB(230, 230, 230)
+        End If
+    Next i
+
+    ' Komunikat o zakończeniu działania makra
+    MsgBox "Formatowanie zakończone!", vbInformation
+End Sub
+
+# kolory HFT
+
+    # RGB(255, 204, 0) yellow
+    # RGB(255, 121, 0) orange
+    # RGB(255, 0, 70) red
+    # RGB(250, 51, 163) pink
+    # RGB(153, 102, 255) violet
+    # RGB(55,177,255) blue
+    # RGB(0,0,0,0) black
+    # RGB(128,128,128) grey
+# Error, ticket 41042 14:30 pisze klient, sla idzie, odpowiada Ewelina Zarzycka, ale ticket nie był do nikogo przypisany :D ani do grupy ani do usera
+# Ticket 35427 Permanently deleted user to Adam Scibor id: 9479686926364 :D
+
+
+
+
+test
 
 ODPOWIEDŹ KONIEC SLA temp_sla_start_date 2024-10-16T05:46:55Z start counting SLA 120 temp_sla_end_date 2024-10-16T07:51:41Z
 ODPOWIEDŹ KONIEC SLA temp_sla_start_date 2024-10-16T05:46:55Z start counting SLA 120 temp_sla_end_date 2024-10-21T11:22:44Z
