@@ -1,3 +1,173 @@
+#Makro arkusz 1
+Sub FormatujArkusz()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim lastCol As Long
+    Dim i As Long
+
+    ' Przypisujemy aktywny arkusz do zmiennej
+    Set ws = ActiveSheet
+
+    ' Zidentyfikowanie ostatniego wiersza i kolumny
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    lastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+
+    ' Dodaj nowe kolumny po trzeciej kolumnie
+    ws.Cells(1, 4).Value = "Liczba odpowiedzi"         ' Nowa kolumna D
+    ws.Cells(1, 5).Value = "Procent odpowiedzi w terminie" ' Nowa kolumna E
+
+    ' Dopasowanie szerokości kolumn i wysokości wierszy
+    ws.Cells.EntireColumn.AutoFit
+    ws.Cells.EntireRow.AutoFit
+
+    ' Wycentrowanie tekstu we wszystkich komórkach
+    ws.Cells.HorizontalAlignment = xlCenter
+    ws.Cells.VerticalAlignment = xlCenter
+
+    ' Kolorowanie wierszy na przemian
+    For i = 1 To lastRow
+        If i Mod 2 = 0 Then
+            ' Ciemny szary dla parzystych wierszy
+            ws.Rows(i).Interior.Color = RGB(200, 200, 200)
+        Else
+            ' Jasny szary dla nieparzystych wierszy
+            ws.Rows(i).Interior.Color = RGB(230, 230, 230)
+        End If
+    Next i
+
+    ' Komunikat o zakończeniu działania makra
+    MsgBox "Formatowanie zakończone!", vbInformation
+End Sub
+
+#makro arkusz 2
+
+Sub KonwertujDane()
+
+    Dim wsSource As Worksheet
+    Dim wsDest As Worksheet
+    Dim ticketRow As Long
+    Dim sumaSLA As Double
+    Dim liczbaPrzekroczonychSLA As Long
+    Dim liczbaOdpowiedzi As Long
+    Dim procentOdpowiedziWterminie As Double
+    Dim destRow As Long
+    Dim i As Long
+    Dim imieNazwisko As String
+    Dim grupa As String
+    Dim przekroczoneSLA As Double
+    Dim lastTicketNumber As String
+    Dim colorFlag As Boolean
+    
+    ' Ustalamy źródłowy arkusz
+    Set wsSource = ThisWorkbook.Worksheets("Raport")
+    
+    ' Ustalamy docelowy arkusz
+    Set wsDest = ThisWorkbook.Worksheets.Add
+    wsDest.Name = "PrzetworzoneDane"
+    
+    ' Ustawiamy nagłówki w arkuszu docelowym
+    wsDest.Cells(1, 1).Value = "Numer Ticketu"
+    wsDest.Cells(1, 2).Value = "Suma przekroczonych SLA [h]"
+    wsDest.Cells(1, 3).Value = "Liczba przekroczonych SLA"
+    wsDest.Cells(1, 4).Value = "Liczba odpowiedzi"
+    wsDest.Cells(1, 5).Value = "Procent odpowiedzi w terminie"
+    wsDest.Cells(1, 6).Value = "Imię i Nazwisko"
+    wsDest.Cells(1, 7).Value = "Grupa"
+    wsDest.Cells(1, 8).Value = "Przekroczone SLA"
+    
+    ' Formatujemy nagłówki: pogrubienie i wyśrodkowanie
+    With wsDest.Rows(1)
+        .Font.Bold = True
+        .HorizontalAlignment = xlCenter
+    End With
+    
+    ' Inicjalizujemy pierwszy wiersz w arkuszu docelowym i flagę koloru
+    destRow = 2
+    colorFlag = False
+    lastTicketNumber = ""
+    
+    ' Iterujemy przez wiersze źródłowego arkusza
+    For ticketRow = 2 To wsSource.Cells(wsSource.Rows.Count, 1).End(xlUp).Row
+        ' Przechowujemy numer ticketu w zmiennej
+        Dim currentTicketNumber As String
+        currentTicketNumber = wsSource.Cells(ticketRow, 1).Value
+        
+        ' Sprawdzamy, czy numer ticketu jest nowy, i zmieniamy kolor co nowy ticket
+        If currentTicketNumber <> lastTicketNumber Then
+            colorFlag = Not colorFlag ' Zmieniamy flagę koloru
+            lastTicketNumber = currentTicketNumber ' Aktualizujemy ostatni ticket
+        End If
+        
+        ' Przypisujemy kolory na podstawie flagi koloru
+        Dim fillColor As Long
+        If colorFlag Then
+            fillColor = RGB(220, 220, 220) ' Jasnoszary
+        Else
+            fillColor = RGB(245, 245, 245) ' Bardzo jasny szary
+        End If
+
+        ' Sprawdzamy i przypisujemy dane liczbowe
+        sumaSLA = NzToDouble(wsSource.Cells(ticketRow, 2).Value)
+        liczbaPrzekroczonychSLA = NzToLong(wsSource.Cells(ticketRow, 3).Value)
+        liczbaOdpowiedzi = NzToLong(wsSource.Cells(ticketRow, 4).Value)
+        procentOdpowiedziWterminie = NzToDouble(wsSource.Cells(ticketRow, 5).Value)
+        
+        ' Iterujemy przez Liczbę przekroczonych SLA i przetwarzamy dane szczegółowe
+        For i = 1 To liczbaPrzekroczonychSLA
+            wsDest.Cells(destRow, 1).Value = currentTicketNumber ' Numer Ticketu
+            wsDest.Cells(destRow, 2).Value = sumaSLA ' Suma przekroczonych SLA
+            wsDest.Cells(destRow, 3).Value = liczbaPrzekroczonychSLA ' Liczba przekroczonych SLA
+            wsDest.Cells(destRow, 4).Value = liczbaOdpowiedzi ' Liczba odpowiedzi
+            wsDest.Cells(destRow, 5).Value = procentOdpowiedziWterminie ' Procent odpowiedzi w terminie
+            
+            ' Pobieramy Imię i Nazwisko, Grupę i Przekroczone SLA
+            imieNazwisko = wsSource.Cells(ticketRow, 6 + (i - 1) * 3).Value ' Imię i Nazwisko
+            grupa = wsSource.Cells(ticketRow, 7 + (i - 1) * 3).Value ' Grupa
+            przekroczoneSLA = NzToDouble(wsSource.Cells(ticketRow, 8 + (i - 1) * 3).Value) ' Przekroczone SLA
+            
+            ' Wypełniamy dane szczegółowe w arkuszu docelowym
+            wsDest.Cells(destRow, 6).Value = imieNazwisko ' Imię i Nazwisko
+            wsDest.Cells(destRow, 7).Value = grupa ' Grupa
+            wsDest.Cells(destRow, 8).Value = przekroczoneSLA ' Przekroczone SLA
+            
+            ' Ustawiamy kolor tła wiersza na podstawie flagi koloru
+            wsDest.Range(wsDest.Cells(destRow, 1), wsDest.Cells(destRow, 8)).Interior.Color = fillColor
+            
+            ' Wyśrodkowujemy tekst w wierszu
+            wsDest.Range(wsDest.Cells(destRow, 1), wsDest.Cells(destRow, 8)).HorizontalAlignment = xlCenter
+            
+            ' Przechodzimy do następnego wiersza w arkuszu docelowym
+            destRow = destRow + 1
+        Next i
+    Next ticketRow
+    
+    ' Dopasowujemy szerokość kolumn do zawartości
+    wsDest.Columns("A:H").AutoFit
+    
+    ' Informacja o zakończeniu
+    MsgBox "Przetwarzanie zakończone! Wykonano " & destRow - 2 & " wpisów."
+
+End Sub
+
+' Funkcja pomocnicza konwertująca wartość na Double lub 0 jeśli pusta
+Function NzToDouble(val As Variant) As Double
+    If IsNumeric(val) Then
+        NzToDouble = CDbl(val)
+    Else
+        NzToDouble = 0
+    End If
+End Function
+
+' Funkcja pomocnicza konwertująca wartość na Long lub 0 jeśli pusta
+Function NzToLong(val As Variant) As Long
+    If IsNumeric(val) Then
+        NzToLong = CLng(val)
+    Else
+        NzToLong = 0
+    End If
+End Function
+
+
 TO DO
 # informacja ile ticketów zostało przeanalizowanych ile miało przekroczone SLA, %
 # informacja z jakiego przedziału czasowego przeanalizowano tickety
@@ -40,6 +210,105 @@ CR
     # Kolory HFT
 
 # makro do excela na poszerzanie kolumn i szare kolory na zmiane
+
+4.11.2024
+
+Sub KonwertujDane()
+
+    Dim wsSource As Worksheet
+    Dim wsDest As Worksheet
+    Dim ticketRow As Long
+    Dim sumaSLA As Double
+    Dim liczbaPrzekroczonychSLA As Long
+    Dim liczbaOdpowiedzi As Long
+    Dim procentOdpowiedziWterminie As Double
+    Dim destRow As Long
+    Dim i As Long
+    Dim imieNazwisko As String
+    Dim grupa As String
+    Dim przekroczoneSLA As Double
+    
+    ' Ustalamy źródłowy arkusz
+    Set wsSource = ThisWorkbook.Worksheets("Raport")
+    
+    ' Ustalamy docelowy arkusz
+    Set wsDest = ThisWorkbook.Worksheets.Add
+    wsDest.Name = "PrzetworzoneDane"
+    
+    ' Ustawiamy nagłówki w arkuszu docelowym
+    wsDest.Cells(1, 1).Value = "Numer Ticketu"
+    wsDest.Cells(1, 2).Value = "Suma przekroczonych SLA [h]"
+    wsDest.Cells(1, 3).Value = "Liczba przekroczonych SLA"
+    wsDest.Cells(1, 4).Value = "Liczba odpowiedzi"
+    wsDest.Cells(1, 5).Value = "Procent odpowiedzi w terminie"
+    wsDest.Cells(1, 6).Value = "Imię i Nazwisko"
+    wsDest.Cells(1, 7).Value = "Grupa"
+    wsDest.Cells(1, 8).Value = "Przekroczone SLA"
+    
+    ' Inicjalizujemy pierwszy wiersz w arkuszu docelowym
+    destRow = 2
+    
+    ' Iterujemy przez wiersze źródłowego arkusza
+    For ticketRow = 2 To wsSource.Cells(wsSource.Rows.Count, 1).End(xlUp).Row
+        ' Sprawdzamy czy wartości są numeryczne i przypisujemy zmienne
+        If IsNumeric(wsSource.Cells(ticketRow, 2).Value) Then
+            sumaSLA = CDbl(wsSource.Cells(ticketRow, 2).Value)
+        Else
+            sumaSLA = 0
+        End If
+        
+        If IsNumeric(wsSource.Cells(ticketRow, 3).Value) Then
+            liczbaPrzekroczonychSLA = CLng(wsSource.Cells(ticketRow, 3).Value)
+        Else
+            liczbaPrzekroczonychSLA = 0
+        End If
+        
+        If IsNumeric(wsSource.Cells(ticketRow, 4).Value) Then
+            liczbaOdpowiedzi = CLng(wsSource.Cells(ticketRow, 4).Value)
+        Else
+            liczbaOdpowiedzi = 0
+        End If
+        
+        If IsNumeric(wsSource.Cells(ticketRow, 5).Value) Then
+            procentOdpowiedziWterminie = CDbl(wsSource.Cells(ticketRow, 5).Value)
+        Else
+            procentOdpowiedziWterminie = 0
+        End If
+        
+        ' Iterujemy przez Liczbę przekroczonych SLA i przetwarzamy dane szczegółowe
+        For i = 1 To liczbaPrzekroczonychSLA
+            wsDest.Cells(destRow, 1).Value = wsSource.Cells(ticketRow, 1).Value ' Numer Ticketu
+            wsDest.Cells(destRow, 2).Value = sumaSLA ' Suma przekroczonych SLA
+            wsDest.Cells(destRow, 3).Value = liczbaPrzekroczonychSLA ' Liczba przekroczonych SLA
+            wsDest.Cells(destRow, 4).Value = liczbaOdpowiedzi ' Liczba odpowiedzi
+            wsDest.Cells(destRow, 5).Value = procentOdpowiedziWterminie ' Procent odpowiedzi w terminie
+            
+            ' Pobieramy Imię i Nazwisko, Grupę i Przekroczone SLA
+            imieNazwisko = wsSource.Cells(ticketRow, 6 + (i - 1) * 3).Value
+            grupa = wsSource.Cells(ticketRow, 7 + (i - 1) * 3).Value
+            If IsNumeric(wsSource.Cells(ticketRow, 8 + (i - 1) * 3).Value) Then
+                przekroczoneSLA = CDbl(wsSource.Cells(ticketRow, 8 + (i - 1) * 3).Value)
+            Else
+                przekroczoneSLA = 0
+            End If
+            
+            ' Wypełniamy dane szczegółowe w arkuszu docelowym
+            wsDest.Cells(destRow, 6).Value = imieNazwisko ' Imię i Nazwisko
+            wsDest.Cells(destRow, 7).Value = grupa ' Grupa
+            wsDest.Cells(destRow, 8).Value = przekroczoneSLA ' Przekroczone SLA
+            
+            ' Przechodzimy do następnego wiersza w arkuszu docelowym
+            destRow = destRow + 1
+        Next i
+    Next ticketRow
+    
+    ' Informacja o zakończeniu
+    MsgBox "Przetwarzanie zakończone! Wykonano " & destRow - 2 & " wpisów."
+
+End Sub
+
+4.11.2024 
+PIERWSZY ARKUSZ
 
 Sub FormatujArkusz()
     Dim ws As Worksheet
