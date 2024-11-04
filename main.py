@@ -45,10 +45,10 @@ def get_tickets_with_updates(updated_since, updated_before): #CR: Util function
         if 'next_page' not in data or data['next_page'] is None:  
             break
         page += 1       
-
+        
     return tickets # return array of tickets id
 
-#Set dates for example, last quater
+# Set dates for example, last quater
 updated_since = '2024-07-01T00:00:00Z'
 updated_before = '2024-09-30T23:59:59Z'
 # Comment this section for smaller TEST
@@ -131,6 +131,7 @@ def fetch_user_data(id): #CR: Util function
         user_info["id"] = data["user"]["id"]
         user_info["name"] = data["user"]["name"]
         user_info["group_id"] = data["user"]["default_group_id"]
+        user_info["role"] = data["user"]["role"]
 
         for group in groups_info: 
             if not "group_name" in user_info:
@@ -275,7 +276,7 @@ def dt_in_bh(start_str, end_str, intervals):
     return sla
 # print("delta time in bussines hours:", dt_in_bh(start_str,end_str,intervals))
 
-def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_group = None, results = None, users_sla = None, user = None, sla_is_breached_after = 0, sla_start_date = "", sla_end_date = ""):
+def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_group = None, results = None, users_sla = None, user = None, sla_is_breached_after = 0, sla_start_date = "", sla_end_date = "",number_of_agents_answers=0):
     # print(audits[0]['ticket_id'])
     recursion_audits = audits
     temp_last_assigned_user = last_assigned_user
@@ -292,11 +293,15 @@ def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_grou
     temp_sla_is_breached_after = sla_is_breached_after
     temp_sla_start_date = sla_start_date
     temp_sla_end_date = sla_end_date
+    temp_number_of_agents_answers = number_of_agents_answers
     is_recursion = False
     for idx, audit in enumerate(audits):
         # print(audits[idx])
         if 'events' in audit:
             for index, event in enumerate(audit['events']):
+                if event['type'] == 'Comment' and event['public'] == True:
+                    if fetch_user_data(audit['author_id'])['role'] == 'agent' or fetch_user_data(audit['author_id'])['role'] == 'admin':
+                        temp_number_of_agents_answers += 1
                 # print(idx, index, "\n", "temp_sla_start_date:", temp_sla_start_date)
                 if 'via' in event and event['via']['source']['rel'] == 'sla_target_change' and event['value'] is not None: # When event['value'] is null -> then canceled policy
                     temp_sla_is_breached_after = event['value']['minutes'] #add index to it? :>
@@ -411,16 +416,18 @@ def calculate_breached_sla(audits, last_assigned_user = None, last_assigned_grou
                     pass
             if temp_users_sla:
                 temp_results['ticket_id'] = audits[0]['ticket_id']
+                temp_results['number_of_agents_answers'] = temp_number_of_agents_answers
                 temp_results['users_sla'] = temp_users_sla
                 temp_results['sum_sla'] = str(round(sum(item['sla'] for item in temp_results['users_sla'])/ 60, 2)).replace('.',',')
                 temp_results['count_sla'] = len(temp_results['users_sla']) 
+                # temp_results['answers_in_time'] = (1 - temp_results['count_sla'] / temp_number_of_agents_answers)
             else: # CR: ommit it?
                 pass
                 # print("No breached sla") 
             if(is_recursion):
                 # print("temp_last_assigned_user", temp_last_assigned_user, "temp_last_assigned_group", temp_last_assigned_group)
                 # print("before recu:", temp_last_assigned_user, temp_last_assigned_group )
-                calculate_breached_sla(recursion_audits, temp_last_assigned_user, temp_last_assigned_group, temp_results, temp_users_sla, temp_user, temp_sla_is_breached_after, temp_sla_start_date, temp_sla_end_date)
+                calculate_breached_sla(recursion_audits, temp_last_assigned_user, temp_last_assigned_group, temp_results, temp_users_sla, temp_user, temp_sla_is_breached_after, temp_sla_start_date, temp_sla_end_date,temp_number_of_agents_answers)
                 break
     # print(temp_results)
             # recursion_audits = audits[idx + 1:] not needed?
@@ -435,13 +442,14 @@ for idx,ticket_id in enumerate(updated_ticket_ids):
     results.append(breached_results.copy())
     # print(results)
     print("Progress:", f"{idx} / {number_of_checked_tickets -1 }")
-    # print(breached_results)
+    print(breached_results)
 # UNCOMMENT AFTER TEST
 
 # TEST FOR SINGLE TICKET, have to comment block above!
-# ticket_audits = fetch_ticket_audits(37190)
+# ticket_audits = fetch_ticket_audits(35225)
 # breached_results = calculate_breached_sla(ticket_audits['audits'])
 # results.append(breached_results.copy())
+# print(results)
 # END TEST FOR SINGLE TICKET
 
 def find_longest_users_sla_length(results): #CR: Util function
@@ -461,7 +469,7 @@ def export_to_csv(results):  #CR: Util function
     filename = f'Raport_SLA_{current_date}.csv'
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file, delimiter=';')
-        headers = ['Numer Ticketu', 'Suma złamanych SLA [h]', 'Liczba złamanych SLA']
+        headers = ['Numer Ticketu', 'Suma przekroczonych SLA [h]', 'Liczba przekroczonych SLA', 'Liczba odpowiedzi', 'Procent odpowiedzi w terminie']
         for i in range(1, max_length +1):
             headers += [
                         f'Imię i nazwisko #{i}', f'Grupa #{i}', f'Przekroczone SLA #{i}' #, 
@@ -470,7 +478,11 @@ def export_to_csv(results):  #CR: Util function
         writer.writerow(headers)
         for item in results:
             if item:
-                row = [item['ticket_id'], item['sum_sla'], item['count_sla']]
+                if item['number_of_agents_answers'] == 0: 
+                    percent_answers_in_time = 0
+                else:
+                    percent_answers_in_time = round(round((1 - (item['count_sla'] / item['number_of_agents_answers'])),2)*100)
+                row = [item['ticket_id'], item['sum_sla'], item['count_sla'], item['number_of_agents_answers'], percent_answers_in_time]
                 for idx, user_sla in enumerate(item['users_sla']):
                         # print("ADFS", user_sla)
                         row += [
