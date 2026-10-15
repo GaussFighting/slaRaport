@@ -152,6 +152,4 @@ Audits are fetched one ticket at a time with a 0.3 s pause between requests to s
 - [ ] Raise exceptions on API errors, skip a single failing page/ticket instead of aborting
 - [ ] `requirements.txt` and tests for `dt_in_bh()`
 
-## License
 
-TODO
